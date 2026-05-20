@@ -3,53 +3,68 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 
-// Video ~12s — 4 takes × 3s each (M and F use same footage)
 const CLASSES = [
-  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoStart: { M: 0,   F: 0   } },
-  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoStart: { M: 3,   F: 3   } },
-  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoStart: { M: 6,   F: 6   } },
-  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoStart: { M: 9,   F: 9   } },
+  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoStart: 0 },
+  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoStart: 3 },
+  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoStart: 6 },
+  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoStart: 9 },
 ] as const;
 
 type ClassId = (typeof CLASSES)[number]["id"];
 type Gender  = "M" | "F";
 
-const SEGMENT = 3; // seconds per take
+const SEGMENT = 3;
 
 export default function Home() {
   const [selected, setSelected] = useState<ClassId | null>(null);
   const [gender,   setGender]   = useState<Gender>("M");
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef  = useRef<HTMLVideoElement>(null);
+  // Store current start time so the loop listener can read it without stale closure
+  const startRef  = useRef<number>(0);
 
   const activeClass = CLASSES.find((c) => c.id === selected) ?? null;
 
-  // Seek + play on selection change
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (!activeClass) { video.pause(); return; }
+  /** Play the video from `start` — must be called inside a user gesture handler */
+  function playFrom(start: number) {
+    const v = videoRef.current;
+    if (!v) return;
+    startRef.current = start;
+    v.currentTime = start;
+    v.play().catch(() => {});
+  }
 
-    const start = activeClass.videoStart[gender];
-    video.currentTime = start;
-    video.play().catch(() => {});
-  }, [selected, gender]);
-
-  // Loop within the take segment
+  /** Loop within the take's segment */
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !activeClass) return;
-    const start = activeClass.videoStart[gender];
+    const v = videoRef.current;
+    if (!v) return;
     const onTime = () => {
-      if (video.currentTime >= start + SEGMENT) video.currentTime = start;
+      if (v.currentTime >= startRef.current + SEGMENT) {
+        v.currentTime = startRef.current;
+      }
     };
-    video.addEventListener("timeupdate", onTime);
-    return () => video.removeEventListener("timeupdate", onTime);
-  }, [selected, gender, activeClass]);
+    v.addEventListener("timeupdate", onTime);
+    return () => v.removeEventListener("timeupdate", onTime);
+  }, []);
+
+  function handleClassClick(cls: (typeof CLASSES)[number]) {
+    if (selected === cls.id) {
+      setSelected(null);
+      videoRef.current?.pause();
+      return;
+    }
+    setSelected(cls.id);
+    playFrom(cls.videoStart);
+  }
+
+  function handleGenderChange(g: Gender) {
+    setGender(g);
+    if (activeClass) playFrom(activeClass.videoStart); // same footage both genders
+  }
 
   return (
     <div className="relative w-full flex-1 flex flex-col justify-center min-h-[calc(100vh-5rem)]">
 
-      {/* Video background — visible only when a class is selected */}
+      {/* Video background */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
         <video
           ref={videoRef}
@@ -60,11 +75,14 @@ export default function Home() {
           className="absolute w-full h-full object-cover"
           style={{ opacity: activeClass ? 0.85 : 0, transition: "opacity 0.5s ease" }}
         />
-        {/* Overlays always on */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(8,5,2,0.92) 30%, rgba(8,5,2,0.35) 100%)" }} />
+        {/* Left-to-right fade so hero text stays readable */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(8,5,2,0.92) 30%, rgba(8,5,2,0.3) 100%)" }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        {/* Dark base when no class selected */}
-        <div className="absolute inset-0 bg-background/70" style={{ opacity: activeClass ? 0 : 1, transition: "opacity 0.5s ease" }} />
+        {/* Dark base when nothing is selected */}
+        <div
+          className="absolute inset-0 bg-background/70"
+          style={{ opacity: activeClass ? 0 : 1, transition: "opacity 0.5s ease" }}
+        />
       </div>
 
       {/* Main content */}
@@ -97,17 +115,17 @@ export default function Home() {
           </div>
 
           <div className="pt-8">
-            <div className="inline-flex bg-black/40 border border-primary/20 rounded-lg p-4 backdrop-blur-sm">
-              <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Players Online</p>
-              <p className="text-2xl font-display text-white font-bold flex items-center gap-3 ml-4">
+            <div className="inline-flex items-center bg-black/40 border border-primary/20 rounded-lg p-4 backdrop-blur-sm gap-4">
+              <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Players Online</p>
+              <p className="text-2xl font-display text-white font-bold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> 4.892
               </p>
             </div>
           </div>
         </div>
 
-        {/* Right — logo (default) */}
-        <div className="hidden lg:flex flex-1 flex-col items-center justify-center gap-0">
+        {/* Right — logo (fades when a class is active) */}
+        <div className="hidden lg:flex flex-1 flex-col items-center justify-center">
           <div
             style={{
               opacity: selected ? 0 : 1,
@@ -133,7 +151,7 @@ export default function Home() {
       <div className="container mx-auto px-4 pb-12 mt-auto">
         <div className="flex flex-col gap-3">
 
-          {/* Gender toggle — only visible when a class is selected */}
+          {/* Gender toggle — appears when a class is selected */}
           <div
             className="flex items-center gap-2"
             style={{ opacity: selected ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: selected ? "auto" : "none" }}
@@ -142,7 +160,7 @@ export default function Home() {
               <button
                 key={g}
                 type="button"
-                onClick={() => setGender(g)}
+                onClick={() => handleGenderChange(g)}
                 className="px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all"
                 style={{
                   background: gender === g ? (activeClass?.accentHex ?? "#D4A017") : "rgba(255,255,255,0.08)",
@@ -162,20 +180,25 @@ export default function Home() {
               return (
                 <button
                   key={cls.id}
+                  type="button"
                   data-testid={`class-btn-${cls.id}`}
-                  onClick={() => { setSelected(isActive ? null : cls.id); if (isActive) setGender("M"); }}
+                  onClick={() => handleClassClick(cls)}
                   className="flex-shrink-0 flex flex-col items-center gap-2 focus:outline-none"
                 >
                   <div
                     className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center text-3xl transition-all duration-300"
                     style={{
                       border: isActive ? `2px solid ${cls.accentHex}` : "2px solid rgba(255,255,255,0.1)",
-                      background: isActive ? `radial-gradient(circle, rgba(${cls.accentRgb},0.3) 0%, rgba(0,0,0,0.6) 100%)` : "rgba(0,0,0,0.6)",
+                      background: isActive
+                        ? `radial-gradient(circle, rgba(${cls.accentRgb},0.3) 0%, rgba(0,0,0,0.6) 100%)`
+                        : "rgba(0,0,0,0.6)",
                       boxShadow: isActive ? `0 0 22px ${cls.glowHex}99, 0 0 44px ${cls.glowHex}44` : "none",
                       transform: isActive ? "scale(1.12)" : "scale(1)",
                     }}
                   >
-                    <span style={{ filter: isActive ? `drop-shadow(0 0 8px ${cls.glowHex})` : "none" }}>{cls.glyph}</span>
+                    <span style={{ filter: isActive ? `drop-shadow(0 0 8px ${cls.glowHex})` : "none" }}>
+                      {cls.glyph}
+                    </span>
                   </div>
                   <span
                     className="text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-300"
