@@ -7,7 +7,7 @@ const CLASSES = [
   { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: "/guerreiro.mp4", videoStart: 0, segment: 3 },
   { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: "/ninja.mp4",      videoStart: 0, segment: 3 },
   { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: "/shura.mp4",       videoStart: 0, segment: 3 },
-  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: "/characters.mp4", videoStart: 9, segment: 3 },
+  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: "/shaman.mp4",      videoStart: 0, segment: 3 },
 ] as const;
 
 type ClassId = (typeof CLASSES)[number]["id"];
