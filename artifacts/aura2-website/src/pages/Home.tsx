@@ -3,18 +3,18 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 
-// Video ~48.87s split into 4 male takes (first half) + 4 female takes (second half)
+// Video ~12s — 4 takes × 3s each (M and F use same footage)
 const CLASSES = [
-  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoStart: { M: 0, F: 24.4 } },
-  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoStart: { M: 6.1, F: 30.5 } },
-  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoStart: { M: 12.2, F: 36.6 } },
-  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoStart: { M: 18.3, F: 42.7 } },
+  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoStart: { M: 0,   F: 0   } },
+  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoStart: { M: 3,   F: 3   } },
+  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoStart: { M: 6,   F: 6   } },
+  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoStart: { M: 9,   F: 9   } },
 ] as const;
 
 type ClassId = (typeof CLASSES)[number]["id"];
 type Gender  = "M" | "F";
 
-const SEGMENT = 6.1; // seconds per take
+const SEGMENT = 3; // seconds per take
 
 export default function Home() {
   const [selected, setSelected] = useState<ClassId | null>(null);
