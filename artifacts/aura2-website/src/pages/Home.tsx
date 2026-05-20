@@ -96,29 +96,10 @@ export default function Home() {
   return (
     <div className="relative w-full flex-1 flex flex-col justify-center min-h-[calc(100vh-5rem)]">
 
-      {/* ── YouTube video background (always present) ── */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <iframe
-          src="https://www.youtube.com/embed/I8wsVugf-n4?autoplay=1&mute=1&loop=1&playlist=I8wsVugf-n4&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0"
-          allow="autoplay; encrypted-media"
-          className="absolute"
-          style={{
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "120vw",
-            height: "120vh",
-            border: "none",
-            pointerEvents: "none",
-            transition: "opacity 0.6s ease",
-            opacity: selected ? 0.15 : 1,
-          }}
-          title="background"
-        />
-        <div className="absolute inset-0 bg-black/65" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
-        <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-background to-transparent" />
+      {/* ── Static dark background ── */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
       </div>
 
       {/* ── Class atmosphere overlay (appears on selection) ── */}
