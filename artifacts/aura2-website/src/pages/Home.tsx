@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 
 const CLASSES = [
-  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: "/guerreiro.mp4", videoStart: 0, segment: 3 },
-  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: "/ninja.mp4",      videoStart: 0, segment: 3 },
-  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: "/shura.mp4",       videoStart: 0, segment: 3 },
-  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: "/shaman.mp4",      videoStart: 0, segment: 3 },
+  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: { M: "/guerreiro.mp4", F: "/guerreiro_f.mp4" }, videoStart: 0, segment: 3 },
+  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: { M: "/ninja.mp4",     F: "/ninja_f.mp4"     }, videoStart: 0, segment: 3 },
+  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: { M: "/shura.mp4",     F: "/shura_f.mp4"     }, videoStart: 0, segment: 3 },
+  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: { M: "/shaman.mp4",    F: "/shaman_f.mp4"    }, videoStart: 0, segment: 3 },
 ] as const;
 
 type ClassId = (typeof CLASSES)[number]["id"];
@@ -23,17 +23,17 @@ export default function Home() {
   const activeClass = CLASSES.find((c) => c.id === selected) ?? null;
   const segmentRef  = useRef<number>(3);
 
-  /** Switch src if needed, seek to start, then play — called inside a user gesture */
-  function playClass(cls: (typeof CLASSES)[number]) {
+  /** Switch src if needed, seek to start, then play — must be called inside a user gesture */
+  function playClass(cls: (typeof CLASSES)[number], g: Gender) {
     const v = videoRef.current;
     if (!v) return;
-    startRef.current  = cls.videoStart;
+    startRef.current   = cls.videoStart;
     segmentRef.current = cls.segment;
 
-    const needsSrcSwitch = v.src !== location.origin + cls.videoSrc && !v.src.endsWith(cls.videoSrc);
+    const src = cls.videoSrc[g];
+    const needsSrcSwitch = !v.src.endsWith(src);
     if (needsSrcSwitch) {
-      // Change src, then play once metadata is ready (still within user gesture stack)
-      v.src = cls.videoSrc;
+      v.src = src;
       v.load();
       const onReady = () => {
         v.currentTime = cls.videoStart;
@@ -67,12 +67,12 @@ export default function Home() {
       return;
     }
     setSelected(cls.id);
-    playClass(cls);
+    playClass(cls, gender);
   }
 
   function handleGenderChange(g: Gender) {
     setGender(g);
-    if (activeClass) playClass(activeClass); // same footage both genders for now
+    if (activeClass) playClass(activeClass, g);
   }
 
   return (
