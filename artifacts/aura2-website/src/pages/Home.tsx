@@ -2,7 +2,6 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 import heroImage from "@assets/{1DD7422B-DC4E-4688-B569-1EC26B0F41E5}_1779318144976.png";
-import metin2Logo from "@assets/metin2_img_1779318742077.jpeg";
 
 export default function Home() {
   return (
@@ -55,11 +54,17 @@ export default function Home() {
 
         {/* Right column — Metin2 logo pulsing */}
         <div className="hidden lg:flex flex-1 items-center justify-center">
-          <img
-            src={metin2Logo}
-            alt="Metin2 – Start your adventure"
-            className="w-full max-w-lg object-contain animate-amber-pulse"
-          />
+          <div
+            className="w-full max-w-lg overflow-hidden animate-amber-pulse"
+            style={{ clipPath: "inset(0 0 28% 0)" }}
+          >
+            <img
+              src="/metin2_logo_nobg.png"
+              alt="Metin2"
+              className="w-full object-contain"
+              style={{ filter: "drop-shadow(0 0 24px rgba(212,160,23,0.5))" }}
+            />
+          </div>
         </div>
       </div>
 
