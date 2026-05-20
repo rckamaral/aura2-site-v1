@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Play } from "lucide-react";
+import { Play, Download } from "lucide-react";
 
 type ModalMode = "login" | "register";
 
@@ -63,20 +63,20 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           <Button
+            className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)]"
+            onClick={() => openAs("register")}
+            data-testid="button-jogar-agora"
+          >
+            <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
+          </Button>
+
+          <Button
             variant="outline"
             className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
             onClick={() => openAs("login")}
             data-testid="button-login"
           >
             Login
-          </Button>
-
-          <Button
-            className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)]"
-            onClick={() => openAs("register")}
-            data-testid="button-jogar-agora"
-          >
-            <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
           </Button>
         </div>
       </div>
@@ -213,6 +213,16 @@ function RegisterForm({
       >
         Criar Conta
       </Button>
+
+      <Link
+        href="/download"
+        onClick={onClose}
+        className="flex items-center justify-center gap-2 w-full border border-primary/40 text-primary hover:bg-primary/10 transition-colors rounded-md py-2 text-sm font-semibold uppercase tracking-wider"
+        data-testid="link-download-client"
+      >
+        <Download className="w-4 h-4" /> Baixar o Cliente do Jogo
+      </Link>
+
       <div className="text-center mt-2">
         <p className="text-sm text-muted-foreground">
           Já tem uma conta?{" "}
