@@ -152,6 +152,21 @@
   --chart-5: 0 80% 50%;
 }
 
+@keyframes amber-pulse {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(212, 160, 23, 0.4));
+  }
+  50% {
+    opacity: 0.55;
+    filter: drop-shadow(0 0 28px rgba(212, 160, 23, 0.9));
+  }
+}
+
+.animate-amber-pulse {
+  animation: amber-pulse 3.5s ease-in-out infinite;
+}
+
 @layer base {
   * {
     @apply border-border;

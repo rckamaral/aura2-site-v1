@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 import heroImage from "@assets/{1DD7422B-DC4E-4688-B569-1EC26B0F41E5}_1779318144976.png";
+import metin2Logo from "@assets/metin2_img_1779318742077.jpeg";
 
 export default function Home() {
   return (
@@ -19,10 +20,10 @@ export default function Home() {
             <span className="mr-2 flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
             × Season 1 Online • Evento Especial Ativo
           </div>
-          
+
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] tracking-tight">
             <span className="text-white">UMA NOVA LENDA</span><br/>
-            <span className="text-primary drop-shadow-[0_0_15px_rgba(212,160,23,0.5)]">NASCE</span>
+            <span className="text-primary animate-amber-pulse inline-block">NASCE</span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed">
@@ -41,7 +42,7 @@ export default function Home() {
               </a>
             </Button>
           </div>
-          
+
           <div className="pt-8 flex items-center gap-4">
             <div className="bg-black/40 border border-primary/20 rounded-lg p-4 backdrop-blur-sm">
               <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Players Online</p>
@@ -50,6 +51,15 @@ export default function Home() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Right column — Metin2 logo pulsing */}
+        <div className="hidden lg:flex flex-1 items-center justify-center">
+          <img
+            src={metin2Logo}
+            alt="Metin2 – Start your adventure"
+            className="w-full max-w-lg object-contain animate-amber-pulse"
+          />
         </div>
       </div>
 
