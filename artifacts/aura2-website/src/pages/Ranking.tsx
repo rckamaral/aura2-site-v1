@@ -1,17 +1,32 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
+const CLASS_ICONS: Record<string, string> = {
+  Guerreiro: "/classes/guerreiro.svg",
+  Ninja:     "/classes/ninja.svg",
+  Shura:     "/classes/shura.svg",
+  Shaman:    "/classes/shaman.svg",
+};
+
+const KINGDOM_FLAGS: Record<string, string> = {
+  Chunjo:  "/kingdoms/chunjo.svg",
+  Jinno:   "/kingdoms/jinno.svg",
+  Shinsoo: "/kingdoms/shinsoo.svg",
+};
+
 const MOCK_PLAYERS = [
-  { rank: 1, name: "DarkLord", class: "Guerreiro", level: 105, guild: "Immortals", kingdom: "Jinno" },
-  { rank: 2, name: "ShadowStep", class: "Ninja", level: 104, guild: "Shadows", kingdom: "Shinsoo" },
-  { rank: 3, name: "MagicWeaver", class: "Shura", level: 104, guild: "Immortals", kingdom: "Jinno" },
-  { rank: 4, name: "HealMe", class: "Shaman", level: 102, guild: "Support", kingdom: "Chunjo" },
-  { rank: 5, name: "BladeMaster", class: "Guerreiro", level: 101, guild: "Warriors", kingdom: "Shinsoo" },
-  { rank: 6, name: "Assassin", class: "Ninja", level: 100, guild: "Shadows", kingdom: "Jinno" },
-  { rank: 7, name: "DarkMage", class: "Shura", level: 99, guild: "Magic", kingdom: "Chunjo" },
-  { rank: 8, name: "DragonSlayer", class: "Guerreiro", level: 98, guild: "Dragons", kingdom: "Jinno" },
-  { rank: 9, name: "SwiftStrike", class: "Ninja", level: 97, guild: "Shadows", kingdom: "Shinsoo" },
-  { rank: 10, name: "HolyLight", class: "Shaman", level: 96, guild: "Support", kingdom: "Jinno" },
+  { rank: 1,  name: "DarkLord",    class: "Guerreiro", level: 105, guild: "Immortals", kingdom: "Jinno"   },
+  { rank: 2,  name: "ShadowStep",  class: "Ninja",     level: 104, guild: "Shadows",   kingdom: "Shinsoo" },
+  { rank: 3,  name: "MagicWeaver", class: "Shura",     level: 104, guild: "Immortals", kingdom: "Jinno"   },
+  { rank: 4,  name: "HealMe",      class: "Shaman",    level: 102, guild: "Support",   kingdom: "Chunjo"  },
+  { rank: 5,  name: "BladeMaster", class: "Guerreiro", level: 101, guild: "Warriors",  kingdom: "Shinsoo" },
+  { rank: 6,  name: "Assassin",    class: "Ninja",     level: 100, guild: "Shadows",   kingdom: "Jinno"   },
+  { rank: 7,  name: "DarkMage",    class: "Shura",     level:  99, guild: "Magic",     kingdom: "Chunjo"  },
+  { rank: 8,  name: "DragonSlayer",class: "Guerreiro", level:  98, guild: "Dragons",   kingdom: "Jinno"   },
+  { rank: 9,  name: "SwiftStrike", class: "Ninja",     level:  97, guild: "Shadows",   kingdom: "Shinsoo" },
+  { rank: 10, name: "HolyLight",   class: "Shaman",    level:  96, guild: "Support",   kingdom: "Jinno"   },
 ];
+
+const RANK_MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
 export default function Ranking() {
   return (
@@ -28,25 +43,60 @@ export default function Ranking() {
               <TableRow className="border-primary/20 hover:bg-transparent">
                 <TableHead className="w-16 text-center text-primary font-bold">#</TableHead>
                 <TableHead className="text-primary font-bold">Nome</TableHead>
-                <TableHead className="text-primary font-bold">Classe</TableHead>
+                <TableHead className="text-primary font-bold text-center">Classe</TableHead>
                 <TableHead className="text-primary font-bold text-center">Nível</TableHead>
                 <TableHead className="text-primary font-bold">Guild</TableHead>
-                <TableHead className="text-primary font-bold">Reino</TableHead>
+                <TableHead className="text-primary font-bold text-center">Reino</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {MOCK_PLAYERS.map((player) => (
                 <TableRow key={player.rank} className="border-primary/10 hover:bg-primary/5 transition-colors">
+
+                  {/* Rank */}
                   <TableCell className="text-center font-display text-lg font-bold">
-                    <span className={player.rank <= 3 ? "text-primary drop-shadow-[0_0_5px_rgba(212,160,23,0.8)]" : "text-muted-foreground"}>
-                      {player.rank}
-                    </span>
+                    {RANK_MEDAL[player.rank] ? (
+                      <span className="text-xl">{RANK_MEDAL[player.rank]}</span>
+                    ) : (
+                      <span className="text-muted-foreground">{player.rank}</span>
+                    )}
                   </TableCell>
+
+                  {/* Name */}
                   <TableCell className="font-semibold text-white">{player.name}</TableCell>
-                  <TableCell className="text-gray-300">{player.class}</TableCell>
+
+                  {/* Class icon */}
+                  <TableCell className="text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <img
+                        src={CLASS_ICONS[player.class]}
+                        alt={player.class}
+                        title={player.class}
+                        className="w-8 h-8 rounded-md object-cover"
+                        style={{ imageRendering: "crisp-edges" }}
+                      />
+                    </div>
+                  </TableCell>
+
+                  {/* Level */}
                   <TableCell className="text-center font-mono text-primary font-bold">{player.level}</TableCell>
+
+                  {/* Guild */}
                   <TableCell className="text-gray-300">{player.guild}</TableCell>
-                  <TableCell className="text-gray-300">{player.kingdom}</TableCell>
+
+                  {/* Kingdom flag */}
+                  <TableCell className="text-center">
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={KINGDOM_FLAGS[player.kingdom]}
+                        alt={player.kingdom}
+                        title={player.kingdom}
+                        className="h-5 rounded-sm object-cover shadow-sm"
+                        style={{ width: "2.25rem" }}
+                      />
+                    </div>
+                  </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
