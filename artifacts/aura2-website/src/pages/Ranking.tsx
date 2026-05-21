@@ -8,9 +8,9 @@ const CLASS_ICONS: Record<string, string> = {
 };
 
 const KINGDOM_FLAGS: Record<string, string> = {
-  Chunjo:  "/kingdoms/chunjo.svg",
-  Jinno:   "/kingdoms/jinno.svg",
-  Shinsoo: "/kingdoms/shinsoo.svg",
+  Chunjo:  "/kingdoms/chunjo.webp",
+  Jinno:   "/kingdoms/jinno.webp",
+  Shinsoo: "/kingdoms/shinsoo.webp",
 };
 
 const MOCK_PLAYERS = [
