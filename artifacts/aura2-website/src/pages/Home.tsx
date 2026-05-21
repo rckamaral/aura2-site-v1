@@ -195,7 +195,10 @@ export default function Home() {
                       src={cls.portrait[gender]}
                       alt={cls.name}
                       className="w-full h-full object-cover"
-                      style={{ filter: isActive ? `brightness(1.1) drop-shadow(0 0 6px ${cls.glowHex})` : "brightness(0.7)" }}
+                      style={{
+                        filter: isActive ? `brightness(1.15) contrast(1.1) drop-shadow(0 0 6px ${cls.glowHex})` : "brightness(0.75) contrast(1.05)",
+                        imageRendering: "auto",
+                      }}
                     />
                   </div>
                   <span
