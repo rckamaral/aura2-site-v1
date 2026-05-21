@@ -1,105 +1,90 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 
 const CLASSES = [
-  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: { M: "/guerreiro.mp4", F: "/guerreiro_f.mp4" }, videoStart: 0, segment: 3 },
-  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: { M: "/ninja.mp4",     F: "/ninja_f.mp4"     }, videoStart: 0, segment: 3 },
-  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: { M: "/shura.mp4",     F: "/shura_f.mp4"     }, videoStart: 0, segment: 3 },
-  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: { M: "/shaman.mp4",    F: "/shaman_f.mp4"    }, videoStart: 0, segment: 3 },
+  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: { M: "/guerreiro.mp4", F: "/guerreiro_f.mp4" } },
+  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: { M: "/ninja.mp4",     F: "/ninja_f.mp4"     } },
+  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: { M: "/shura.mp4",     F: "/shura_f.mp4"     } },
+  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: { M: "/shaman.mp4",    F: "/shaman_f.mp4"    } },
 ] as const;
 
 type ClassId = (typeof CLASSES)[number]["id"];
 type Gender  = "M" | "F";
+type VideoKey = `${ClassId}-${"M" | "F"}`;
+
+// All 8 combos pre-keyed
+const ALL_VIDEOS: { key: VideoKey; src: string }[] = CLASSES.flatMap((cls) =>
+  (["M", "F"] as Gender[]).map((g) => ({ key: `${cls.id}-${g}` as VideoKey, src: cls.videoSrc[g] }))
+);
 
 export default function Home() {
   const [selected, setSelected] = useState<ClassId | null>(null);
   const [gender,   setGender]   = useState<Gender>("M");
-  const videoRef  = useRef<HTMLVideoElement>(null);
-  // Store current start time so the loop listener can read it without stale closure
-  const startRef  = useRef<number>(0);
+  const videoRefs = useRef<Partial<Record<VideoKey, HTMLVideoElement>>>({});
 
   const activeClass = CLASSES.find((c) => c.id === selected) ?? null;
-  const segmentRef  = useRef<number>(3);
+  const activeKey: VideoKey | null = selected ? `${selected}-${gender}` : null;
 
-  /** Switch src if needed, seek to start, then play — must be called inside a user gesture */
-  function playClass(cls: (typeof CLASSES)[number], g: Gender) {
-    const v = videoRef.current;
-    if (!v) return;
-    startRef.current   = cls.videoStart;
-    segmentRef.current = cls.segment;
-
-    const src = cls.videoSrc[g];
-    const needsSrcSwitch = !v.src.endsWith(src);
-    if (needsSrcSwitch) {
-      v.src = src;
-      v.load();
-      const onReady = () => {
-        v.currentTime = cls.videoStart;
+  function showVideo(key: VideoKey) {
+    // Pause all, play the target — it's already preloaded so it starts instantly
+    for (const [k, v] of Object.entries(videoRefs.current)) {
+      if (!v) continue;
+      if (k === key) {
+        v.currentTime = 0;
         v.play().catch(() => {});
-        v.removeEventListener("canplay", onReady);
-      };
-      v.addEventListener("canplay", onReady);
-    } else {
-      v.currentTime = cls.videoStart;
-      v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
     }
   }
-
-  /** Loop within the take's segment */
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const onTime = () => {
-      if (v.currentTime >= startRef.current + segmentRef.current) {
-        v.currentTime = startRef.current;
-      }
-    };
-    v.addEventListener("timeupdate", onTime);
-    return () => v.removeEventListener("timeupdate", onTime);
-  }, []);
 
   function handleClassClick(cls: (typeof CLASSES)[number]) {
     if (selected === cls.id) {
       setSelected(null);
-      videoRef.current?.pause();
+      Object.values(videoRefs.current).forEach((v) => v?.pause());
       return;
     }
     setSelected(cls.id);
-    playClass(cls, gender);
+    showVideo(`${cls.id}-${gender}`);
   }
 
   function handleGenderChange(g: Gender) {
     setGender(g);
-    if (activeClass) playClass(activeClass, g);
+    if (selected) showVideo(`${selected}-${g}`);
   }
 
   return (
     <div className="relative w-full flex-1 flex flex-col justify-center min-h-[calc(100vh-5rem)]">
 
-      {/* Video background */}
+      {/* ── Preloaded video pool — all 8 hidden elements ── */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <video
-          ref={videoRef}
-          src="/characters.mp4"
-          muted
-          playsInline
-          preload="auto"
-          className="absolute w-full h-full object-cover"
-          style={{ opacity: activeClass ? 0.85 : 0, transition: "opacity 0.5s ease" }}
-        />
-        {/* Left-to-right fade so hero text stays readable */}
+        {ALL_VIDEOS.map(({ key, src }) => (
+          <video
+            key={key}
+            ref={(el) => { if (el) videoRefs.current[key] = el; }}
+            src={src}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute w-full h-full object-cover transition-opacity duration-500"
+            style={{ opacity: activeKey === key ? 0.85 : 0 }}
+          />
+        ))}
+
+        {/* Gradients */}
         <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(8,5,2,0.92) 30%, rgba(8,5,2,0.3) 100%)" }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        {/* Dark base when nothing is selected */}
+        {/* Dark overlay when nothing selected */}
         <div
-          className="absolute inset-0 bg-background/70"
-          style={{ opacity: activeClass ? 0 : 1, transition: "opacity 0.5s ease" }}
+          className="absolute inset-0 bg-background/70 transition-opacity duration-500"
+          style={{ opacity: activeClass ? 0 : 1 }}
         />
       </div>
 
-      {/* Main content */}
+      {/* ── Main content ── */}
       <div className="container mx-auto px-4 py-20 lg:py-32 flex flex-col lg:flex-row items-center gap-12">
 
         {/* Left */}
@@ -138,7 +123,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right — logo (fades when a class is active) */}
+        {/* Right — logo fades when class is active */}
         <div className="hidden lg:flex flex-1 flex-col items-center justify-center">
           <div
             style={{
@@ -161,11 +146,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Class selector */}
+      {/* ── Class selector ── */}
       <div className="container mx-auto px-4 pb-12 mt-auto">
         <div className="flex flex-col gap-3">
 
-          {/* Gender toggle — appears when a class is selected */}
+          {/* Gender toggle */}
           <div
             className="flex items-center gap-2"
             style={{ opacity: selected ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: selected ? "auto" : "none" }}
@@ -195,7 +180,6 @@ export default function Home() {
                 <button
                   key={cls.id}
                   type="button"
-                  data-testid={`class-btn-${cls.id}`}
                   onClick={() => handleClassClick(cls)}
                   className="flex-shrink-0 flex flex-col items-center gap-2 focus:outline-none"
                 >
