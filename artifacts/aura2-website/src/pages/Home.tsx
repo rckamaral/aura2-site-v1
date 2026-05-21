@@ -19,10 +19,10 @@ const ALL_VIDEOS: { key: VideoKey; src: string }[] = CLASSES.flatMap((cls) =>
 );
 
 const POSTS = [
-  { id: 1, category: "Eventos",  categoryColor: "#c0392b", title: "Cronograma de Eventos",  ago: "há 1 mês",   gradient: "linear-gradient(135deg, #3a0a0a 0%, #7a1515 100%)" },
-  { id: 2, category: "Notícias", categoryColor: "#2471a3", title: "Patch Notes 13.05",       ago: "há 6 dias",  gradient: "linear-gradient(135deg, #0a1a3a 0%, #153060 100%)" },
-  { id: 3, category: "Eventos",  categoryColor: "#c0392b", title: "Bônus do Dia das Mães",   ago: "há 1 semana",gradient: "linear-gradient(135deg, #2a0a2a 0%, #601560 100%)" },
-  { id: 4, category: "Eventos",  categoryColor: "#c0392b", title: "Batalha Todos x Todos",   ago: "há 2 semanas",gradient: "linear-gradient(135deg, #1a1a0a 0%, #3a3010 100%)" },
+  { id: 1, category: "Eventos",  categoryColor: "#c0392b", title: "Cronograma de Eventos",  ago: "há 1 mês",  gradient: "linear-gradient(135deg, #3a0a0a 0%, #7a1515 100%)" },
+  { id: 2, category: "Notícias", categoryColor: "#2471a3", title: "Patch Notes 13.05",      ago: "há 6 dias", gradient: "linear-gradient(135deg, #0a1a3a 0%, #153060 100%)" },
+  { id: 3, category: null, categoryColor: "", title: null, ago: null, gradient: "linear-gradient(135deg, #111111 0%, #1a1a1a 100%)" },
+  { id: 4, category: null, categoryColor: "", title: null, ago: null, gradient: "linear-gradient(135deg, #111111 0%, #1a1a1a 100%)" },
 ];
 
 export default function Home() {
@@ -227,20 +227,21 @@ export default function Home() {
                 <div className="w-32 h-32 rounded-full border-2 border-white/30" />
               </div>
 
-              {/* Bottom content */}
-              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                {/* Category badge */}
-                <span
-                  className="inline-block text-xs font-bold uppercase tracking-wider text-white px-2 py-0.5 rounded mb-2"
-                  style={{ background: post.categoryColor }}
-                >
-                  {post.category}
-                </span>
-                <h3 className="text-white font-bold text-base leading-tight mb-1 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-xs text-gray-400">{post.ago}</p>
-              </div>
+              {/* Bottom content — only rendered for real posts */}
+              {post.title && (
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                  <span
+                    className="inline-block text-xs font-bold uppercase tracking-wider text-white px-2 py-0.5 rounded mb-2"
+                    style={{ background: post.categoryColor }}
+                  >
+                    {post.category}
+                  </span>
+                  <h3 className="text-white font-bold text-base leading-tight mb-1 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-xs text-gray-400">{post.ago}</p>
+                </div>
+              )}
 
               {/* Hover overlay */}
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/40 rounded-xl transition-all duration-300" />
