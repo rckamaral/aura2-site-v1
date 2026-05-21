@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Download, MessagesSquare } from "lucide-react";
 
 const CLASSES = [
-  { id: "guerreiro", name: "Guerreiro", glyph: "⚔", accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: { M: "/guerreiro.mp4", F: "/guerreiro_f.mp4" } },
-  { id: "ninja",     name: "Ninja",     glyph: "🗡", accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: { M: "/ninja.mp4",     F: "/ninja_f.mp4"     } },
-  { id: "shura",     name: "Shura",     glyph: "✦", accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: { M: "/shura.mp4",     F: "/shura_f.mp4"     } },
-  { id: "shaman",    name: "Shaman",    glyph: "☯", accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: { M: "/shaman.mp4",    F: "/shaman_f.mp4"    } },
+  { id: "guerreiro", name: "Guerreiro", portrait: { M: "/classes/guerreiro_m.png", F: "/classes/guerreiro_f.png" }, accentHex: "#B41E1E", glowHex: "#ff4444", accentRgb: "180,30,30", videoSrc: { M: "/guerreiro.mp4", F: "/guerreiro_f.mp4" } },
+  { id: "ninja",     name: "Ninja",     portrait: { M: "/classes/ninja_m.png",     F: "/classes/ninja_f.png"     }, accentHex: "#14A078", glowHex: "#00ffcc", accentRgb: "20,160,120", videoSrc: { M: "/ninja.mp4",     F: "/ninja_f.mp4"     } },
+  { id: "shura",     name: "Shura",     portrait: { M: "/classes/shura_m.png",     F: "/classes/shura_f.png"     }, accentHex: "#8228C8", glowHex: "#cc44ff", accentRgb: "130,40,200", videoSrc: { M: "/shura.mp4",     F: "/shura_f.mp4"     } },
+  { id: "shaman",    name: "Shaman",    portrait: { M: "/classes/shaman_m.png",    F: "/classes/shaman_f.png"    }, accentHex: "#2882DC", glowHex: "#44aaff", accentRgb: "40,130,220", videoSrc: { M: "/shaman.mp4",    F: "/shaman_f.mp4"    } },
 ] as const;
 
 type ClassId = (typeof CLASSES)[number]["id"];
@@ -184,19 +184,19 @@ export default function Home() {
                   className="flex-shrink-0 flex flex-col items-center gap-2 focus:outline-none"
                 >
                   <div
-                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center text-3xl transition-all duration-300"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300"
                     style={{
-                      border: isActive ? `2px solid ${cls.accentHex}` : "2px solid rgba(255,255,255,0.1)",
-                      background: isActive
-                        ? `radial-gradient(circle, rgba(${cls.accentRgb},0.3) 0%, rgba(0,0,0,0.6) 100%)`
-                        : "rgba(0,0,0,0.6)",
+                      border: isActive ? `2px solid ${cls.accentHex}` : "2px solid rgba(255,255,255,0.15)",
                       boxShadow: isActive ? `0 0 22px ${cls.glowHex}99, 0 0 44px ${cls.glowHex}44` : "none",
                       transform: isActive ? "scale(1.12)" : "scale(1)",
                     }}
                   >
-                    <span style={{ filter: isActive ? `drop-shadow(0 0 8px ${cls.glowHex})` : "none" }}>
-                      {cls.glyph}
-                    </span>
+                    <img
+                      src={cls.portrait[gender]}
+                      alt={cls.name}
+                      className="w-full h-full object-cover"
+                      style={{ filter: isActive ? `brightness(1.1) drop-shadow(0 0 6px ${cls.glowHex})` : "brightness(0.7)" }}
+                    />
                   </div>
                   <span
                     className="text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-300"

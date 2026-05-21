@@ -1,10 +1,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const CLASS_ICONS: Record<string, string> = {
-  Guerreiro: "/classes/guerreiro.svg",
-  Ninja:     "/classes/ninja.svg",
-  Shura:     "/classes/shura.svg",
-  Shaman:    "/classes/shaman.svg",
+  Guerreiro: "/classes/guerreiro_m.png",
+  Ninja:     "/classes/ninja_m.png",
+  Shura:     "/classes/shura_m.png",
+  Shaman:    "/classes/shaman_m.png",
 };
 
 const KINGDOM_FLAGS: Record<string, string> = {
@@ -67,13 +67,13 @@ export default function Ranking() {
 
                   {/* Class icon */}
                   <TableCell className="text-center">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center">
                       <img
                         src={CLASS_ICONS[player.class]}
                         alt={player.class}
                         title={player.class}
-                        className="w-8 h-8 rounded-md object-cover"
-                        style={{ imageRendering: "crisp-edges" }}
+                        className="w-9 h-9 rounded-lg object-cover"
+                        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
                       />
                     </div>
                   </TableCell>
