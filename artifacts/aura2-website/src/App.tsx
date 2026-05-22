@@ -8,18 +8,25 @@ import Ranking from "@/pages/Ranking";
 import Download from "@/pages/Download";
 import Wiki from "@/pages/Wiki";
 import MainLayout from "@/components/layout/MainLayout";
-
+import TermsOfUse from "@/pages/termos-de-uso";
+import PrivacyPolicy from "@/pages/politicas-de-privacidade";
 const queryClient = new QueryClient();
 
 function Router() {
   return (
     <MainLayout>
       <Switch>
-        <Route path="/" component={Home} />
         <Route path="/ranking" component={Ranking} />
         <Route path="/download" component={Download} />
         <Route path="/wiki" component={Wiki} />
-        <Route component={NotFound} />
+        <Route path="/termos-de-uso" component={TermsOfUse} />
+        <Route path="/politicas-de-privacidade" component={PrivacyPolicy} />
+
+        <Route path="/" component={Home} />
+
+        <Route>
+          <NotFound />
+        </Route>
       </Switch>
     </MainLayout>
   );

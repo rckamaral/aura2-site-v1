@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Play, Download } from "lucide-react";
 
-type ModalMode = "login" | "register";
+type ModalMode = "login" | "register" | "forgot";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -22,16 +22,35 @@ export default function Navbar() {
     setOpen(true);
   }
 
+  const titles: Record<ModalMode, string> = {
+    login: "Acessar Conta",
+    register: "Criar Conta",
+    forgot: "Recuperar Senha",
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-primary/20">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <Link href="/" className="flex flex-col">
-          <span className="font-display font-bold text-2xl text-primary leading-none tracking-wider">
-            AURA 2
-          </span>
-          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
-            Reviva a era que deixou saudade
-          </span>
+        <Link href="/" className="flex items-center gap-3">
+          <img
+            src="/metin2_logo_nobgss.png"
+            alt="M2"
+            className="animate-amber-pulse"
+            style={{
+              width: "48px",
+              height: "48px",
+              objectFit: "contain",
+              filter: "drop-shadow(0 0 12px rgba(212,160,23,0.8))",
+            }}
+          />
+          <div className="flex flex-col">
+            <span className="font-display font-bold text-2xl text-primary leading-none tracking-wider">
+              AURA 2
+            </span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+              Reviva a essência do Metin2
+            </span>
+          </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -69,7 +88,6 @@ export default function Navbar() {
           >
             <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
           </Button>
-
           <Button
             variant="outline"
             className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
@@ -85,19 +103,27 @@ export default function Navbar() {
         <DialogContent className="sm:max-w-md bg-background border-primary/20">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl text-center text-primary">
-              {mode === "login" ? "Acessar Conta" : "Criar Conta"}
+              {titles[mode]}
             </DialogTitle>
           </DialogHeader>
 
-          {mode === "login" ? (
+          {mode === "login" && (
             <LoginForm
               onClose={() => setOpen(false)}
               onSwitchToRegister={() => setMode("register")}
+              onForgotPassword={() => setMode("forgot")}
             />
-          ) : (
+          )}
+          {mode === "register" && (
             <RegisterForm
               onClose={() => setOpen(false)}
               onSwitchToLogin={() => setMode("login")}
+            />
+          )}
+          {mode === "forgot" && (
+            <ForgotPasswordForm
+              onClose={() => setOpen(false)}
+              onBackToLogin={() => setMode("login")}
             />
           )}
         </DialogContent>
@@ -109,9 +135,11 @@ export default function Navbar() {
 function LoginForm({
   onClose,
   onSwitchToRegister,
+  onForgotPassword,
 }: {
   onClose: () => void;
   onSwitchToRegister: () => void;
+  onForgotPassword: () => void;
 }) {
   return (
     <div className="space-y-4 py-4">
@@ -141,7 +169,16 @@ function LoginForm({
       >
         Entrar
       </Button>
-      <div className="text-center mt-2">
+      <div className="text-right">
+        <button
+          type="button"
+          className="text-xs text-primary hover:underline"
+          onClick={onForgotPassword}
+        >
+          Esqueci minha senha
+        </button>
+      </div>
+      <div className="text-center mt-2 space-y-2">
         <p className="text-sm text-muted-foreground">
           Não tem uma conta?{" "}
           <button
@@ -154,6 +191,71 @@ function LoginForm({
           </button>
         </p>
       </div>
+    </div>
+  );
+}
+
+function ForgotPasswordForm({
+  onClose,
+  onBackToLogin,
+}: {
+  onClose: () => void;
+  onBackToLogin: () => void;
+}) {
+  const [sent, setSent] = useState(false);
+
+  return (
+    <div className="space-y-4 py-4">
+      {!sent ? (
+        <>
+          <p className="text-sm text-muted-foreground text-center">
+            Digite o e-mail cadastrado na sua conta e enviaremos um link para
+            redefinir sua senha.
+          </p>
+          <div className="space-y-2">
+            <Label htmlFor="forgot-email">E-mail</Label>
+            <Input
+              id="forgot-email"
+              type="email"
+              placeholder="seu@email.com"
+              className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            />
+          </div>
+          <Button
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
+            onClick={() => setSent(true)}
+          >
+            Enviar Link de Recuperação
+          </Button>
+        </>
+      ) : (
+        <div className="text-center space-y-4 py-4">
+          <div className="text-4xl">📧</div>
+          <p className="text-white font-bold text-lg">E-mail enviado!</p>
+          <p className="text-sm text-muted-foreground">
+            Verifique sua caixa de entrada e siga as instruções para redefinir
+            sua senha.
+          </p>
+          <Button
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
+            onClick={onClose}
+          >
+            Fechar
+          </Button>
+        </div>
+      )}
+
+      {!sent && (
+        <div className="text-center">
+          <button
+            type="button"
+            className="text-xs text-muted-foreground hover:text-primary hover:underline"
+            onClick={onBackToLogin}
+          >
+            ← Voltar para o login
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -213,7 +315,6 @@ function RegisterForm({
       >
         Criar Conta
       </Button>
-
       <Link
         href="/download"
         onClick={onClose}
@@ -222,7 +323,6 @@ function RegisterForm({
       >
         <Download className="w-4 h-4" /> Baixar o Cliente do Jogo
       </Link>
-
       <div className="text-center mt-2">
         <p className="text-sm text-muted-foreground">
           Já tem uma conta?{" "}
