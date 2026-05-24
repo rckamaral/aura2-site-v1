@@ -347,20 +347,24 @@ export default function Ranking() {
     p.name.toLowerCase().includes(search.toLowerCase()),
   );
 
+  const SUBTITLES: Record<Tab, string> = {
+    Players: "Os jogadores mais poderosos do Aura2.",
+    Guilds: "As guildas que dominam os reinos.",
+    PvP: "Os jogadores com mais vitórias em combate.",
+    Bosses: "Os caçadores das criaturas mais perigosas.",
+  };
   return (
     <div className="container mx-auto px-4 py-12 lg:py-24 animate-in fade-in duration-500">
       <div className="max-w-5xl mx-auto space-y-8">
-        {/* Header */}
         <div className="text-center space-y-4">
           <h1 className="font-display text-4xl md:text-5xl font-black text-white tracking-wider">
             HALL DA FAMA
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Os jogadores mais poderosos do Aura2.
+          <p className="text-muted-foreground text-lg transition-all duration-300">
+            {SUBTITLES[activeTab]}
           </p>
         </div>
 
-        {/* Tabs + Search */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex gap-2 flex-wrap">
             {TABS.map((tab) => (
@@ -398,7 +402,6 @@ export default function Ranking() {
           </div>
         </div>
 
-        {/* ── PLAYERS TAB ── */}
         {activeTab === "Players" && (
           <div className="bg-black/40 border border-primary/20 rounded-xl overflow-hidden backdrop-blur-sm">
             <Table>
@@ -496,7 +499,6 @@ export default function Ranking() {
           </div>
         )}
 
-        {/* ── GUILDS TAB ── */}
         {activeTab === "Guilds" && (
           <div className="bg-black/40 border border-primary/20 rounded-xl overflow-hidden backdrop-blur-sm">
             <Table>
@@ -585,7 +587,6 @@ export default function Ranking() {
           </div>
         )}
 
-        {/* ── PVP TAB ── */}
         {activeTab === "PvP" && (
           <div className="bg-black/40 border border-primary/20 rounded-xl overflow-hidden backdrop-blur-sm">
             <Table>
@@ -681,7 +682,6 @@ export default function Ranking() {
           </div>
         )}
 
-        {/* ── BOSSES TAB ── */}
         {activeTab === "Bosses" && (
           <div className="bg-black/40 border border-primary/20 rounded-xl overflow-hidden backdrop-blur-sm">
             <Table>
