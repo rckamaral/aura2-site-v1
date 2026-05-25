@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "AURA2 Website"
+title = "Aura2 - Season 1"
 version = "1.0.0"
 id = "artifacts/aura2-website"
 router = "path"
