@@ -922,6 +922,43 @@ export default function Wiki() {
                     </div>
                   );
                 })}
+
+                {/* Armor cost card */}
+                <div
+                  className="rounded-xl p-4 flex flex-col justify-center gap-3"
+                  style={{
+                    background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
+                    border: "1px solid #3a1a08",
+                  }}
+                >
+                  <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: "#C8860A" }}>
+                    Custo
+                  </p>
+                  <div className="space-y-1.5">
+                    {[
+                      { img: "/items/cristal_vermelho.png", name: "Cristal Vermelho", qty: "x2" },
+                      { img: "/items/simbolo_dragao.png",   name: "Símbolo do Dragão", qty: "x2" },
+                    ].map((cost) => (
+                      <div key={cost.name} className="flex items-center justify-between gap-2">
+                        <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                          <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
+                          {cost.name}
+                        </span>
+                        <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div
+                    className="mt-1 pt-2 flex items-center justify-between"
+                    style={{ borderTop: "1px solid #3a1a08" }}
+                  >
+                    <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
+                    <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                      200.000.000
+                      <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
