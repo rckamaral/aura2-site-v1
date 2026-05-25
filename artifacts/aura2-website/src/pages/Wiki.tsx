@@ -217,6 +217,37 @@ const armorPairs = [
   },
 ];
 
+const armorPvmPairs = [
+  {
+    class: "Guerreiro",
+    tiers: [
+      { name: "61 de Guerreiro", img: "/items/61_de_guerreiro.png" },
+      { name: "Aquática",        img: "/items/aquatica.png"        },
+    ],
+  },
+  {
+    class: "Ninja",
+    tiers: [
+      { name: "61 de Ninja",  img: "/items/61_de_ninja.png"  },
+      { name: "Dragão Azul",  img: "/items/dragao_azul.png"  },
+    ],
+  },
+  {
+    class: "Shura",
+    tiers: [
+      { name: "61 de Shura",        img: "/items/61_de_shura.png"         },
+      { name: "Armadura Aura Negra", img: "/items/armadura_aura_negra.png" },
+    ],
+  },
+  {
+    class: "Shaman",
+    tiers: [
+      { name: "61 de Shaman",  img: "/items/61_de_shaman.png" },
+      { name: "Robe do Dragão", img: "/items/robe_dragao.png" },
+    ],
+  },
+];
+
 const transmutPairs = [
   { weapons: [
     { name: "Batalha",  img: "/items/batalha.png",   scale: 1.3 },
@@ -282,7 +313,7 @@ export default function Wiki() {
   const [metinTab, setMetinTab] = useState<MetinTab>("Lv 5–40");
   const [selectedPair, setSelectedPair] = useState<typeof transmutPairs[0] | null>(null);
   const [selectedArmor, setSelectedArmor] = useState<typeof armorPairs[0] | null>(null);
-  const [transmutTab, setTransmutTab] = useState<"armas" | "armaduras">("armas");
+  const [transmutTab, setTransmutTab] = useState<"armas" | "armaduras" | "pvm">("armas");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -723,12 +754,16 @@ export default function Wiki() {
 
               {/* Tab switcher */}
               <div className="flex justify-center gap-2 px-5 pb-5">
-                {(["armas", "armaduras"] as const).map((tab) => {
-                  const active = transmutTab === tab;
+                {([
+                  { id: "armas",     label: "Armas"          },
+                  { id: "armaduras", label: "Armaduras Real"  },
+                  { id: "pvm",       label: "Armaduras PvM"  },
+                ] as const).map(({ id, label }) => {
+                  const active = transmutTab === id;
                   return (
                     <button
-                      key={tab}
-                      onClick={() => setTransmutTab(tab)}
+                      key={id}
+                      onClick={() => setTransmutTab(id)}
                       className="px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all"
                       style={{
                         background: active ? "linear-gradient(135deg, #3a1a08, #2a1004)" : "transparent",
@@ -737,7 +772,7 @@ export default function Wiki() {
                         boxShadow: active ? "0 0 10px #C8860A30" : "none",
                       }}
                     >
-                      {tab === "armas" ? "Armas" : "Armaduras"}
+                      {label}
                     </button>
                   );
                 })}
@@ -932,6 +967,86 @@ export default function Wiki() {
                       </div>
                       <span className="flex items-center gap-1.5 text-sm font-black shrink-0" style={{ color: "#D4A017" }}>
                         200.000.000 <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* PVM tab */}
+              {transmutTab === "pvm" && (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pb-3 items-start">
+                    {armorPvmPairs.map((armor) => {
+                      const tierBorders = ["1px solid #2a1208", "1px solid #C8860A55"];
+                      const tierColors  = ["#7a5030", "#D4A017"];
+                      return (
+                        <div
+                          key={armor.class}
+                          className="rounded-xl p-3 flex flex-col items-center gap-2 group hover:brightness-125 transition-all"
+                          style={{
+                            background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
+                            border: "1px solid #3a1a08",
+                          }}
+                        >
+                          {/* Images row */}
+                          <div className="flex items-center justify-center gap-1 w-full">
+                            {armor.tiers.map((tier, i) => (
+                              <React.Fragment key={tier.name}>
+                                <div className="flex flex-col items-center gap-1 flex-1">
+                                  <div
+                                    className="w-12 h-16 rounded-lg flex items-center justify-center"
+                                    style={{ background: "#0e0604", border: tierBorders[i] }}
+                                  >
+                                    <img
+                                      src={tier.img}
+                                      alt={tier.name}
+                                      className="w-full h-full object-contain drop-shadow-lg"
+                                    />
+                                  </div>
+                                </div>
+                                {i < armor.tiers.length - 1 && (
+                                  <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                          {/* Names row */}
+                          <div className="flex items-center justify-between w-full gap-0.5 text-center">
+                            {armor.tiers.map((tier, i) => (
+                              <React.Fragment key={tier.name}>
+                                <p className="text-xs flex-1 leading-tight" style={{ color: tierColors[i], fontWeight: i === 1 ? 600 : 400 }}>{tier.name}</p>
+                                {i < armor.tiers.length - 1 && (
+                                  <span className="text-xs shrink-0" style={{ color: "#4a2810" }}>›</span>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* PvM cost bar */}
+                  <div className="px-5 pb-5">
+                    <div
+                      className="rounded-xl px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-2"
+                      style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #C8860A55" }}
+                    >
+                      <span className="text-xs uppercase tracking-widest font-bold shrink-0" style={{ color: "#C8860A" }}>Custo</span>
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 flex-1">
+                        {[
+                          { img: "/items/coracao_bera.png",  name: "Coração do Bera ×2" },
+                          { img: "/items/chifre_gigante.png", name: "Chifre Gigante ×2"  },
+                          { img: "/items/perolas.png",        name: "Pérolas ×5"          },
+                        ].map((c) => (
+                          <span key={c.name} className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                            <img src={c.img} alt={c.name} className="w-5 h-5 object-contain drop-shadow-md" />{c.name}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="flex items-center gap-1.5 text-sm font-black shrink-0" style={{ color: "#D4A017" }}>
+                        416.000.000 <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
                       </span>
                     </div>
                   </div>
