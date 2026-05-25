@@ -313,11 +313,12 @@ export default function Wiki() {
   const [metinTab, setMetinTab] = useState<MetinTab>("Lv 5–40");
   const [selectedPair, setSelectedPair] = useState<typeof transmutPairs[0] | null>(null);
   const [selectedArmor, setSelectedArmor] = useState<typeof armorPairs[0] | null>(null);
+  const [selectedPvmArmor, setSelectedPvmArmor] = useState<typeof armorPvmPairs[0] | null>(null);
   const [transmutTab, setTransmutTab] = useState<"armas" | "armaduras" | "pvm">("armas");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { setSelectedPair(null); setSelectedArmor(null); }
+      if (e.key === "Escape") { setSelectedPair(null); setSelectedArmor(null); setSelectedPvmArmor(null); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -983,7 +984,8 @@ export default function Wiki() {
                       return (
                         <div
                           key={armor.class}
-                          className="rounded-xl p-3 flex flex-col items-center gap-2 group hover:brightness-125 transition-all"
+                          onClick={() => setSelectedPvmArmor(armor)}
+                          className="rounded-xl p-3 flex flex-col items-center gap-2 group hover:brightness-125 transition-all cursor-pointer"
                           style={{
                             background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
                             border: "1px solid #3a1a08",
@@ -1258,6 +1260,96 @@ export default function Wiki() {
       )}
 
       {/* Armor detail modal */}
+      {selectedPvmArmor && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.80)" }}
+          onClick={() => setSelectedPvmArmor(null)}
+        >
+          <div
+            className="relative rounded-2xl p-8 max-w-md w-full flex flex-col items-center gap-6"
+            style={{
+              background: "linear-gradient(135deg, #1e0e07 0%, #100603 100%)",
+              border: "1px solid #C8860A55",
+              boxShadow: "0 0 40px #C8860A30",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedPvmArmor(null)}
+              className="absolute top-3 right-4 text-xl leading-none transition-colors"
+              style={{ color: "#7a5030" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#D4A017")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#7a5030")}
+            >✕</button>
+
+            <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "#C8860A" }}>
+              Transmutação PvM — {selectedPvmArmor.class}
+            </p>
+
+            <div className="flex items-end justify-center gap-6 w-full">
+              {selectedPvmArmor.tiers.map((tier, i) => {
+                const isLast = i === selectedPvmArmor.tiers.length - 1;
+                return (
+                  <React.Fragment key={tier.name}>
+                    <div className="flex flex-col items-center gap-3">
+                      <div
+                        className="w-28 h-36 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: isLast ? "radial-gradient(ellipse at center, #2a1408 0%, #0a0402 100%)" : "#0a0402",
+                          border: isLast ? "2px solid #C8860A" : "1px solid #3a1a08",
+                          boxShadow: isLast ? "0 0 20px #C8860A40" : "none",
+                        }}
+                      >
+                        <img src={tier.img} alt={tier.name} className="w-full h-full object-contain drop-shadow-xl p-2" />
+                      </div>
+                      <p className="text-sm font-semibold text-center leading-tight max-w-[100px]" style={{ color: isLast ? "#D4A017" : "#7a5030" }}>
+                        {tier.name}
+                      </p>
+                      <span
+                        className="text-xs px-2 py-0.5 rounded font-bold"
+                        style={isLast
+                          ? { background: "#2a1204", color: "#C8860A", border: "1px solid #C8860A55" }
+                          : { background: "#1a0a04", color: "#5a3020", border: "1px solid #2a1208" }}
+                      >
+                        {isLast ? "PvM" : "Base"}
+                      </span>
+                    </div>
+                    {!isLast && (
+                      <span className="font-black text-3xl leading-none shrink-0 mb-14" style={{ color: "#C8860A", textShadow: "0 0 12px #C8860A80" }}>»</span>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+
+            <div className="w-full h-px" style={{ background: "#2a1208" }} />
+
+            <div className="flex flex-col gap-2 w-full">
+              <p className="text-xs uppercase tracking-widest font-semibold text-center" style={{ color: "#C8860A" }}>Custo</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {[
+                  { img: "/items/coracao_bera.png",    label: "Coração do Gahnasel ×2" },
+                  { img: "/items/chifre_gigante.png",  label: "Chifre do Minotauro ×2" },
+                  { img: "/items/perola_vermelha.png", label: "Pérola Vermelha ×5" },
+                  { img: "/items/perola_azul.png",     label: "Pérola Azul ×5" },
+                  { img: "/items/perola_branca.png",   label: "Pérola Branca ×5" },
+                ].map(item => (
+                  <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                    <img src={item.img} alt={item.label} className="w-5 h-5 object-contain" />
+                    <span className="text-xs" style={{ color: "#c0a060" }}>{item.label}</span>
+                  </div>
+                ))}
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                  <span className="text-xs font-black" style={{ color: "#D4A017" }}>416.000.000</span>
+                  <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {selectedArmor && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
