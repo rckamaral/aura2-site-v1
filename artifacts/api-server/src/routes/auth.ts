@@ -1,8 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
-import { db, accountsTable } from "@workspace/db";
-import { eq, or } from "drizzle-orm";
 import { z } from "zod";
+import pool from "../lib/mysql";
 
 const router = Router();
 
@@ -26,21 +25,22 @@ router.post("/auth/register", async (req, res) => {
 
   const { username, email, password } = parsed.data;
 
-  const existing = await db
-    .select()
-    .from(accountsTable)
-    .where(or(eq(accountsTable.username, username), eq(accountsTable.email, email)))
-    .limit(1);
+  const [existing] = await pool.execute(
+    "SELECT id FROM accounts WHERE username = ? OR email = ? LIMIT 1",
+    [username, email]
+  ) as [any[], any];
 
   if (existing.length > 0) {
-    const conflict = existing[0].username === username ? "Usuário" : "E-mail";
-    res.status(409).json({ error: `${conflict} já está em uso.` });
+    res.status(409).json({ error: "Usuário ou e-mail já está em uso." });
     return;
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  await db.insert(accountsTable).values({ username, email, passwordHash });
+  await pool.execute(
+    "INSERT INTO accounts (username, email, password_hash) VALUES (?, ?, ?)",
+    [username, email, passwordHash]
+  );
 
   req.log.info({ username }, "New account registered");
   res.status(201).json({ message: "Conta criada com sucesso!", username });
@@ -55,20 +55,17 @@ router.post("/auth/login", async (req, res) => {
 
   const { username, password } = parsed.data;
 
-  const accounts = await db
-    .select()
-    .from(accountsTable)
-    .where(eq(accountsTable.username, username))
-    .limit(1);
+  const [rows] = await pool.execute(
+    "SELECT id, password_hash FROM accounts WHERE username = ? LIMIT 1",
+    [username]
+  ) as [any[], any];
 
-  if (accounts.length === 0) {
+  if (rows.length === 0) {
     res.status(401).json({ error: "Usuário ou senha incorretos." });
     return;
   }
 
-  const account = accounts[0];
-  const valid = await bcrypt.compare(password, account.passwordHash);
-
+  const valid = await bcrypt.compare(password, rows[0].password_hash);
   if (!valid) {
     res.status(401).json({ error: "Usuário ou senha incorretos." });
     return;
