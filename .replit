@@ -34,3 +34,11 @@ externalPort = 3001
 [[ports]]
 localPort = 18911
 externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+MYSQL_HOST = "190.102.43.61"
+MYSQL_PORT = "3306"
+MYSQL_USER = "website"
+MYSQL_DATABASE = "website"
