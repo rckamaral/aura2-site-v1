@@ -2,6 +2,8 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import pool from "../lib/mysql";
+import { createResetToken, consumeResetToken } from "../lib/resetTokens";
+import { sendPasswordResetEmail } from "../lib/mailer";
 
 const router = Router();
 
@@ -73,6 +75,61 @@ router.post("/auth/login", async (req, res) => {
 
   req.log.info({ username }, "Account logged in");
   res.json({ message: "Login realizado com sucesso!", username });
+});
+
+router.post("/auth/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  if (!email || typeof email !== "string") {
+    res.status(400).json({ error: "E-mail inválido." });
+    return;
+  }
+
+  const [rows] = await pool.execute(
+    "SELECT username, email FROM accounts WHERE email = ? LIMIT 1",
+    [email]
+  ) as [any[], any];
+
+  if (rows.length === 0) {
+    res.json({ message: "Se o e-mail existir, receberás as instruções." });
+    return;
+  }
+
+  const { username } = rows[0];
+  const token = createResetToken(email, username);
+  const domains = process.env.REPLIT_DOMAINS?.split(",")[0] || "aura2.com.br";
+  const resetUrl = `https://${domains}/redefinir-senha?token=${token}`;
+
+  try {
+    await sendPasswordResetEmail(email, resetUrl);
+  } catch (err) {
+    req.log.error({ err }, "Failed to send reset email");
+  }
+
+  req.log.info({ username }, "Password reset requested");
+  res.json({ message: "Se o e-mail existir, receberás as instruções." });
+});
+
+router.post("/auth/reset-password", async (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password || password.length < 6) {
+    res.status(400).json({ error: "Dados inválidos." });
+    return;
+  }
+
+  const entry = consumeResetToken(token);
+  if (!entry) {
+    res.status(400).json({ error: "Link inválido ou expirado." });
+    return;
+  }
+
+  const passwordHash = await bcrypt.hash(password, 10);
+  await pool.execute(
+    "UPDATE accounts SET password_hash = ? WHERE email = ?",
+    [passwordHash, entry.email]
+  );
+
+  req.log.info({ username: entry.username }, "Password reset successfully");
+  res.json({ message: "Senha redefinida com sucesso!" });
 });
 
 export default router;

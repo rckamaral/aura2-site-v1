@@ -282,12 +282,37 @@ function ForgotPasswordForm({
   onClose: () => void;
   onBackToLogin: () => void;
 }) {
+  const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      } else {
+        setSent(true);
+      }
+    } catch {
+      toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="space-y-4 py-4">
       {!sent ? (
-        <>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <p className="text-sm text-muted-foreground text-center">
             Digite o e-mail cadastrado na sua conta e enviaremos um link para
             redefinir sua senha.
@@ -298,23 +323,35 @@ function ForgotPasswordForm({
               id="forgot-email"
               type="email"
               placeholder="seu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+              required
             />
           </div>
           <Button
+            type="submit"
+            disabled={loading}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
-            onClick={() => setSent(true)}
           >
-            Enviar Link de Recuperação
+            {loading ? "A enviar..." : "Enviar Link de Recuperação"}
           </Button>
-        </>
+          <div className="text-center">
+            <button
+              type="button"
+              className="text-xs text-muted-foreground hover:text-primary hover:underline"
+              onClick={onBackToLogin}
+            >
+              ← Voltar para o login
+            </button>
+          </div>
+        </form>
       ) : (
         <div className="text-center space-y-4 py-4">
           <div className="text-4xl">📧</div>
           <p className="text-white font-bold text-lg">E-mail enviado!</p>
           <p className="text-sm text-muted-foreground">
-            Verifique sua caixa de entrada e siga as instruções para redefinir
-            sua senha.
+            Verifique a tua caixa de entrada e segue as instruções para redefinir a senha.
           </p>
           <Button
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
@@ -322,18 +359,6 @@ function ForgotPasswordForm({
           >
             Fechar
           </Button>
-        </div>
-      )}
-
-      {!sent && (
-        <div className="text-center">
-          <button
-            type="button"
-            className="text-xs text-muted-foreground hover:text-primary hover:underline"
-            onClick={onBackToLogin}
-          >
-            ← Voltar para o login
-          </button>
         </div>
       )}
     </div>

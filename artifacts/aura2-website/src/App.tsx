@@ -13,6 +13,7 @@ import Conta from "@/pages/Conta";
 import MainLayout from "@/components/layout/MainLayout";
 import TermsOfUse from "@/pages/termos-de-uso";
 import PrivacyPolicy from "@/pages/politicas-de-privacidade";
+import ResetPassword from "@/pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function Router() {
         <Route path="/conta" component={Conta} />
         <Route path="/termos-de-uso" component={TermsOfUse} />
         <Route path="/politicas-de-privacidade" component={PrivacyPolicy} />
+        <Route path="/redefinir-senha" component={ResetPassword} />
         <Route path="/" component={Home} />
         <Route>
           <NotFound />
