@@ -186,6 +186,37 @@ const gameplayList = [
   "Clicar no nome no chat abre janela de PM",
 ];
 
+const armorPairs = [
+  {
+    class: "Guerreiro",
+    tiers: [
+      { name: "Armadura de Aço Negro", img: "/items/armadura_aco_negro.png" },
+      { name: "Armadura Real",         img: "/items/armadura_real.png"      },
+    ],
+  },
+  {
+    class: "Ninja",
+    tiers: [
+      { name: "Veste do Vento Negro", img: "/items/veste_vento_negro.png" },
+      { name: "Veste Real",           img: "/items/veste_real.png"        },
+    ],
+  },
+  {
+    class: "Shura",
+    tiers: [
+      { name: "Armadura Magia Negra", img: "/items/armadura_magia_negra.png" },
+      { name: "Malha Real",           img: "/items/malha_real.png"           },
+    ],
+  },
+  {
+    class: "Shaman",
+    tiers: [
+      { name: "Túnica Negra",  img: "/items/tunica_shaman.png" },
+      { name: "Vestido Real",  img: "/items/vestido_real.png"  },
+    ],
+  },
+];
+
 const transmutPairs = [
   { weapons: [
     { name: "Batalha",  img: "/items/batalha.png",   scale: 1.3 },
@@ -814,6 +845,83 @@ export default function Wiki() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Armor divider */}
+              <div className="mx-5" style={{ height: "1px", background: "linear-gradient(90deg, transparent, #4a2010, transparent)" }} />
+
+              {/* Armor sub-header */}
+              <div className="text-center pt-6 pb-4 px-4">
+                <h4
+                  className="text-base font-black tracking-[0.3em] uppercase"
+                  style={{ color: "#D4A017", textShadow: "0 0 16px #D4A01740" }}
+                >
+                  ARMADURAS
+                </h4>
+                <div className="flex justify-center mt-1">
+                  <span style={{ color: "#C8860A", fontSize: "0.7rem" }}>◆</span>
+                </div>
+              </div>
+
+              {/* Armor grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pb-5">
+                {armorPairs.map((armor) => {
+                  const tierBorders = ["1px solid #2a1208", "1px solid #C8860A55"];
+                  const tierColors  = ["#7a5030", "#D4A017"];
+                  return (
+                    <div
+                      key={armor.class}
+                      className="rounded-xl p-3 flex flex-col items-center gap-2"
+                      style={{
+                        background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
+                        border: "1px solid #3a1a08",
+                      }}
+                    >
+                      {/* Class label */}
+                      <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "#7a5030" }}>
+                        {armor.class}
+                      </p>
+
+                      {/* Images row */}
+                      <div className="flex items-center justify-center gap-2 w-full">
+                        {armor.tiers.map((tier, i) => (
+                          <React.Fragment key={tier.name}>
+                            <div className="flex flex-col items-center gap-1 flex-1">
+                              <div
+                                className="w-12 h-14 rounded-lg flex items-center justify-center overflow-hidden"
+                                style={{ background: "#0e0604", border: tierBorders[i] }}
+                              >
+                                <img
+                                  src={tier.img}
+                                  alt={tier.name}
+                                  className="object-contain drop-shadow-lg"
+                                  style={{ width: "100%", height: "100%" }}
+                                />
+                              </div>
+                            </div>
+                            {i < armor.tiers.length - 1 && (
+                              <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+
+                      {/* Names */}
+                      <div className="flex items-start justify-between w-full gap-1 text-center">
+                        {armor.tiers.map((tier, i) => (
+                          <React.Fragment key={tier.name}>
+                            <p className="text-xs flex-1 leading-tight" style={{ color: tierColors[i], fontWeight: i === 1 ? 600 : 400 }}>
+                              {tier.name}
+                            </p>
+                            {i < armor.tiers.length - 1 && (
+                              <span className="text-xs shrink-0 mt-0.5" style={{ color: "#4a2810" }}>›</span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
