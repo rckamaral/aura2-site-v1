@@ -415,7 +415,7 @@ export default function Wiki() {
           <section id="inicio">
             <SectionTitle>O COMEÇO</SectionTitle>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Todo personagem criado recebe um conjunto inicial +6 e a Caixa do Aventureiro, aberta a cada 10 níveis com recompensas progressivas.
+              Todo personagem criado recebe um conjunto inicial +9 e a Caixa do Aventureiro, aberta a cada 10 níveis com recompensas progressivas.
             </p>
             <div className="grid md:grid-cols-2 gap-4">
               {[
