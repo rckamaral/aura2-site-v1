@@ -214,6 +214,7 @@ export default function Home() {
             autoPlay
             loop
             playsInline
+            muted
             className="absolute w-full h-full object-cover transition-opacity duration-500"
             style={{ opacity: activeClass ? 0 : 0.5 }}
           />
