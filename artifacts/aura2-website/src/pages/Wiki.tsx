@@ -281,6 +281,7 @@ export default function Wiki() {
   const [joiasOpen, setJoiasOpen] = useState(false);
   const [metinTab, setMetinTab] = useState<MetinTab>("Lv 5–40");
   const [selectedPair, setSelectedPair] = useState<typeof transmutPairs[0] | null>(null);
+  const [transmutTab, setTransmutTab] = useState<"armas" | "armaduras">("armas");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSelectedPair(null); };
@@ -705,7 +706,7 @@ export default function Wiki() {
               }}
             >
               {/* Panel header */}
-              <div className="text-center pt-8 pb-5 px-4">
+              <div className="text-center pt-8 pb-4 px-4">
                 <h3
                   className="text-xl font-black tracking-[0.35em] uppercase"
                   style={{ color: "#D4A017", textShadow: "0 0 20px #D4A01740" }}
@@ -717,249 +718,209 @@ export default function Wiki() {
                 </div>
               </div>
 
-              {/* Grid of transformation cards */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 px-5 pb-5">
-                {transmutPairs.map((pair) => {
-                  const [w0, w1, w2] = pair.weapons;
-                  const borders = ["1px solid #2a1208", "1px solid #3a1a08", "1px solid #C8860A55"];
-                  const nameColors = ["#7a5030", "#a07040", "#D4A017"];
+              {/* Tab switcher */}
+              <div className="flex justify-center gap-2 px-5 pb-5">
+                {(["armas", "armaduras"] as const).map((tab) => {
+                  const active = transmutTab === tab;
                   return (
-                  <div
-                    key={w0.name}
-                    onClick={() => setSelectedPair(pair)}
-                    className="rounded-xl p-3 flex flex-col items-center gap-2 group hover:brightness-125 transition-all cursor-pointer"
-                    style={{
-                      background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
-                      border: "1px solid #3a1a08",
-                    }}
-                  >
-                    {/* Item images + arrows row */}
-                    <div className="flex items-center justify-center gap-1 w-full">
-                      {pair.weapons.map((w, i) => (
-                        <React.Fragment key={w.name}>
-                          <div className="flex flex-col items-center gap-1 flex-1">
-                            <div
-                              className="w-11 h-11 rounded-lg flex items-center justify-center overflow-hidden"
-                              style={{ background: "#0e0604", border: borders[i] }}
-                            >
-                              <img
-                                src={w.img}
-                                alt={w.name}
-                                className="object-contain drop-shadow-lg"
-                                style={{
-                                  width: `${w.scale * 100}%`,
-                                  height: `${w.scale * 100}%`,
-                                  maxWidth: "none",
-                                }}
-                              />
-                            </div>
-                          </div>
-                          {i < pair.weapons.length - 1 && (
-                            <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
-                          )}
-                        </React.Fragment>
-                      ))}
-                    </div>
-
-                    {/* Item names */}
-                    <div className="flex items-center justify-between w-full gap-0.5 text-center">
-                      {pair.weapons.map((w, i) => (
-                        <React.Fragment key={w.name}>
-                          <p className="text-xs flex-1 leading-tight" style={{ color: nameColors[i], fontWeight: i === 2 ? 600 : 400 }}>{w.name}</p>
-                          {i < pair.weapons.length - 1 && (
-                            <span className="text-xs shrink-0" style={{ color: "#4a2810" }}>›</span>
-                          )}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </div>
-                  );
-                })}
-
-                {/* Cost info card — two tiers */}
-                <div
-                  className="rounded-xl p-4 flex flex-col gap-4"
-                  style={{
-                    background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
-                    border: "1px solid #3a1a08",
-                  }}
-                >
-                  {/* Tier 1 → 2 */}
-                  <div>
-                    <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "#7a5030" }}>
-                      Tier 1 → 2
-                    </p>
-                    <div className="space-y-1.5">
-                      {[
-                        { img: "/items/tomo_divino.png", name: "Tomo Divino", qty: "x1" },
-                        { img: "/items/perola_vermelha.png", name: "Pérola Vermelha", qty: "x2" },
-                        { img: "/items/perola_azul.png", name: "Pérola Azul", qty: "x2" },
-                        { img: "/items/perola_branca.png", name: "Pérola Branca", qty: "x2" },
-                      ].map((cost) => (
-                        <div key={cost.name} className="flex items-center justify-between gap-2">
-                          <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
-                            <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
-                            {cost.name}
-                          </span>
-                          <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
-                      <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
-                      <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
-                        50.000.000
-                        <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Divider */}
-                  <div className="w-full h-px" style={{ background: "#2a1208" }} />
-
-                  {/* Tier 2 → 3 */}
-                  <div>
-                    <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "#C8860A" }}>
-                      Tier 2 → 3
-                    </p>
-                    <div className="space-y-1.5">
-                      {[
-                        { img: "/items/cristal.png", name: "Cristal", qty: "x2" },
-                        { img: "/items/simbolo_dragao.png", name: "Símbolo do Dragão", qty: "x2" },
-                      ].map((cost) => (
-                        <div key={cost.name} className="flex items-center justify-between gap-2">
-                          <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
-                            <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
-                            {cost.name}
-                          </span>
-                          <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
-                      <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
-                      <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
-                        200.000.000
-                        <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Armor divider */}
-              <div className="mx-5" style={{ height: "1px", background: "linear-gradient(90deg, transparent, #4a2010, transparent)" }} />
-
-              {/* Armor sub-header */}
-              <div className="text-center pt-6 pb-4 px-4">
-                <h4
-                  className="text-base font-black tracking-[0.3em] uppercase"
-                  style={{ color: "#D4A017", textShadow: "0 0 16px #D4A01740" }}
-                >
-                  ARMADURAS
-                </h4>
-                <div className="flex justify-center mt-1">
-                  <span style={{ color: "#C8860A", fontSize: "0.7rem" }}>◆</span>
-                </div>
-              </div>
-
-              {/* Armor grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pb-5">
-                {armorPairs.map((armor) => {
-                  const tierBorders = ["1px solid #2a1208", "1px solid #C8860A55"];
-                  const tierColors  = ["#7a5030", "#D4A017"];
-                  return (
-                    <div
-                      key={armor.class}
-                      className="rounded-xl p-3 flex flex-col items-center gap-2"
+                    <button
+                      key={tab}
+                      onClick={() => setTransmutTab(tab)}
+                      className="px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all"
                       style={{
-                        background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
-                        border: "1px solid #3a1a08",
+                        background: active ? "linear-gradient(135deg, #3a1a08, #2a1004)" : "transparent",
+                        border: active ? "1px solid #C8860A" : "1px solid #3a1a08",
+                        color: active ? "#D4A017" : "#7a5030",
+                        boxShadow: active ? "0 0 10px #C8860A30" : "none",
                       }}
                     >
-                      {/* Class label */}
-                      <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "#7a5030" }}>
-                        {armor.class}
-                      </p>
-
-                      {/* Images row */}
-                      <div className="flex items-center justify-center gap-2 w-full">
-                        {armor.tiers.map((tier, i) => (
-                          <React.Fragment key={tier.name}>
-                            <div className="flex flex-col items-center gap-1 flex-1">
-                              <div
-                                className="w-12 h-14 rounded-lg flex items-center justify-center overflow-hidden"
-                                style={{ background: "#0e0604", border: tierBorders[i] }}
-                              >
-                                <img
-                                  src={tier.img}
-                                  alt={tier.name}
-                                  className="object-contain drop-shadow-lg"
-                                  style={{ width: "100%", height: "100%" }}
-                                />
-                              </div>
-                            </div>
-                            {i < armor.tiers.length - 1 && (
-                              <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
-                            )}
-                          </React.Fragment>
-                        ))}
-                      </div>
-
-                      {/* Names */}
-                      <div className="flex items-start justify-between w-full gap-1 text-center">
-                        {armor.tiers.map((tier, i) => (
-                          <React.Fragment key={tier.name}>
-                            <p className="text-xs flex-1 leading-tight" style={{ color: tierColors[i], fontWeight: i === 1 ? 600 : 400 }}>
-                              {tier.name}
-                            </p>
-                            {i < armor.tiers.length - 1 && (
-                              <span className="text-xs shrink-0 mt-0.5" style={{ color: "#4a2810" }}>›</span>
-                            )}
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
+                      {tab === "armas" ? "Armas" : "Armaduras"}
+                    </button>
                   );
                 })}
+              </div>
 
-                {/* Armor cost card */}
-                <div
-                  className="rounded-xl p-4 flex flex-col justify-center gap-3"
-                  style={{
-                    background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
-                    border: "1px solid #3a1a08",
-                  }}
-                >
-                  <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: "#C8860A" }}>
-                    Custo
-                  </p>
-                  <div className="space-y-1.5">
-                    {[
-                      { img: "/items/cristal_vermelho.png", name: "Cristal Vermelho", qty: "x2" },
-                      { img: "/items/simbolo_dragao.png",   name: "Símbolo do Dragão", qty: "x2" },
-                    ].map((cost) => (
-                      <div key={cost.name} className="flex items-center justify-between gap-2">
-                        <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
-                          <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
-                          {cost.name}
-                        </span>
-                        <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
+              {/* ARMAS tab */}
+              {transmutTab === "armas" && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 px-5 pb-5">
+                  {transmutPairs.map((pair) => {
+                    const [w0] = pair.weapons;
+                    const borders = ["1px solid #2a1208", "1px solid #3a1a08", "1px solid #C8860A55"];
+                    const nameColors = ["#7a5030", "#a07040", "#D4A017"];
+                    return (
+                      <div
+                        key={w0.name}
+                        onClick={() => setSelectedPair(pair)}
+                        className="rounded-xl p-3 flex flex-col items-center gap-2 group hover:brightness-125 transition-all cursor-pointer"
+                        style={{
+                          background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
+                          border: "1px solid #3a1a08",
+                        }}
+                      >
+                        <div className="flex items-center justify-center gap-1 w-full">
+                          {pair.weapons.map((w, i) => (
+                            <React.Fragment key={w.name}>
+                              <div className="flex flex-col items-center gap-1 flex-1">
+                                <div
+                                  className="w-11 h-11 rounded-lg flex items-center justify-center overflow-hidden"
+                                  style={{ background: "#0e0604", border: borders[i] }}
+                                >
+                                  <img
+                                    src={w.img}
+                                    alt={w.name}
+                                    className="object-contain drop-shadow-lg"
+                                    style={{ width: `${w.scale * 100}%`, height: `${w.scale * 100}%`, maxWidth: "none" }}
+                                  />
+                                </div>
+                              </div>
+                              {i < pair.weapons.length - 1 && (
+                                <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </div>
+                        <div className="flex items-center justify-between w-full gap-0.5 text-center">
+                          {pair.weapons.map((w, i) => (
+                            <React.Fragment key={w.name}>
+                              <p className="text-xs flex-1 leading-tight" style={{ color: nameColors[i], fontWeight: i === 2 ? 600 : 400 }}>{w.name}</p>
+                              {i < pair.weapons.length - 1 && (
+                                <span className="text-xs shrink-0" style={{ color: "#4a2810" }}>›</span>
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
+
+                  {/* Weapon cost card */}
                   <div
-                    className="mt-1 pt-2 flex items-center justify-between"
-                    style={{ borderTop: "1px solid #3a1a08" }}
+                    className="rounded-xl p-4 flex flex-col gap-4"
+                    style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #3a1a08" }}
                   >
-                    <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
-                    <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
-                      200.000.000
-                      <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
-                    </span>
+                    <div>
+                      <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "#7a5030" }}>Tier 1 → 2</p>
+                      <div className="space-y-1.5">
+                        {[
+                          { img: "/items/tomo_divino.png",     name: "Tomo Divino",     qty: "x1" },
+                          { img: "/items/perola_vermelha.png", name: "Pérola Vermelha", qty: "x2" },
+                          { img: "/items/perola_azul.png",     name: "Pérola Azul",     qty: "x2" },
+                          { img: "/items/perola_branca.png",   name: "Pérola Branca",   qty: "x2" },
+                        ].map((c) => (
+                          <div key={c.name} className="flex items-center justify-between gap-2">
+                            <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                              <img src={c.img} alt={c.name} className="w-5 h-5 object-contain drop-shadow-md" />{c.name}
+                            </span>
+                            <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{c.qty}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
+                        <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
+                        <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                          50.000.000 <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-full h-px" style={{ background: "#2a1208" }} />
+                    <div>
+                      <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "#C8860A" }}>Tier 2 → 3</p>
+                      <div className="space-y-1.5">
+                        {[
+                          { img: "/items/cristal.png",        name: "Cristal",           qty: "x2" },
+                          { img: "/items/simbolo_dragao.png", name: "Símbolo do Dragão", qty: "x2" },
+                        ].map((c) => (
+                          <div key={c.name} className="flex items-center justify-between gap-2">
+                            <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                              <img src={c.img} alt={c.name} className="w-5 h-5 object-contain drop-shadow-md" />{c.name}
+                            </span>
+                            <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{c.qty}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
+                        <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
+                        <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                          200.000.000 <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* ARMADURAS tab */}
+              {transmutTab === "armaduras" && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pb-5">
+                  {armorPairs.map((armor) => {
+                    const tierBorders = ["1px solid #2a1208", "1px solid #C8860A55"];
+                    const tierColors  = ["#7a5030", "#D4A017"];
+                    return (
+                      <div
+                        key={armor.class}
+                        className="rounded-xl p-3 flex flex-col items-center gap-2"
+                        style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #3a1a08" }}
+                      >
+                        <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "#7a5030" }}>{armor.class}</p>
+                        <div className="flex items-center justify-center gap-2 w-full">
+                          {armor.tiers.map((tier, i) => (
+                            <React.Fragment key={tier.name}>
+                              <div className="flex flex-col items-center gap-1 flex-1">
+                                <div
+                                  className="w-12 h-14 rounded-lg flex items-center justify-center overflow-hidden"
+                                  style={{ background: "#0e0604", border: tierBorders[i] }}
+                                >
+                                  <img src={tier.img} alt={tier.name} className="object-contain drop-shadow-lg" style={{ width: "100%", height: "100%" }} />
+                                </div>
+                              </div>
+                              {i < armor.tiers.length - 1 && (
+                                <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </div>
+                        <div className="flex items-start justify-between w-full gap-1 text-center">
+                          {armor.tiers.map((tier, i) => (
+                            <React.Fragment key={tier.name}>
+                              <p className="text-xs flex-1 leading-tight" style={{ color: tierColors[i], fontWeight: i === 1 ? 600 : 400 }}>{tier.name}</p>
+                              {i < armor.tiers.length - 1 && (
+                                <span className="text-xs shrink-0 mt-0.5" style={{ color: "#4a2810" }}>›</span>
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* Armor cost card */}
+                  <div
+                    className="rounded-xl p-4 flex flex-col justify-center gap-3"
+                    style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #3a1a08" }}
+                  >
+                    <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: "#C8860A" }}>Custo</p>
+                    <div className="space-y-1.5">
+                      {[
+                        { img: "/items/cristal_vermelho.png", name: "Cristal Vermelho",  qty: "x2" },
+                        { img: "/items/simbolo_dragao.png",   name: "Símbolo do Dragão", qty: "x2" },
+                      ].map((c) => (
+                        <div key={c.name} className="flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                            <img src={c.img} alt={c.name} className="w-5 h-5 object-contain drop-shadow-md" />{c.name}
+                          </span>
+                          <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{c.qty}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-1 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
+                      <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
+                      <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                        200.000.000 <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
 
