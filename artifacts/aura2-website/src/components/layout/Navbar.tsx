@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <img
-            src="/metin2_logo_nobgss.png"
+            src="/metin2-logo.webp"
             alt="M2"
             className="animate-amber-pulse"
             style={{
