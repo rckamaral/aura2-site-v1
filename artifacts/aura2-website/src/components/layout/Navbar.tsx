@@ -56,6 +56,7 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-8">
           <Link
             href="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
           >
             Inicio
