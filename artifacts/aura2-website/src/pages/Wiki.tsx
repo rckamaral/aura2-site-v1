@@ -768,7 +768,11 @@ export default function Wiki() {
                                   <img
                                     src={w.img}
                                     alt={w.name}
-                                    className="w-full h-full object-contain drop-shadow-lg"
+                                    className="object-contain drop-shadow-lg"
+                                    style={{
+                                      width: `${Math.min(w.scale, 1) * 100}%`,
+                                      height: `${Math.min(w.scale, 1) * 100}%`,
+                                    }}
                                   />
                                 </div>
                               </div>
