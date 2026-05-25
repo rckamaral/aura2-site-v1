@@ -9,17 +9,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Play, Download } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Play, Download, LogOut, User } from "lucide-react";
 
 type ModalMode = "login" | "register" | "forgot";
+
+interface LoggedInUser {
+  username: string;
+}
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<ModalMode>("login");
+  const [user, setUser] = useState<LoggedInUser | null>(null);
 
   function openAs(m: ModalMode) {
     setMode(m);
     setOpen(true);
+  }
+
+  function handleLogout() {
+    setUser(null);
   }
 
   const titles: Record<ModalMode, string> = {
@@ -85,21 +95,39 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button
-            className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)]"
-            onClick={() => openAs("register")}
-            data-testid="button-jogar-agora"
-          >
-            <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
-          </Button>
-          <Button
-            variant="outline"
-            className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
-            onClick={() => openAs("login")}
-            data-testid="button-login"
-          >
-            Login
-          </Button>
+          {user ? (
+            <>
+              <div className="hidden sm:flex items-center gap-2 text-sm text-primary font-semibold">
+                <User className="w-4 h-4" />
+                {user.username}
+              </div>
+              <Button
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
+                onClick={handleLogout}
+              >
+                <LogOut className="w-4 h-4 mr-2" /> Sair
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)]"
+                onClick={() => openAs("register")}
+                data-testid="button-jogar-agora"
+              >
+                <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
+              </Button>
+              <Button
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
+                onClick={() => openAs("login")}
+                data-testid="button-login"
+              >
+                Login
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
@@ -116,12 +144,20 @@ export default function Navbar() {
               onClose={() => setOpen(false)}
               onSwitchToRegister={() => setMode("register")}
               onForgotPassword={() => setMode("forgot")}
+              onLoginSuccess={(username) => {
+                setUser({ username });
+                setOpen(false);
+              }}
             />
           )}
           {mode === "register" && (
             <RegisterForm
               onClose={() => setOpen(false)}
               onSwitchToLogin={() => setMode("login")}
+              onRegisterSuccess={(username) => {
+                setUser({ username });
+                setOpen(false);
+              }}
             />
           )}
           {mode === "forgot" && (
@@ -140,20 +176,53 @@ function LoginForm({
   onClose,
   onSwitchToRegister,
   onForgotPassword,
+  onLoginSuccess,
 }: {
   onClose: () => void;
   onSwitchToRegister: () => void;
   onForgotPassword: () => void;
+  onLoginSuccess: (username: string) => void;
 }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      } else {
+        toast({ title: "Bem-vindo!", description: `Olá, ${data.username}!` });
+        onLoginSuccess(data.username);
+      }
+    } catch {
+      toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="space-y-4 py-4">
+    <form onSubmit={handleSubmit} className="space-y-4 py-4">
       <div className="space-y-2">
         <Label htmlFor="login-username">Usuário</Label>
         <Input
           id="login-username"
           placeholder="Seu ID de login"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           data-testid="input-login-username"
+          required
         />
       </div>
       <div className="space-y-2">
@@ -162,16 +231,20 @@ function LoginForm({
           id="login-password"
           type="password"
           placeholder="Sua senha secreta"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           data-testid="input-login-password"
+          required
         />
       </div>
       <Button
+        type="submit"
+        disabled={loading}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
-        onClick={onClose}
         data-testid="button-entrar"
       >
-        Entrar
+        {loading ? "Entrando..." : "Entrar"}
       </Button>
       <div className="text-right">
         <button
@@ -195,7 +268,7 @@ function LoginForm({
           </button>
         </p>
       </div>
-    </div>
+    </form>
   );
 }
 
@@ -267,19 +340,62 @@ function ForgotPasswordForm({
 function RegisterForm({
   onClose,
   onSwitchToLogin,
+  onRegisterSuccess,
 }: {
   onClose: () => void;
   onSwitchToLogin: () => void;
+  onRegisterSuccess: (username: string) => void;
 }) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (password !== confirm) {
+      toast({ title: "Erro", description: "As senhas não coincidem.", variant: "destructive" });
+      return;
+    }
+    if (password.length < 6) {
+      toast({ title: "Erro", description: "A senha deve ter pelo menos 6 caracteres.", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      } else {
+        toast({ title: "Conta criada!", description: `Bem-vindo ao Aura2, ${data.username}!` });
+        onRegisterSuccess(data.username);
+      }
+    } catch {
+      toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="space-y-4 py-4">
+    <form onSubmit={handleSubmit} className="space-y-4 py-4">
       <div className="space-y-2">
         <Label htmlFor="reg-username">Usuário</Label>
         <Input
           id="reg-username"
           placeholder="Escolha um nome de usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           data-testid="input-reg-username"
+          required
         />
       </div>
       <div className="space-y-2">
@@ -288,8 +404,11 @@ function RegisterForm({
           id="reg-email"
           type="email"
           placeholder="seu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           data-testid="input-reg-email"
+          required
         />
       </div>
       <div className="space-y-2">
@@ -298,8 +417,11 @@ function RegisterForm({
           id="reg-password"
           type="password"
           placeholder="Crie uma senha forte"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           data-testid="input-reg-password"
+          required
         />
       </div>
       <div className="space-y-2">
@@ -308,16 +430,20 @@ function RegisterForm({
           id="reg-confirm"
           type="password"
           placeholder="Repita a senha"
+          value={confirm}
+          onChange={(e) => setConfirm(e.target.value)}
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           data-testid="input-reg-confirm"
+          required
         />
       </div>
       <Button
+        type="submit"
+        disabled={loading}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
-        onClick={onClose}
         data-testid="button-criar-conta"
       >
-        Criar Conta
+        {loading ? "Criando conta..." : "Criar Conta"}
       </Button>
       <Link
         href="/download"
@@ -340,6 +466,6 @@ function RegisterForm({
           </button>
         </p>
       </div>
-    </div>
+    </form>
   );
 }
