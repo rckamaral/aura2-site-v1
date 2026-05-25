@@ -221,29 +221,29 @@ const armorPvmPairs = [
   {
     class: "Guerreiro",
     tiers: [
-      { name: "Placa Deus Dragão", img: "/items/61_de_guerreiro.png" },
-      { name: "Aquática",          img: "/items/aquatica.png"       },
+      { name: "Placa Deus Dragão",    img: "/items/61_de_guerreiro.png" },
+      { name: "Placa Dragão de Água", img: "/items/aquatica.png"       },
     ],
   },
   {
     class: "Ninja",
     tiers: [
-      { name: "61 de Ninja",  img: "/items/61_de_ninja.png"  },
-      { name: "Dragão Azul",  img: "/items/dragao_azul.png"  },
+      { name: "61 de Ninja",        img: "/items/61_de_ninja.png" },
+      { name: "Veste Dragão de Água", img: "/items/dragao_azul.png" },
     ],
   },
   {
     class: "Shura",
     tiers: [
-      { name: "Malha Espiritual",   img: "/items/61_de_shura.png"         },
-      { name: "Armadura Aura Negra", img: "/items/armadura_aura_negra.png" },
+      { name: "Malha Espiritual",    img: "/items/61_de_shura.png"         },
+      { name: "Malha Dragão de Água", img: "/items/armadura_aura_negra.png" },
     ],
   },
   {
     class: "Shaman",
     tiers: [
-      { name: "Túnica Baronesa", img: "/items/61_de_shaman.png" },
-      { name: "Robe do Dragão",  img: "/items/robe_dragao.png" },
+      { name: "Túnica Baronesa",    img: "/items/61_de_shaman.png" },
+      { name: "Túnica Dragão de Água", img: "/items/robe_dragao.png" },
     ],
   },
 ];
