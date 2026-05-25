@@ -891,7 +891,7 @@ export default function Wiki() {
                               <React.Fragment key={tier.name}>
                                 <div className="flex flex-col items-center gap-1.5 flex-1">
                                   <div
-                                    className="w-full aspect-[3/4] rounded-lg flex items-center justify-center transition-all"
+                                    className="w-full h-28 rounded-lg flex items-center justify-center transition-all"
                                     style={{
                                       background: isLast ? "radial-gradient(ellipse at center, #2a1408 0%, #0e0604 100%)" : "#0e0604",
                                       border: isLast ? "1px solid #C8860A66" : "1px solid #2a1208",
