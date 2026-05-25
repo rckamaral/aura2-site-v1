@@ -742,7 +742,7 @@ export default function Wiki() {
 
               {/* ARMAS tab */}
               {transmutTab === "armas" && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 px-5 pb-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 px-5 pb-5 items-start">
                   {transmutPairs.map((pair) => {
                     const [w0] = pair.weapons;
                     const borders = ["1px solid #2a1208", "1px solid #3a1a08", "1px solid #C8860A55"];
