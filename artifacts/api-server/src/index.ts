@@ -17,7 +17,10 @@ if (Number.isNaN(port) || port <= 0) {
 }
 
 initMySQL()
-  .then(() => {
+  .catch((err) => {
+    logger.warn({ err }, "MySQL unavailable — server will start without database");
+  })
+  .finally(() => {
     app.listen(port, (err) => {
       if (err) {
         logger.error({ err }, "Error listening on port");
@@ -25,8 +28,4 @@ initMySQL()
       }
       logger.info({ port }, "Server listening");
     });
-  })
-  .catch((err) => {
-    logger.error({ err }, "Failed to connect to MySQL");
-    process.exit(1);
   });
