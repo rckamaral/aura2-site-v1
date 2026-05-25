@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,18 +10,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Play, Download, LogOut, User } from "lucide-react";
 
 type ModalMode = "login" | "register" | "forgot";
 
-interface LoggedInUser {
-  username: string;
-}
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<ModalMode>("login");
-  const [user, setUser] = useState<LoggedInUser | null>(null);
+  const { user, login, logout } = useAuth();
+  const [, navigate] = useLocation();
 
   function openAs(m: ModalMode) {
     setMode(m);
@@ -29,7 +27,7 @@ export default function Navbar() {
   }
 
   function handleLogout() {
-    setUser(null);
+    logout();
   }
 
   const titles: Record<ModalMode, string> = {
@@ -97,10 +95,13 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {user ? (
             <>
-              <div className="hidden sm:flex items-center gap-2 text-sm text-primary font-semibold">
+              <Link
+                href="/conta"
+                className="hidden sm:flex items-center gap-2 text-sm text-primary font-semibold hover:text-primary/80 transition-colors"
+              >
                 <User className="w-4 h-4" />
                 {user.username}
-              </div>
+              </Link>
               <Button
                 variant="outline"
                 className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
@@ -145,8 +146,9 @@ export default function Navbar() {
               onSwitchToRegister={() => setMode("register")}
               onForgotPassword={() => setMode("forgot")}
               onLoginSuccess={(username) => {
-                setUser({ username });
+                login(username);
                 setOpen(false);
+                navigate("/conta");
               }}
             />
           )}
@@ -155,8 +157,9 @@ export default function Navbar() {
               onClose={() => setOpen(false)}
               onSwitchToLogin={() => setMode("login")}
               onRegisterSuccess={(username) => {
-                setUser({ username });
+                login(username);
                 setOpen(false);
+                navigate("/conta");
               }}
             />
           )}
