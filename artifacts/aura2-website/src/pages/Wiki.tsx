@@ -1036,8 +1036,8 @@ export default function Wiki() {
                       <span className="text-xs uppercase tracking-widest font-bold shrink-0" style={{ color: "#C8860A" }}>Custo</span>
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 flex-1">
                         {[
-                          { img: "/items/coracao_bera.png",   name: "Coração do Bera ×2" },
-                          { img: "/items/chifre_gigante.png", name: "Chifre Gigante ×2"  },
+                          { img: "/items/coracao_bera.png",   name: "Coração do Gahnasel ×2" },
+                          { img: "/items/chifre_gigante.png", name: "Chifre do Minotauro ×2"  },
                           { img: "/items/perola_vermelha.png", name: "Pérola Vermelha ×5" },
                           { img: "/items/perola_azul.png",    name: "Pérola Azul ×5"     },
                           { img: "/items/perola_branca.png",  name: "Pérola Branca ×5"   },
