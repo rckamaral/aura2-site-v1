@@ -33,18 +33,18 @@ const metinGroups: Record<MetinTab, { label: string; color: string; drops: strin
     { label: "Metin Lv 40", color: "#C06615", drops: ["Gold — 4kk", "Moeda da Conquista x1", "Aprimoramento Leve x1", "Novo Aprim. Leve x1", "Itens entre +0 e +3"] },
   ],
   "Lv 45–70": [
-    { label: "Metin Lv 45", color: "#CD853F", drops: ["Gold — 4.5kk", "Moeda da Conquista 2x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 50", color: "#C87830", drops: ["Gold — 5kk", "Moeda da Conquista 2x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 55", color: "#C36B25", drops: ["Gold — 5.5kk", "Moeda da Conquista 2x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 60", color: "#BE5E1A", drops: ["Gold — 6kk", "Moeda da Conquista 2x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 65", color: "#B95115", drops: ["Gold — 6.5kk", "Moeda da Conquista 2x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 70", color: "#B44410", drops: ["Gold — 7kk", "Moeda da Conquista 2x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 45", color: "#CD853F", drops: ["Gold — 4.5kk", "Moeda da Conquista x2", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 50", color: "#C87830", drops: ["Gold — 5kk", "Moeda da Conquista x2", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 55", color: "#C36B25", drops: ["Gold — 5.5kk", "Moeda da Conquista x2", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 60", color: "#BE5E1A", drops: ["Gold — 6kk", "Moeda da Conquista x2", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 65", color: "#B95115", drops: ["Gold — 6.5kk", "Moeda da Conquista x2", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 70", color: "#B44410", drops: ["Gold — 7kk", "Moeda da Conquista x2", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Itens entre +0 e +3"] },
   ],
   "Lv 75–90": [
-    { label: "Metin Lv 75", color: "#9B3A3A", drops: ["Gold — 7.6kk", "Moeda da Conquista 3x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Cofre de Treino x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 80", color: "#8B3A3A", drops: ["Gold — 8kk", "Moeda da Conquista 3x", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Cofre de Treino x1", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 85", color: "#7B2A2A", drops: ["Gold — 8.5kk", "Moeda da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Cofre de Treino x1", "Armaduras do Nível 61", "Itens entre +0 e +3"] },
-    { label: "Metin Lv 90", color: "#6A0DAD", drops: ["Gold — 10kk", "Moeda da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Esfera da Benção x1", "Caixa de Treino x1", "Armaduras do Nível 66", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 75", color: "#9B3A3A", drops: ["Gold — 7.6kk", "Moeda da Conquista x3", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Cofre de Treino x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 80", color: "#8B3A3A", drops: ["Gold — 8kk", "Moeda da Conquista x3", "Perg. do Novo Aprimoramento x1", "Perg. do Aprimoramento x1", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Cofre de Treino x1", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 85", color: "#7B2A2A", drops: ["Gold — 8.5kk", "Moeda da Conquista x3", "Perg. do Novo Aprimoramento x3~5", "Perg. do Aprimoramento x3~5", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Cofre de Treino x1", "Armaduras do Nível 61", "Itens entre +0 e +3"] },
+    { label: "Metin Lv 90", color: "#6A0DAD", drops: ["Gold — 10kk", "Moeda da Conquista x3", "Perg. do Novo Aprimoramento x3~5", "Perg. do Aprimoramento x3~5", "Pergaminho da Paz x1", "Anel da Experiência x1", "Luva do Ladrão x1", "Esfera da Benção x1", "Caixa de Treino x1", "Armaduras do Nível 66", "Itens entre +0 e +3"] },
   ],
 };
 
@@ -57,25 +57,25 @@ const joiasList = [
 ];
 
 const miniBosses = [
-  { name: "Chefe Orc", icon: "👹", color: "#8B4513", drops: ["Baú do Tier II", "Pedra da Fundação x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
-  { name: "Tartaruga de Pedra", icon: "🐢", color: "#4A7C59", drops: ["Baú do Tier II", "Compesado x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
-  { name: "Líder Fanático Zen", icon: "🧙", color: "#6A5ACD", drops: ["Baú do Tier II", "Compesado x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
-  { name: "Comandante Tigre", icon: "🐯", color: "#D4700A", drops: ["Baú do Tier II", "Pedra da Fundação x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
-  { name: "Nove Caudas", icon: "🦊", color: "#C0392B", drops: ["Baú do Tier II", "Pedra da Fundação x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
-  { name: "Rei Flamejante", icon: "🔥", color: "#E74C3C", drops: ["Baú do Tier II", "Compesado x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
-  { name: "Aranha Rainha", icon: "🕷️", color: "#2C3E50", drops: ["Baú do Tier II", "Tronco x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista 3x"] },
+  { name: "Chefe Orc", icon: "👹", color: "#8B4513", drops: ["Baú do Tier II", "Pedra da Fundação x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
+  { name: "Tartaruga de Pedra", icon: "🐢", color: "#4A7C59", drops: ["Baú do Tier II", "Compesado x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
+  { name: "Líder Fanático Zen", icon: "🧙", color: "#6A5ACD", drops: ["Baú do Tier II", "Compesado x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
+  { name: "Comandante Tigre", icon: "🐯", color: "#D4700A", drops: ["Baú do Tier II", "Pedra da Fundação x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
+  { name: "Nove Caudas", icon: "🦊", color: "#C0392B", drops: ["Baú do Tier II", "Pedra da Fundação x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
+  { name: "Rei Flamejante", icon: "🔥", color: "#E74C3C", drops: ["Baú do Tier II", "Compesado x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
+  { name: "Aranha Rainha", icon: "🕷️", color: "#2C3E50", drops: ["Baú do Tier II", "Tronco x1", "Esfera da Benção x1", "Soro da Persuasão x1", "Moedas da Conquista x3"] },
 ];
 
 const bosses6h = [
-  { name: "Dragão D'Agua", icon: "🐲", color: "#1E90FF", drops: ["Tesouro do Dragão", "Máscara Da Fortuna x1", "Moedas da Conquista 15x", "Esfera Da Benção 2x"] },
-  { name: "Dragão De Fogo", icon: "🔥", color: "#FF4500", drops: ["Tesouro do Dragão De Fogo", "Máscara Da Fortuna x1", "Moedas da Conquista 15x", "Esfera Da Benção 2x"] },
+  { name: "Dragão D'Agua", icon: "🐲", color: "#1E90FF", drops: ["Tesouro do Dragão", "Máscara Da Fortuna x1", "Moedas da Conquista x15", "Esfera Da Benção x2"] },
+  { name: "Dragão De Fogo", icon: "🔥", color: "#FF4500", drops: ["Tesouro do Dragão De Fogo", "Máscara Da Fortuna x1", "Moedas da Conquista x15", "Esfera Da Benção x2"] },
 ];
 const bosses12h = [
-  { name: "Minotauro", icon: "🪓", color: "#8B0000", drops: ["Tesouro Do Minotauro", "Máscara Da Fortuna 2x", "Moedas da Conquista 30x", "Esfera Da Benção 3x"] },
+  { name: "Minotauro", icon: "🪓", color: "#8B0000", drops: ["Tesouro Do Minotauro", "Máscara Da Fortuna x2", "Moedas da Conquista x30", "Esfera Da Benção x3"] },
 ];
 const wordBosses = [
-  { name: "Grande Ogro (Paz)", icon: "🏰", color: "#2E8B57", mode: "Paz", drops: ["Baú Do Word Boss", "Máscara Da Fortuna 5x", "Moedas da Conquista 100x", "Metal Mágico+ 3x"] },
-  { name: "Jothum (PvP)", icon: "⚔️", color: "#8B0000", mode: "PvP", drops: ["Baú Do Word Boss", "Máscara Da Fortuna 5x", "Moedas da Conquista 100x", "Metal Mágico+ 3x"] },
+  { name: "Grande Ogro (Paz)", icon: "🏰", color: "#2E8B57", mode: "Paz", drops: ["Baú Do Word Boss", "Máscara Da Fortuna x5", "Moedas da Conquista x100", "Metal Mágico+ x3"] },
+  { name: "Jothum (PvP)", icon: "⚔️", color: "#8B0000", mode: "PvP", drops: ["Baú Do Word Boss", "Máscara Da Fortuna x5", "Moedas da Conquista x100", "Metal Mágico+ x3"] },
 ];
 
 const baus = [
@@ -100,11 +100,11 @@ const baus = [
       { tipo: "Consumível", item: "Metal Mágico+", qty: "x1" },
       { tipo: "Consumível", item: "Brinco do Tigre (7d)", qty: "x1" },
       { tipo: "Consumível", item: "Brinco Do Dragão (7d)", qty: "x1" },
-      { tipo: "Consumível", item: "Livro Do Sábio", qty: "5x" },
+      { tipo: "Consumível", item: "Livro Do Sábio", qty: "x5" },
       { tipo: "Consumível", item: "Pedra Arco-Íris", qty: "x1" },
       { tipo: "Item", item: "Montaria PvM (7d)", qty: "x1" },
       { tipo: "Item", item: "Cabelo PvM (7d)", qty: "x1" },
-      { tipo: "Consumível", item: "Máscara da Fortuna", qty: "5x" },
+      { tipo: "Consumível", item: "Máscara da Fortuna", qty: "x5" },
       { tipo: "Consumível", item: "Pot Helong e Yoora (S)", qty: "x1" },
     ],
   },
@@ -116,11 +116,11 @@ const baus = [
       { tipo: "Consumível", item: "Metal Mágico+", qty: "x1" },
       { tipo: "Consumível", item: "Brinco do Tigre (7d)", qty: "x1" },
       { tipo: "Consumível", item: "Brinco Do Dragão (7d)", qty: "x1" },
-      { tipo: "Consumível", item: "Livro Do Sábio", qty: "5x" },
+      { tipo: "Consumível", item: "Livro Do Sábio", qty: "x5" },
       { tipo: "Consumível", item: "Pedra Arco-Íris", qty: "x1" },
       { tipo: "Item", item: "Montaria PvM (7d)", qty: "x1" },
       { tipo: "Item", item: "Cabelo PvM (7d)", qty: "x1" },
-      { tipo: "Consumível", item: "Máscara da Fortuna", qty: "5x" },
+      { tipo: "Consumível", item: "Máscara da Fortuna", qty: "x5" },
       { tipo: "Consumível", item: "Pot Helong e Yoora (S)", qty: "x1" },
     ],
   },
@@ -131,22 +131,22 @@ const dungeons = [
     name: "Torre Sakita", icon: "🗼", color: "#8B0000",
     boss: {
       name: "Ceifadora da Morte", icon: "💀",
-      drops: ["Tesouro Do Ceifador x1", "Esfera Da Benção 2x", "Pergaminho Da Paz x1", "Soro Da Persuação x1", "Livro Do Sábio x1", "Moedas Da Conquista 4x", "Insígnia Demoníaca x1"],
+      drops: ["Tesouro Do Ceifador x1", "Esfera Da Benção x2", "Pergaminho Da Paz x1", "Soro Da Persuação x1", "Livro Do Sábio x1", "Moedas Da Conquista x4", "Insígnia Demoníaca x1"],
     },
     tesouro: {
       name: "Tesouro Do Ceifador", icon: "🎁",
-      drops: ["Máscara Da Fortuna 2x", "Armas Do Nível 75", "Metal Mágico+ x1", "Pérola Branca 2x", "Pérola Azul 2x", "Pérola Vermelha 2x", "Fragmento De Cristal x1"],
+      drops: ["Máscara Da Fortuna x2", "Armas Do Nível 75", "Metal Mágico+ x1", "Pérola Branca x2", "Pérola Azul x2", "Pérola Vermelha x2", "Fragmento De Cristal x1"],
     },
   },
   {
     name: "Caverna Demoníaca", icon: "💀", color: "#4B0082",
     boss: {
       name: "Lord Gahnasel", icon: "😈",
-      drops: ["Tesouro do Lord Gahnasel x1", "Moedas Da Conquista 15x", "Esfera Da Benção 2x", "Soro Da Persuação 2x", "Livro Do Sábio 2x", "Máscara Da Fortuna x1", "Pergaminho Da Paz 5x"],
+      drops: ["Tesouro do Lord Gahnasel x1", "Moedas Da Conquista x15", "Esfera Da Benção x2", "Soro Da Persuação x2", "Livro Do Sábio x2", "Máscara Da Fortuna x1", "Pergaminho Da Paz x5"],
     },
     tesouro: {
       name: "Tesouro do Lord Gahnasel", icon: "🎁",
-      drops: ["Máscara Da Fortuna 2x", "Benção De Helong (G) x1", "Benção De Yoora (G) x1", "Chifres De Ghanasel (F)(7d) x1", "Chifres De Ghanasel (M)(7d) x1", "Traje Ghanasel (F)(7d) x1", "Traje Ghanasel (M)(7d) x1", "Pedra Arco-Íris x1", "Pet Lord Ghanasel (7d) x1", "Coração Do Ghanasel x1"],
+      drops: ["Máscara Da Fortuna x2", "Benção De Helong (G) x1", "Benção De Yoora (G) x1", "Chifres De Ghanasel (F)(7d) x1", "Chifres De Ghanasel (M)(7d) x1", "Traje Ghanasel (F)(7d) x1", "Traje Ghanasel (M)(7d) x1", "Pedra Arco-Íris x1", "Pet Lord Ghanasel (7d) x1", "Coração Do Ghanasel x1"],
     },
   },
 ];
