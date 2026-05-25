@@ -860,71 +860,57 @@ export default function Wiki() {
               {/* ARMADURAS tab */}
               {transmutTab === "armaduras" && (
                 <>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-5 pb-3">
-                    {armorPairs.map((armor) => (
-                      <div
-                        key={armor.class}
-                        onClick={() => setSelectedArmor(armor)}
-                        className="rounded-xl cursor-pointer group transition-all duration-200 hover:brightness-125 flex flex-col overflow-hidden"
-                        style={{
-                          background: "linear-gradient(160deg, #200f05 0%, #130804 100%)",
-                          border: "1px solid #3a1a08",
-                          boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
-                        }}
-                      >
-                        {/* Class header bar */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pb-3 items-start">
+                    {armorPairs.map((armor) => {
+                      const tierBorders = ["1px solid #2a1208", "1px solid #C8860A55"];
+                      const tierColors  = ["#7a5030", "#D4A017"];
+                      return (
                         <div
-                          className="flex items-center justify-between px-3 py-2"
-                          style={{ borderBottom: "1px solid #2a1208", background: "#1a0a04" }}
+                          key={armor.class}
+                          onClick={() => setSelectedArmor(armor)}
+                          className="rounded-xl p-3 flex flex-col items-center gap-2 group hover:brightness-125 transition-all cursor-pointer"
+                          style={{
+                            background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
+                            border: "1px solid #3a1a08",
+                          }}
                         >
-                          <span className="text-xs uppercase tracking-widest font-black" style={{ color: "#D4A017" }}>
-                            {armor.class}
-                          </span>
-                          <span className="text-xs" style={{ color: "#4a2810" }}>◆</span>
-                        </div>
-
-                        {/* Armors side by side */}
-                        <div className="flex items-end justify-center gap-2 px-3 pt-4 pb-2">
-                          {armor.tiers.map((tier, i) => {
-                            const isLast = i === armor.tiers.length - 1;
-                            return (
+                          {/* Images row */}
+                          <div className="flex items-center justify-center gap-1 w-full">
+                            {armor.tiers.map((tier, i) => (
                               <React.Fragment key={tier.name}>
-                                <div className="flex flex-col items-center gap-1.5 flex-1">
+                                <div className="flex flex-col items-center gap-1 flex-1">
                                   <div
-                                    className="w-full h-28 rounded-lg flex items-center justify-center transition-all"
-                                    style={{
-                                      background: isLast ? "radial-gradient(ellipse at center, #2a1408 0%, #0e0604 100%)" : "#0e0604",
-                                      border: isLast ? "1px solid #C8860A66" : "1px solid #2a1208",
-                                      boxShadow: isLast ? "0 0 12px #C8860A25" : "none",
-                                    }}
+                                    className="w-12 h-16 rounded-lg flex items-center justify-center"
+                                    style={{ background: "#0e0604", border: tierBorders[i] }}
                                   >
                                     <img
                                       src={tier.img}
                                       alt={tier.name}
-                                      className="w-full h-full object-contain drop-shadow-lg p-1"
+                                      className="w-full h-full object-contain drop-shadow-lg"
                                     />
                                   </div>
-                                  <p
-                                    className="text-xs text-center leading-tight"
-                                    style={{ color: isLast ? "#D4A017" : "#7a5030", fontWeight: isLast ? 600 : 400 }}
-                                  >
-                                    {tier.name}
-                                  </p>
                                 </div>
-                                {!isLast && (
-                                  <span className="font-black text-base mb-8 shrink-0" style={{ color: "#C8860A", textShadow: "0 0 8px #C8860A80" }}>»</span>
+                                {i < armor.tiers.length - 1 && (
+                                  <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
                                 )}
                               </React.Fragment>
-                            );
-                          })}
-                        </div>
+                            ))}
+                          </div>
 
-                        {/* Click hint */}
-                        <p className="text-center text-xs pb-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#7a5030" }}>
-                          Ver detalhes
-                        </p>
-                      </div>
-                    ))}
+                          {/* Names row */}
+                          <div className="flex items-center justify-between w-full gap-0.5 text-center">
+                            {armor.tiers.map((tier, i) => (
+                              <React.Fragment key={tier.name}>
+                                <p className="text-xs flex-1 leading-tight" style={{ color: tierColors[i], fontWeight: i === 1 ? 600 : 400 }}>{tier.name}</p>
+                                {i < armor.tiers.length - 1 && (
+                                  <span className="text-xs shrink-0" style={{ color: "#4a2810" }}>›</span>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {/* Armor cost bar */}
