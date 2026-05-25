@@ -84,28 +84,29 @@ router.post("/auth/forgot-password", async (req, res) => {
     return;
   }
 
-  const [rows] = await pool.execute(
-    "SELECT username, email FROM accounts WHERE email = ? LIMIT 1",
-    [email]
-  ) as [any[], any];
-
-  if (rows.length === 0) {
-    res.json({ message: "Se o e-mail existir, receberás as instruções." });
-    return;
-  }
-
-  const { username } = rows[0];
-  const token = createResetToken(email, username);
-  const domains = process.env.REPLIT_DOMAINS?.split(",")[0] || "aura2.com.br";
-  const resetUrl = `https://${domains}/redefinir-senha?token=${token}`;
-
   try {
-    await sendPasswordResetEmail(email, resetUrl);
+    const [rows] = await pool.execute(
+      "SELECT username, email FROM accounts WHERE email = ? LIMIT 1",
+      [email]
+    ) as [any[], any];
+
+    if (rows.length > 0) {
+      const { username } = rows[0];
+      const token = createResetToken(email, username);
+      const domains = process.env.REPLIT_DOMAINS?.split(",")[0] || "aura2.com.br";
+      const resetUrl = `https://${domains}/redefinir-senha?token=${token}`;
+
+      try {
+        await sendPasswordResetEmail(email, resetUrl);
+        req.log.info({ username }, "Password reset requested");
+      } catch (err) {
+        req.log.error({ err }, "Failed to send reset email");
+      }
+    }
   } catch (err) {
-    req.log.error({ err }, "Failed to send reset email");
+    req.log.warn({ err }, "DB unavailable during forgot-password");
   }
 
-  req.log.info({ username }, "Password reset requested");
   res.json({ message: "Se o e-mail existir, receberás as instruções." });
 });
 
