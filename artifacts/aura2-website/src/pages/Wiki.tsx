@@ -281,10 +281,13 @@ export default function Wiki() {
   const [joiasOpen, setJoiasOpen] = useState(false);
   const [metinTab, setMetinTab] = useState<MetinTab>("Lv 5–40");
   const [selectedPair, setSelectedPair] = useState<typeof transmutPairs[0] | null>(null);
+  const [selectedArmor, setSelectedArmor] = useState<typeof armorPairs[0] | null>(null);
   const [transmutTab, setTransmutTab] = useState<"armas" | "armaduras">("armas");
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSelectedPair(null); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setSelectedPair(null); setSelectedArmor(null); }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
@@ -856,75 +859,97 @@ export default function Wiki() {
 
               {/* ARMADURAS tab */}
               {transmutTab === "armaduras" && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-5 pb-5">
-                  {armorPairs.map((armor) => {
-                    const tierBorders = ["1px solid #2a1208", "1px solid #C8860A55"];
-                    const tierColors  = ["#7a5030", "#D4A017"];
-                    return (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-5 pb-3">
+                    {armorPairs.map((armor) => (
                       <div
                         key={armor.class}
-                        className="rounded-xl p-3 flex flex-col items-center gap-2"
-                        style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #3a1a08" }}
+                        onClick={() => setSelectedArmor(armor)}
+                        className="rounded-xl cursor-pointer group transition-all duration-200 hover:brightness-125 flex flex-col overflow-hidden"
+                        style={{
+                          background: "linear-gradient(160deg, #200f05 0%, #130804 100%)",
+                          border: "1px solid #3a1a08",
+                          boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+                        }}
                       >
-                        <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "#7a5030" }}>{armor.class}</p>
-                        <div className="flex items-center justify-center gap-2 w-full">
-                          {armor.tiers.map((tier, i) => (
-                            <React.Fragment key={tier.name}>
-                              <div className="flex flex-col items-center gap-1 flex-1">
-                                <div
-                                  className="w-12 h-14 rounded-lg flex items-center justify-center overflow-hidden"
-                                  style={{ background: "#0e0604", border: tierBorders[i] }}
-                                >
-                                  <img src={tier.img} alt={tier.name} className="object-contain drop-shadow-lg" style={{ width: "100%", height: "100%" }} />
-                                </div>
-                              </div>
-                              {i < armor.tiers.length - 1 && (
-                                <span className="font-black leading-none shrink-0" style={{ color: "#C8860A", fontSize: "1.1rem", textShadow: "0 0 8px #C8860A80" }}>»</span>
-                              )}
-                            </React.Fragment>
-                          ))}
+                        {/* Class header bar */}
+                        <div
+                          className="flex items-center justify-between px-3 py-2"
+                          style={{ borderBottom: "1px solid #2a1208", background: "#1a0a04" }}
+                        >
+                          <span className="text-xs uppercase tracking-widest font-black" style={{ color: "#D4A017" }}>
+                            {armor.class}
+                          </span>
+                          <span className="text-xs" style={{ color: "#4a2810" }}>◆</span>
                         </div>
-                        <div className="flex items-start justify-between w-full gap-1 text-center">
-                          {armor.tiers.map((tier, i) => (
-                            <React.Fragment key={tier.name}>
-                              <p className="text-xs flex-1 leading-tight" style={{ color: tierColors[i], fontWeight: i === 1 ? 600 : 400 }}>{tier.name}</p>
-                              {i < armor.tiers.length - 1 && (
-                                <span className="text-xs shrink-0 mt-0.5" style={{ color: "#4a2810" }}>›</span>
-                              )}
-                            </React.Fragment>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
 
-                  {/* Armor cost card */}
-                  <div
-                    className="rounded-xl p-4 flex flex-col justify-center gap-3"
-                    style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #3a1a08" }}
-                  >
-                    <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: "#C8860A" }}>Custo</p>
-                    <div className="space-y-1.5">
-                      {[
-                        { img: "/items/cristal_vermelho.png", name: "Cristal Vermelho",  qty: "x2" },
-                        { img: "/items/simbolo_dragao.png",   name: "Símbolo do Dragão", qty: "x2" },
-                      ].map((c) => (
-                        <div key={c.name} className="flex items-center justify-between gap-2">
-                          <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                        {/* Armors side by side */}
+                        <div className="flex items-end justify-center gap-2 px-3 pt-4 pb-2">
+                          {armor.tiers.map((tier, i) => {
+                            const isLast = i === armor.tiers.length - 1;
+                            return (
+                              <React.Fragment key={tier.name}>
+                                <div className="flex flex-col items-center gap-1.5 flex-1">
+                                  <div
+                                    className="w-full aspect-[3/4] rounded-lg flex items-center justify-center transition-all"
+                                    style={{
+                                      background: isLast ? "radial-gradient(ellipse at center, #2a1408 0%, #0e0604 100%)" : "#0e0604",
+                                      border: isLast ? "1px solid #C8860A66" : "1px solid #2a1208",
+                                      boxShadow: isLast ? "0 0 12px #C8860A25" : "none",
+                                    }}
+                                  >
+                                    <img
+                                      src={tier.img}
+                                      alt={tier.name}
+                                      className="w-full h-full object-contain drop-shadow-lg p-1"
+                                    />
+                                  </div>
+                                  <p
+                                    className="text-xs text-center leading-tight"
+                                    style={{ color: isLast ? "#D4A017" : "#7a5030", fontWeight: isLast ? 600 : 400 }}
+                                  >
+                                    {tier.name}
+                                  </p>
+                                </div>
+                                {!isLast && (
+                                  <span className="font-black text-base mb-8 shrink-0" style={{ color: "#C8860A", textShadow: "0 0 8px #C8860A80" }}>»</span>
+                                )}
+                              </React.Fragment>
+                            );
+                          })}
+                        </div>
+
+                        {/* Click hint */}
+                        <p className="text-center text-xs pb-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#7a5030" }}>
+                          Ver detalhes
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Armor cost bar */}
+                  <div className="px-5 pb-5">
+                    <div
+                      className="rounded-xl px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-2"
+                      style={{ background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)", border: "1px solid #C8860A55" }}
+                    >
+                      <span className="text-xs uppercase tracking-widest font-bold shrink-0" style={{ color: "#C8860A" }}>Custo</span>
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 flex-1">
+                        {[
+                          { img: "/items/cristal_vermelho.png", name: "Cristal Vermelho ×2" },
+                          { img: "/items/simbolo_dragao.png",   name: "Símbolo do Dragão ×2" },
+                        ].map((c) => (
+                          <span key={c.name} className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
                             <img src={c.img} alt={c.name} className="w-5 h-5 object-contain drop-shadow-md" />{c.name}
                           </span>
-                          <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{c.qty}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-1 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
-                      <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
-                      <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                        ))}
+                      </div>
+                      <span className="flex items-center gap-1.5 text-sm font-black shrink-0" style={{ color: "#D4A017" }}>
                         200.000.000 <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
                       </span>
                     </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
           </section>
@@ -1122,6 +1147,111 @@ export default function Wiki() {
                     <span className="text-xs font-black" style={{ color: "#D4A017" }}>200.000.000</span>
                     <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain" />
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Armor detail modal */}
+      {selectedArmor && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.80)" }}
+          onClick={() => setSelectedArmor(null)}
+        >
+          <div
+            className="relative rounded-2xl p-8 max-w-md w-full flex flex-col items-center gap-6"
+            style={{
+              background: "linear-gradient(135deg, #1e0e07 0%, #100603 100%)",
+              border: "1px solid #C8860A55",
+              boxShadow: "0 0 40px #C8860A30",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button
+              onClick={() => setSelectedArmor(null)}
+              className="absolute top-3 right-4 text-xl leading-none transition-colors"
+              style={{ color: "#7a5030" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#D4A017")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#7a5030")}
+            >
+              ✕
+            </button>
+
+            <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "#C8860A" }}>
+              Transmutação — {selectedArmor.class}
+            </p>
+
+            {/* Armor images row — large */}
+            <div className="flex items-end justify-center gap-6 w-full">
+              {selectedArmor.tiers.map((tier, i) => {
+                const isLast = i === selectedArmor.tiers.length - 1;
+                return (
+                  <React.Fragment key={tier.name}>
+                    <div className="flex flex-col items-center gap-3">
+                      <div
+                        className="w-28 h-36 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: isLast ? "radial-gradient(ellipse at center, #2a1408 0%, #0a0402 100%)" : "#0a0402",
+                          border: isLast ? "2px solid #C8860A" : "1px solid #3a1a08",
+                          boxShadow: isLast ? "0 0 20px #C8860A40" : "none",
+                        }}
+                      >
+                        <img
+                          src={tier.img}
+                          alt={tier.name}
+                          className="w-full h-full object-contain drop-shadow-xl p-2"
+                        />
+                      </div>
+                      <p
+                        className="text-sm font-semibold text-center leading-tight max-w-[100px]"
+                        style={{ color: isLast ? "#D4A017" : "#7a5030" }}
+                      >
+                        {tier.name}
+                      </p>
+                      <span
+                        className="text-xs px-2 py-0.5 rounded font-bold"
+                        style={
+                          isLast
+                            ? { background: "#2a1204", color: "#C8860A", border: "1px solid #C8860A55" }
+                            : { background: "#1a0a04", color: "#5a3020", border: "1px solid #2a1208" }
+                        }
+                      >
+                        {isLast ? "Real" : "Base"}
+                      </span>
+                    </div>
+                    {!isLast && (
+                      <span className="font-black text-3xl leading-none shrink-0 mb-14" style={{ color: "#C8860A", textShadow: "0 0 12px #C8860A80" }}>
+                        »
+                      </span>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+
+            {/* Divider */}
+            <div className="w-full h-px" style={{ background: "#2a1208" }} />
+
+            {/* Cost */}
+            <div className="flex flex-col gap-2 w-full">
+              <p className="text-xs uppercase tracking-widest font-semibold text-center" style={{ color: "#C8860A" }}>Custo</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {[
+                  { img: "/items/cristal_vermelho.png", label: "Cristal Vermelho ×2" },
+                  { img: "/items/simbolo_dragao.png",   label: "Símbolo do Dragão ×2" },
+                ].map(item => (
+                  <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                    <img src={item.img} alt={item.label} className="w-5 h-5 object-contain" />
+                    <span className="text-xs" style={{ color: "#c0a060" }}>{item.label}</span>
+                  </div>
+                ))}
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                  <span className="text-xs font-black" style={{ color: "#D4A017" }}>200.000.000</span>
+                  <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain" />
                 </div>
               </div>
             </div>
