@@ -745,42 +745,73 @@ export default function Wiki() {
                   );
                 })}
 
-                {/* Cost info card */}
+                {/* Cost info card — two tiers */}
                 <div
-                  className="rounded-xl p-4 flex flex-col justify-center gap-3"
+                  className="rounded-xl p-4 flex flex-col gap-4"
                   style={{
                     background: "linear-gradient(135deg, #1e0e07 0%, #160a04 100%)",
                     border: "1px solid #3a1a08",
                   }}
                 >
-                  <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: "#7a5030" }}>
-                    Custo
-                  </p>
-                  <div className="space-y-2">
-                    {[
-                      { img: "/items/tomo_divino.png", name: "Tomo Divino", qty: "x1" },
-                      { img: "/items/perola_vermelha.png", name: "Pérola Vermelha", qty: "x2" },
-                      { img: "/items/perola_azul.png", name: "Pérola Azul", qty: "x2" },
-                      { img: "/items/perola_branca.png", name: "Pérola Branca", qty: "x2" },
-                    ].map((cost) => (
-                      <div key={cost.name} className="flex items-center justify-between gap-2">
-                        <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
-                          <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
-                          {cost.name}
-                        </span>
-                        <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
-                      </div>
-                    ))}
+                  {/* Tier 1 → 2 */}
+                  <div>
+                    <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "#7a5030" }}>
+                      Tier 1 → 2
+                    </p>
+                    <div className="space-y-1.5">
+                      {[
+                        { img: "/items/tomo_divino.png", name: "Tomo Divino", qty: "x1" },
+                        { img: "/items/perola_vermelha.png", name: "Pérola Vermelha", qty: "x2" },
+                        { img: "/items/perola_azul.png", name: "Pérola Azul", qty: "x2" },
+                        { img: "/items/perola_branca.png", name: "Pérola Branca", qty: "x2" },
+                      ].map((cost) => (
+                        <div key={cost.name} className="flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                            <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
+                            {cost.name}
+                          </span>
+                          <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
+                      <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
+                      <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                        50.000.000
+                        <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                      </span>
+                    </div>
                   </div>
-                  <div
-                    className="mt-1 pt-2 flex items-center justify-between"
-                    style={{ borderTop: "1px solid #3a1a08" }}
-                  >
-                    <span className="text-xs" style={{ color: "#7a5030" }}>Custo:</span>
-                    <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
-                      50.000.000
-                      <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
-                    </span>
+
+                  {/* Divider */}
+                  <div className="w-full h-px" style={{ background: "#2a1208" }} />
+
+                  {/* Tier 2 → 3 */}
+                  <div>
+                    <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "#C8860A" }}>
+                      Tier 2 → 3
+                    </p>
+                    <div className="space-y-1.5">
+                      {[
+                        { img: "/items/cristal.png", name: "Cristal (M)", qty: "x2" },
+                        { img: "/items/simbolo_dragao.png", name: "Símbolo do Dragão", qty: "x2" },
+                      ].map((cost) => (
+                        <div key={cost.name} className="flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-1.5 text-xs" style={{ color: "#c0a060" }}>
+                            <img src={cost.img} alt={cost.name} className="w-5 h-5 object-contain drop-shadow-md" />
+                            {cost.name}
+                          </span>
+                          <span className="text-xs font-bold font-mono" style={{ color: "#D4A017" }}>{cost.qty}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: "1px solid #3a1a08" }}>
+                      <span className="text-xs" style={{ color: "#7a5030" }}>Gold:</span>
+                      <span className="flex items-center gap-1.5 text-sm font-black" style={{ color: "#D4A017" }}>
+                        200.000.000
+                        <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain drop-shadow-md" />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -938,22 +969,49 @@ export default function Wiki() {
             {/* Divider */}
             <div className="w-full h-px" style={{ background: "#2a1208" }} />
 
-            {/* Cost summary */}
-            <div className="flex flex-wrap justify-center gap-3 text-xs" style={{ color: "#7a5030" }}>
-              {[
-                { img: "/items/tomo_divino.png", label: "Tomo Divino ×1" },
-                { img: "/items/perola_vermelha.png", label: "Pérola Vermelha ×2" },
-                { img: "/items/perola_azul.png", label: "Pérola Azul ×2" },
-                { img: "/items/perola_branca.png", label: "Pérola Branca ×2" },
-              ].map(item => (
-                <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
-                  <img src={item.img} alt={item.label} className="w-5 h-5 object-contain" />
-                  <span style={{ color: "#c0a060" }}>{item.label}</span>
+            {/* Cost summary — two tiers */}
+            <div className="flex flex-col gap-3 w-full">
+              {/* Tier 1 → 2 */}
+              <div>
+                <p className="text-xs uppercase tracking-widest font-semibold mb-2 text-center" style={{ color: "#7a5030" }}>Tier 1 → 2</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {[
+                    { img: "/items/tomo_divino.png", label: "Tomo Divino ×1" },
+                    { img: "/items/perola_vermelha.png", label: "Pérola Vermelha ×2" },
+                    { img: "/items/perola_azul.png", label: "Pérola Azul ×2" },
+                    { img: "/items/perola_branca.png", label: "Pérola Branca ×2" },
+                  ].map(item => (
+                    <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                      <img src={item.img} alt={item.label} className="w-5 h-5 object-contain" />
+                      <span className="text-xs" style={{ color: "#c0a060" }}>{item.label}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                    <span className="text-xs font-black" style={{ color: "#D4A017" }}>50.000.000</span>
+                    <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain" />
+                  </div>
                 </div>
-              ))}
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
-                <span className="font-black" style={{ color: "#D4A017" }}>50.000.000</span>
-                <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain" />
+              </div>
+              {/* Divider */}
+              <div className="w-full h-px" style={{ background: "#2a1208" }} />
+              {/* Tier 2 → 3 */}
+              <div>
+                <p className="text-xs uppercase tracking-widest font-semibold mb-2 text-center" style={{ color: "#C8860A" }}>Tier 2 → 3</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {[
+                    { img: "/items/cristal.png", label: "Cristal (M) ×2" },
+                    { img: "/items/simbolo_dragao.png", label: "Símbolo do Dragão ×2" },
+                  ].map(item => (
+                    <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                      <img src={item.img} alt={item.label} className="w-5 h-5 object-contain" />
+                      <span className="text-xs" style={{ color: "#c0a060" }}>{item.label}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
+                    <span className="text-xs font-black" style={{ color: "#D4A017" }}>200.000.000</span>
+                    <img src="/items/gold.png" alt="Gold" className="w-5 h-5 object-contain" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
