@@ -228,7 +228,7 @@ const armorPvmPairs = [
   {
     class: "Ninja",
     tiers: [
-      { name: "61 de Ninja",        img: "/items/61_de_ninja.png" },
+      { name: "Vestimenta Rosa",     img: "/items/61_de_ninja.png" },
       { name: "Veste Dragão de Água", img: "/items/dragao_azul.png" },
     ],
   },
