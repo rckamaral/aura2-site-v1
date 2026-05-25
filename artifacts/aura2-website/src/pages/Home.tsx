@@ -210,7 +210,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
           <video
             id="hero-video"
-            src="/trailer metin2.mp4"
+            src="/trailer-metin2.mp4"
             autoPlay
             loop
             playsInline
