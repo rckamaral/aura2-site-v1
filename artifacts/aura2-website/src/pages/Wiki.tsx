@@ -221,8 +221,8 @@ const armorPvmPairs = [
   {
     class: "Guerreiro",
     tiers: [
-      { name: "61 de Guerreiro",   img: "/items/61_de_guerreiro.png" },
-      { name: "Placa Deus Dragão", img: "/items/aquatica.png"      },
+      { name: "Placa Deus Dragão", img: "/items/61_de_guerreiro.png" },
+      { name: "Aquática",          img: "/items/aquatica.png"       },
     ],
   },
   {
@@ -235,15 +235,15 @@ const armorPvmPairs = [
   {
     class: "Shura",
     tiers: [
-      { name: "61 de Shura",     img: "/items/61_de_shura.png"         },
-      { name: "Malha Espiritual", img: "/items/armadura_aura_negra.png" },
+      { name: "Malha Espiritual",   img: "/items/61_de_shura.png"         },
+      { name: "Armadura Aura Negra", img: "/items/armadura_aura_negra.png" },
     ],
   },
   {
     class: "Shaman",
     tiers: [
-      { name: "61 de Shaman",    img: "/items/61_de_shaman.png" },
-      { name: "Túnica Baronesa", img: "/items/robe_dragao.png" },
+      { name: "Túnica Baronesa", img: "/items/61_de_shaman.png" },
+      { name: "Robe do Dragão",  img: "/items/robe_dragao.png" },
     ],
   },
 ];
