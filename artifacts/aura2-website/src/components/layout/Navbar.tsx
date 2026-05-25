@@ -63,18 +63,21 @@ export default function Navbar() {
           </Link>
           <Link
             href="/ranking"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
           >
             Ranking
           </Link>
           <Link
             href="/download"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
           >
             Download
           </Link>
           <Link
             href="/wiki"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
           >
             Wiki
