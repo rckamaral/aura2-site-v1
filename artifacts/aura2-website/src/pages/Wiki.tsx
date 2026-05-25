@@ -762,14 +762,13 @@ export default function Wiki() {
                             <React.Fragment key={w.name}>
                               <div className="flex flex-col items-center gap-1 flex-1">
                                 <div
-                                  className="w-11 h-11 rounded-lg flex items-center justify-center overflow-hidden"
+                                  className="w-11 h-11 rounded-lg flex items-center justify-center"
                                   style={{ background: "#0e0604", border: borders[i] }}
                                 >
                                   <img
                                     src={w.img}
                                     alt={w.name}
-                                    className="object-contain drop-shadow-lg"
-                                    style={{ width: `${w.scale * 100}%`, height: `${w.scale * 100}%`, maxWidth: "none" }}
+                                    className="w-full h-full object-contain drop-shadow-lg"
                                   />
                                 </div>
                               </div>
