@@ -155,7 +155,6 @@ const sistemas = [
   { icon: "⚔️", name: "Detalhes do Personagem", desc: "Consulte todos os bônus e resistências do seu personagem em tempo real." },
   { icon: "🎒", name: "Filtro de Drop", desc: "Selecione quais itens serão coletados automaticamente para o inventário." },
   { icon: "🏪", name: "Loja Offline", desc: "Venda itens e acumule Yang mesmo com o jogo fechado." },
-  { icon: "🗺️", name: "Localização de Chefes", desc: "Veja a localização dos bosses diretamente no mapa do jogo." },
 ];
 
 const bonusData = [
