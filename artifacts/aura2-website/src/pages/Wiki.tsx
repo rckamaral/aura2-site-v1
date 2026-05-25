@@ -793,7 +793,7 @@ export default function Wiki() {
                     </p>
                     <div className="space-y-1.5">
                       {[
-                        { img: "/items/cristal.png", name: "Cristal (M)", qty: "x2" },
+                        { img: "/items/cristal.png", name: "Cristal", qty: "x2" },
                         { img: "/items/simbolo_dragao.png", name: "Símbolo do Dragão", qty: "x2" },
                       ].map((cost) => (
                         <div key={cost.name} className="flex items-center justify-between gap-2">
@@ -999,7 +999,7 @@ export default function Wiki() {
                 <p className="text-xs uppercase tracking-widest font-semibold mb-2 text-center" style={{ color: "#C8860A" }}>Tier 2 → 3</p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {[
-                    { img: "/items/cristal.png", label: "Cristal (M) ×2" },
+                    { img: "/items/cristal.png", label: "Cristal ×2" },
                     { img: "/items/simbolo_dragao.png", label: "Símbolo do Dragão ×2" },
                   ].map(item => (
                     <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#140804", border: "1px solid #2a1208" }}>
