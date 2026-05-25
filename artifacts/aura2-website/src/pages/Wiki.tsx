@@ -211,7 +211,7 @@ const armorPairs = [
   {
     class: "Shaman",
     tiers: [
-      { name: "Túnica Negra",  img: "/items/tunica_shaman.png" },
+      { name: "Vestido Negro",  img: "/items/tunica_shaman.png" },
       { name: "Vestido Real",  img: "/items/vestido_real.png"  },
     ],
   },
