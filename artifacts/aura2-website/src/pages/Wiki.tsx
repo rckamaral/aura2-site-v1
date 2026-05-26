@@ -2586,7 +2586,7 @@ export default function Wiki() {
                     <img
                       src={item.img}
                       alt={item.label}
-                      className="w-5 h-5 object-contain"
+                      className="w-5 h-5 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] relative z-10"
                     />
                     <span className="text-xs" style={{ color: "#c0a060" }}>
                       {item.label}
