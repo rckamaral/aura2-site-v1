@@ -282,7 +282,7 @@ const miniBosses = [
   },
   {
     name: "Tartaruga de Pedra",
-    icon: "/tartaruga-gigante.png",
+    icon: "🐢",
     color: "#4A7C59",
     drops: [
       "Baú do Tier II",
@@ -330,7 +330,7 @@ const miniBosses = [
   },
   {
     name: "Rei Flamejante",
-    icon: "/tocha-olimpica.png",
+    icon: "🔥",
     color: "#E74C3C",
     drops: [
       "Baú do Tier II",
@@ -342,23 +342,11 @@ const miniBosses = [
   },
   {
     name: "Aranha Rainha",
-    icon: "/rainha-aranha.png",
+    icon: "🕷️",
     color: "#2C3E50",
     drops: [
       "Baú do Tier II",
       "Tronco 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuasão 1x",
-      "Moedas da Conquista x3",
-    ],
-  },
-  {
-    name: "Rã Dourada",
-    icon: "/ra-dourada.png",
-    color: "#DAA520",
-    drops: [
-      "Baú do Tier II",
-      "Pedra da Fundação 1x",
       "Esfera da Benção 1x",
       "Soro da Persuasão 1x",
       "Moedas da Conquista x3",
@@ -395,28 +383,6 @@ const bosses12h = [
     name: "Minotauro",
     icon: "🪓",
     color: "#8B0000",
-    drops: [
-      "Tesouro Do Minotauro",
-      "Máscara Da Fortuna x2",
-      "Moedas da Conquista x30",
-      "Esfera Da Benção x3",
-    ],
-  },
-  {
-    name: "Beran-Setaou",
-    icon: "/beran-setaou.png",
-    color: "#2E8B57",
-    drops: [
-      "Tesouro Do Minotauro",
-      "Máscara Da Fortuna x2",
-      "Moedas da Conquista x30",
-      "Esfera Da Benção x3",
-    ],
-  },
-  {
-    name: "Gahnasel",
-    icon: "/gahnasel.png",
-    color: "#6A0DAD",
     drops: [
       "Tesouro Do Minotauro",
       "Máscara Da Fortuna x2",
