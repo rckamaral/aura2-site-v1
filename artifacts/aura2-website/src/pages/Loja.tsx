@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Coins, Zap, Star, Lock, CreditCard, Copy, Check, ArrowLeft, X } from "lucide-react";
+import { Heart, Coins, Zap, Star, Lock, CreditCard, Copy, Check, ArrowLeft, QrCode, Clock, CheckCircle, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,12 +10,12 @@ import { QRCodeSVG } from "qrcode.react";
 import { generatePixPayload } from "@/lib/pix";
 
 const PACKAGES = [
-  { amount: "10.000", price: "R$10,00", value: 10 },
-  { amount: "22.000", price: "R$20,00", value: 20, bonus: "+2.000 bônus" },
-  { amount: "65.000", price: "R$50,00", value: 50, bonus: "+5.000 bônus", popular: true },
-  { amount: "135.000", price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
-  { amount: "275.000", price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
-  { amount: "420.000", price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
+  { amount: "10.000", coins: 10000, price: "R$10,00", value: 10 },
+  { amount: "22.000", coins: 22000, price: "R$20,00", value: 20, bonus: "+2.000 bônus" },
+  { amount: "65.000", coins: 65000, price: "R$50,00", value: 50, bonus: "+5.000 bônus", popular: true },
+  { amount: "135.000", coins: 135000, price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
+  { amount: "275.000", coins: 275000, price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
+  { amount: "420.000", coins: 420000, price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
 ];
 
 const PIX_KEY = "aura2brasil@gmail.com";
@@ -23,15 +23,43 @@ const PIX_KEY = "aura2brasil@gmail.com";
 type Step = "method" | "pix" | "card";
 type Package = (typeof PACKAGES)[number];
 
-function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
+function PixStep({ pkg, onBack, token }: { pkg: Package; onBack: () => void; token: string }) {
   const [copied, setCopied] = useState(false);
+  const [claimed, setClaimed] = useState(false);
+  const [claiming, setClaiming] = useState(false);
   const { toast } = useToast();
 
   function handleCopy() {
     navigator.clipboard.writeText(PIX_KEY);
     setCopied(true);
-    toast({ title: "Chave PIX copiada!", description: "Cole no seu app de pagamento." });
+    toast({ title: "Chave PIX copiada!", description: "Cole no teu app de pagamento." });
     setTimeout(() => setCopied(false), 3000);
+  }
+
+  async function handleClaimed() {
+    setClaiming(true);
+    try {
+      const res = await fetch("/api/donations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          packageLabel: `${pkg.amount} Moedas Cash`,
+          coinsAmount: pkg.coins,
+          priceBrl: pkg.value,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setClaimed(true);
+        toast({ title: "Pagamento registrado!", description: "Receberás as moedas após confirmação." });
+      } else {
+        toast({ title: "Erro", description: data.error || "Tenta novamente.", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Erro de rede", description: "Verifica a ligação e tenta novamente.", variant: "destructive" });
+    } finally {
+      setClaiming(false);
+    }
   }
 
   return (
@@ -82,11 +110,29 @@ function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
       <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
         <p className="font-semibold text-yellow-400">Instruções:</p>
         <p>1. Copie a chave PIX acima</p>
-        <p>2. Abra o app do seu banco e escolha PIX</p>
-        <p>3. Cole a chave e insira o valor <strong className="text-white">{pkg.price}</strong></p>
+        <p>2. Abra o app do teu banco e escolhe PIX</p>
+        <p>3. Cole a chave e insere o valor <strong className="text-white">{pkg.price}</strong></p>
         <p>4. No campo de mensagem coloca o teu <strong className="text-white">nome de utilizador</strong></p>
-        <p>5. As moedas serão creditadas em até <strong className="text-white">24h</strong></p>
+        <p>5. Após pagar, clica no botão abaixo</p>
       </div>
+
+      {claimed ? (
+        <div className="flex items-center gap-3 rounded-xl border border-green-500/30 bg-green-950/30 p-4">
+          <CheckCircle className="w-5 h-5 text-green-400 shrink-0" />
+          <div>
+            <p className="text-green-400 font-semibold text-sm">Pagamento registrado!</p>
+            <p className="text-green-400/70 text-xs">As tuas moedas serão creditadas em até 24h após confirmação.</p>
+          </div>
+        </div>
+      ) : (
+        <Button
+          onClick={handleClaimed}
+          disabled={claiming}
+          className="w-full bg-green-600 hover:bg-green-500 text-white font-bold uppercase tracking-wider"
+        >
+          {claiming ? "Registrando..." : "Já realizei o pagamento"}
+        </Button>
+      )}
     </div>
   );
 }
@@ -177,7 +223,7 @@ function CardStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
 }
 
 export default function Loja() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [selected, setSelected] = useState<Package | null>(null);
   const [step, setStep] = useState<Step>("method");
 
@@ -266,7 +312,7 @@ export default function Loja() {
 
         <div className="mt-8 p-4 rounded-xl border border-primary/20 bg-primary/5 text-center">
           <p className="text-primary/70 text-sm">
-            Doações via <span className="font-semibold text-primary">PIX · Cartão de Crédito · Boleto</span> — processadas com segurança.
+            Doações via <span className="font-semibold text-primary">PIX · Cartão de Crédito</span> — processadas com segurança.
           </p>
         </div>
       </div>
@@ -317,8 +363,8 @@ export default function Loja() {
             </div>
           )}
 
-          {step === "pix" && selected && (
-            <PixStep pkg={selected} onBack={() => setStep("method")} />
+          {step === "pix" && selected && token && (
+            <PixStep pkg={selected} onBack={() => setStep("method")} token={token} />
           )}
 
           {step === "card" && selected && (
