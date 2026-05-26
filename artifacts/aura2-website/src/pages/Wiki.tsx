@@ -1051,19 +1051,11 @@ export default function Wiki() {
                     style={{ backgroundColor: group.color + "18" }}
                   >
                     {group.icon ? (
-                      <div className="relative group/icon shrink-0">
-                        <img
-                          src={group.icon}
-                          alt={group.label}
-                          className="w-7 h-7 object-contain cursor-pointer"
-                        />
-                        <img
-                          src={group.icon}
-                          alt=""
-                          aria-hidden
-                          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-16 h-16 object-contain pointer-events-none opacity-0 group-hover/icon:opacity-100 transition-opacity duration-150 drop-shadow-[0_0_10px_rgba(255,200,0,0.9)] z-50"
-                        />
-                      </div>
+                      <img
+                        src={group.icon}
+                        alt={group.label}
+                        className="w-7 h-7 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10 shrink-0 origin-top-right"
+                      />
                     ) : (
                       <div
                         className="w-2 h-2 rounded-full shrink-0"
