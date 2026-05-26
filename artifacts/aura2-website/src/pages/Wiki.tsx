@@ -439,27 +439,12 @@ const wordBosses = [
 
 const baus = [
   {
-    name: "Baú Do World Boss",
-    icon: "/bau-world-boss-facil.png",
-    color: "#FFD700",
-    desc: "Recompensas Premium com os Melhores Prêmios — (Aleatórios)",
-    items: [
-      { tipo: "Consumível", item: "Pacote Do Sábio", qty: "1x" },
-      { tipo: "Consumível", item: "Brinco Do Tigre (30d)", qty: "1x" },
-      { tipo: "Consumível", item: "Pets Cash (30d)", qty: "1x" },
-      { tipo: "Consumível", item: "Cupons de Cash (5 á 50k)", qty: "1x" },
-      { tipo: "Item", item: "Escudo Sangrento", qty: "1x" },
-      { tipo: "Item", item: "Escudo Imperadores", qty: "1x" },
-      { tipo: "Item", item: "Montaria PvM (30d)", qty: "1x" },
-    ],
-  },
-  {
-    name: "Tesouro Dragão D'Agua",
+    name: "Tesouro Dragão De Fogo",
     icon: "/cofre.png",
-    color: "#1E90FF",
+    color: "#FF4500",
     desc: "Versão intermediária com ótimos consumíveis e Refines — (Aleatórios)",
     items: [
-      { tipo: "Refine", item: "Símbolo Do Dragão", qty: "1x" },
+      { tipo: "Refine", item: "Amuleto Do Dragão", qty: "1x" },
       { tipo: "Consumível", item: "Metal Mágico+", qty: "1x" },
       { tipo: "Consumível", item: "Brinco do Tigre (7d)", qty: "1x" },
       { tipo: "Consumível", item: "Brinco Do Dragão (7d)", qty: "1x" },
@@ -472,12 +457,12 @@ const baus = [
     ],
   },
   {
-    name: "Tesouro Dragão De Fogo",
+    name: "Tesouro Dragão D'Agua",
     icon: "/cofre.png",
-    color: "#FF4500",
+    color: "#1E90FF",
     desc: "Versão intermediária com ótimos consumíveis e Refines — (Aleatórios)",
     items: [
-      { tipo: "Refine", item: "Amuleto Do Dragão", qty: "1x" },
+      { tipo: "Refine", item: "Símbolo Do Dragão", qty: "1x" },
       { tipo: "Consumível", item: "Metal Mágico+", qty: "1x" },
       { tipo: "Consumível", item: "Brinco do Tigre (7d)", qty: "1x" },
       { tipo: "Consumível", item: "Brinco Do Dragão (7d)", qty: "1x" },
@@ -504,6 +489,21 @@ const baus = [
       { tipo: "Item", item: "Cristal Vermelho", qty: "1x" },
       { tipo: "Item", item: "Cristal Azul", qty: "1x" },
       { tipo: "Item", item: "Chifre do Minotauro", qty: "1x" },
+    ],
+  },
+  {
+    name: "Baú Do World Boss",
+    icon: "/bau-world-boss-facil.png",
+    color: "#FFD700",
+    desc: "Recompensas Premium com os Melhores Prêmios — (Aleatórios)",
+    items: [
+      { tipo: "Consumível", item: "Pacote Do Sábio", qty: "1x" },
+      { tipo: "Consumível", item: "Brinco Do Tigre (30d)", qty: "1x" },
+      { tipo: "Consumível", item: "Pets Cash (30d)", qty: "1x" },
+      { tipo: "Consumível", item: "Cupons de Cash (5 á 50k)", qty: "1x" },
+      { tipo: "Item", item: "Escudo Sangrento", qty: "1x" },
+      { tipo: "Item", item: "Escudo Imperadores", qty: "1x" },
+      { tipo: "Item", item: "Montaria PvM (30d)", qty: "1x" },
     ],
   },
 ];
