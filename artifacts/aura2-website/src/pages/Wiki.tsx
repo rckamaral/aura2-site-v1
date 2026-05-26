@@ -494,7 +494,7 @@ const baus = [
 const dungeons = [
   {
     name: "Torre Sakita",
-    icon: "🗼",
+    icon: "◆",
     color: "#8B0000",
     boss: {
       name: "Ceifadora da Morte",
@@ -525,7 +525,7 @@ const dungeons = [
   },
   {
     name: "Caverna Demoníaca",
-    icon: "💀",
+    icon: "◆",
     color: "#4B0082",
     boss: {
       name: "Lord Gahnasel",
@@ -1387,7 +1387,7 @@ export default function Wiki() {
               {dungeons.map((d) => (
                 <div key={d.name}>
                   <div className="flex items-center gap-3 mb-4 pb-3 border-b border-primary/15">
-                    <span className="text-2xl">{d.icon}</span>
+                    <span className="text-xl" style={{ color: d.color }}>{d.icon}</span>
                     <h3
                       className="text-lg font-bold"
                       style={{ color: d.color }}
