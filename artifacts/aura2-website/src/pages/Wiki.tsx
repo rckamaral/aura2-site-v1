@@ -440,7 +440,7 @@ const wordBosses = [
 const baus = [
   {
     name: "Baú Do World Boss",
-    icon: "/bau-world-boss.png",
+    icon: "/bau-world-boss-facil.png",
     color: "#FFD700",
     desc: "Recompensas Premium com os Melhores Prêmios — (Aleatórios)",
     items: [
