@@ -64,6 +64,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 20",
+      icon: "/metin-lv20.png",
       color: "#7A9E23",
       drops: [
         "Gold — 1kk",
