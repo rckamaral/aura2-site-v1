@@ -127,6 +127,7 @@ export default function Navbar() {
                 <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
               </Button>
               <Button
+                id="navbar-login-btn"
                 variant="outline"
                 className="border-white/20 text-white hover:bg-white/10 hidden sm:flex"
                 onClick={() => openAs("login")}
