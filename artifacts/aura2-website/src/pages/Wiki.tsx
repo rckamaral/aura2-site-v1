@@ -1382,7 +1382,7 @@ export default function Wiki() {
                             <img
                               src={entry.icon}
                               alt={entry.name}
-                              className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10"
+                              className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10 origin-top-left"
                             />
                           ) : (
                             <span className="text-xl">{entry.icon}</span>
