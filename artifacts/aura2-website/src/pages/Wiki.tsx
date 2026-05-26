@@ -466,7 +466,7 @@ const baus = [
     name: "Tesouro Dragão De Fogo",
     icon: "/cofre.png",
     color: "#FF4500",
-    desc: "Versão intermediária com ótimos consumíveis e Refines — (Aleatórios)",
+    desc: "Forjado nas chamas do Dragão de Fogo — repleto de Refines e consumíveis de alto valor — (Aleatórios)",
     items: [
       { tipo: "Refine", item: "Amuleto Do Dragão", qty: "1x" },
       { tipo: "Consumível", item: "Metal Mágico+", qty: "1x" },
@@ -484,7 +484,7 @@ const baus = [
     name: "Tesouro Dragão D'Agua",
     icon: "/cofre.png",
     color: "#1E90FF",
-    desc: "Versão intermediária com ótimos consumíveis e Refines — (Aleatórios)",
+    desc: "Guardado nas profundezas do Dragão D'Água — cheio de Refines e consumíveis valiosos — (Aleatórios)",
     items: [
       { tipo: "Refine", item: "Símbolo Do Dragão", qty: "1x" },
       { tipo: "Consumível", item: "Metal Mágico+", qty: "1x" },
@@ -502,7 +502,7 @@ const baus = [
     name: "Tesouro Do Minotauro",
     icon: "/cofre.png",
     color: "#8B0000",
-    desc: "Versão avançada com ótimos consumíveis e Refines — (Aleatórios)",
+    desc: "Conquistado do lendário Lord Minotauro — recompensas raras para guerreiros de elite — (Aleatórios)",
     items: [
       { tipo: "Consumível", item: "Metal Mágico+", qty: "5x" },
       { tipo: "Consumível", item: "Voucher Cash (5k)", qty: "1x" },
@@ -519,7 +519,7 @@ const baus = [
     name: "Baú Do World Boss",
     icon: "/bau-world-boss-facil.png",
     color: "#FFD700",
-    desc: "Recompensas Premium com os Melhores Prêmios — (Aleatórios)",
+    desc: "O tesouro supremo do servidor — itens exclusivos e recompensas premium para os mais corajosos — (Aleatórios)",
     items: [
       { tipo: "Consumível", item: "Pacote Do Sábio", qty: "1x" },
       { tipo: "Consumível", item: "Brinco Do Tigre (30d)", qty: "1x" },
