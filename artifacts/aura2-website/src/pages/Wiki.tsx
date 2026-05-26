@@ -405,8 +405,8 @@ const wordBosses = [
     ],
   },
   {
-    name: "Jothum (PvP)",
-    icon: "⚔️",
+    name: "Jotun (PvP)",
+    icon: "/jotun.png",
     color: "#8B0000",
     mode: "PvP",
     drops: [
