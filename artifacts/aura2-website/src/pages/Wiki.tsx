@@ -112,6 +112,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 40",
+      icon: "/metin-lv40.png",
       color: "#C06615",
       drops: [
         "Gold — 4kk",
