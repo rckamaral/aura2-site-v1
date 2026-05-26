@@ -1054,7 +1054,7 @@ export default function Wiki() {
                       <img
                         src={group.icon}
                         alt={group.label}
-                        className="w-7 h-7 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10 shrink-0"
+                        className="w-7 h-7 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10 shrink-0 origin-left"
                       />
                     ) : (
                       <div
@@ -1063,7 +1063,7 @@ export default function Wiki() {
                       />
                     )}
                     <p
-                      className="font-bold text-sm"
+                      className="font-bold text-sm relative z-20"
                       style={{ color: group.color }}
                     >
                       {group.label}
