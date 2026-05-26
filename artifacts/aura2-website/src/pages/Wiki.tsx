@@ -88,6 +88,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 30",
+      icon: "/metin-lv30.png",
       color: "#A0961F",
       drops: [
         "Gold — 3kk",
