@@ -282,7 +282,7 @@ const miniBosses = [
   },
   {
     name: "Tartaruga de Pedra",
-    icon: "🐢",
+    icon: "/tartaruga-gigante.png",
     color: "#4A7C59",
     drops: [
       "Baú do Tier II",
@@ -330,7 +330,7 @@ const miniBosses = [
   },
   {
     name: "Rei Flamejante",
-    icon: "🔥",
+    icon: "/tocha-olimpica.png",
     color: "#E74C3C",
     drops: [
       "Baú do Tier II",
@@ -342,11 +342,23 @@ const miniBosses = [
   },
   {
     name: "Aranha Rainha",
-    icon: "🕷️",
+    icon: "/rainha-aranha.png",
     color: "#2C3E50",
     drops: [
       "Baú do Tier II",
       "Tronco 1x",
+      "Esfera da Benção 1x",
+      "Soro da Persuasão 1x",
+      "Moedas da Conquista x3",
+    ],
+  },
+  {
+    name: "Rã Dourada",
+    icon: "/ra-dourada.png",
+    color: "#DAA520",
+    drops: [
+      "Baú do Tier II",
+      "Pedra da Fundação 1x",
       "Esfera da Benção 1x",
       "Soro da Persuasão 1x",
       "Moedas da Conquista x3",
@@ -383,6 +395,28 @@ const bosses12h = [
     name: "Minotauro",
     icon: "🪓",
     color: "#8B0000",
+    drops: [
+      "Tesouro Do Minotauro",
+      "Máscara Da Fortuna x2",
+      "Moedas da Conquista x30",
+      "Esfera Da Benção x3",
+    ],
+  },
+  {
+    name: "Beran-Setaou",
+    icon: "/beran-setaou.png",
+    color: "#2E8B57",
+    drops: [
+      "Tesouro Do Minotauro",
+      "Máscara Da Fortuna x2",
+      "Moedas da Conquista x30",
+      "Esfera Da Benção x3",
+    ],
+  },
+  {
+    name: "Gahnasel",
+    icon: "/gahnasel.png",
+    color: "#6A0DAD",
     drops: [
       "Tesouro Do Minotauro",
       "Máscara Da Fortuna x2",
@@ -1086,18 +1120,22 @@ export default function Wiki() {
               {miniBosses.map((boss) => (
                 <div
                   key={boss.name}
-                  className="border rounded-xl overflow-hidden"
+                  className="border rounded-xl overflow-visible"
                   style={{ borderColor: boss.color + "40" }}
                 >
                   <div
-                    className="flex items-center gap-3 px-4 py-3"
+                    className="flex items-center gap-3 px-4 py-3 rounded-t-xl"
                     style={{
                       backgroundColor: boss.color + "20",
                       borderBottom: `1px solid ${boss.color}30`,
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain" />
+                      <img
+                        src={boss.icon}
+                        alt={boss.name}
+                        className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10"
+                      />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
@@ -1181,17 +1219,25 @@ export default function Wiki() {
               {bosses12h.map((boss) => (
                 <div
                   key={boss.name}
-                  className="border rounded-xl overflow-hidden"
+                  className="border rounded-xl overflow-visible"
                   style={{ borderColor: boss.color + "40" }}
                 >
                   <div
-                    className="flex items-center gap-3 px-4 py-3"
+                    className="flex items-center gap-3 px-4 py-3 rounded-t-xl"
                     style={{
                       backgroundColor: boss.color + "20",
                       borderBottom: `1px solid ${boss.color}30`,
                     }}
                   >
-                    <span className="text-2xl">{boss.icon}</span>
+                    {boss.icon.startsWith("/") ? (
+                      <img
+                        src={boss.icon}
+                        alt={boss.name}
+                        className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10"
+                      />
+                    ) : (
+                      <span className="text-2xl">{boss.icon}</span>
+                    )}
                     <div>
                       <p className="font-bold text-foreground text-sm">
                         {boss.name}
