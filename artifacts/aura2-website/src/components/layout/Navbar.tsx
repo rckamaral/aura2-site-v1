@@ -11,13 +11,14 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Play, Download, LogOut, User } from "lucide-react";
+import { Play, Download, LogOut, User, Menu, X } from "lucide-react";
 
 type ModalMode = "login" | "register" | "forgot";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<ModalMode>("login");
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { user, login, logout } = useAuth();
   const [, navigate] = useLocation();
 
@@ -28,6 +29,10 @@ export default function Navbar() {
 
   function handleLogout() {
     logout();
+  }
+
+  function closeMobile() {
+    setMobileOpen(false);
   }
 
   const titles: Record<ModalMode, string> = {
@@ -100,6 +105,14 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <button
+            className="md:hidden text-muted-foreground hover:text-primary transition-colors p-1"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+
           {user ? (
             <>
               <Link
@@ -139,6 +152,81 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      {mobileOpen && (
+        <div className="md:hidden border-t border-primary/20 bg-background/95 backdrop-blur-md">
+          <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
+            <Link
+              href="/"
+              onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+            >
+              Inicio
+            </Link>
+            <Link
+              href="/ranking"
+              onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+            >
+              Ranking
+            </Link>
+            <Link
+              href="/download"
+              onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+            >
+              Download
+            </Link>
+            <Link
+              href="/wiki"
+              onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+            >
+              Wiki
+            </Link>
+            <Link
+              href="/loja"
+              onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-primary hover:bg-primary/5 rounded-md transition-colors"
+            >
+              Doação
+            </Link>
+            {user ? (
+              <>
+                <Link
+                  href="/conta"
+                  onClick={closeMobile}
+                  className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-primary hover:bg-primary/5 rounded-md transition-colors flex items-center gap-2"
+                >
+                  <User className="w-4 h-4" /> {user.username}
+                </Link>
+                <button
+                  onClick={() => { logout(); closeMobile(); navigate("/"); }}
+                  className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-red-400 hover:bg-red-500/10 rounded-md transition-colors flex items-center gap-2 text-left"
+                >
+                  <LogOut className="w-4 h-4" /> Sair
+                </button>
+              </>
+            ) : (
+              <div className="flex flex-col gap-2 pt-2 border-t border-white/10 mt-2">
+                <Button
+                  variant="outline"
+                  className="border-white/20 text-white hover:bg-white/10 w-full"
+                  onClick={() => { openAs("login"); closeMobile(); }}
+                >
+                  Login
+                </Button>
+                <Button
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider w-full"
+                  onClick={() => { openAs("register"); closeMobile(); }}
+                >
+                  <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
+                </Button>
+              </div>
+            )}
+          </nav>
+        </div>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md bg-background border-primary/20">
