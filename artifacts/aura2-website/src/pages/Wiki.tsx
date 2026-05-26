@@ -1933,7 +1933,7 @@ export default function Wiki() {
                             <img
                               src={c.img}
                               alt={c.name}
-                              className="w-5 h-5 object-contain drop-shadow-md"
+                              className="w-5 h-5 object-contain drop-shadow-md cursor-pointer transition-transform duration-200 hover:scale-[2.5] relative z-10"
                             />
                             {c.name}
                           </span>
