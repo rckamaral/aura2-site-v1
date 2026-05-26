@@ -1052,12 +1052,9 @@ export default function Wiki() {
               ))}
             </div>
 
-            <div className="border border-orange-500/20 rounded-xl overflow-hidden">
-              <div className="flex items-center gap-3 px-5 py-3 border-b border-orange-500/15 bg-orange-500/10">
-                <div className="relative group/bossimg flex-shrink-0">
-                  <img src="/tochas.png" alt="Tochas" className="w-8 h-8 object-contain cursor-pointer" />
-                  <img src="/tochas.png" alt="" aria-hidden="true" className="absolute left-8 top-0 w-20 h-20 object-contain opacity-0 group-hover/bossimg:opacity-100 transition-opacity duration-200 z-50 pointer-events-none drop-shadow-[0_0_10px_rgba(255,150,0,0.9)]" />
-                </div>
+            <div className="border border-orange-500/20 rounded-xl overflow-visible">
+              <div className="flex items-center gap-3 px-5 py-3 border-b border-orange-500/15 bg-orange-500/10 rounded-t-xl">
+                <img src="/tochas.png" alt="Tochas" className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,150,0,0.8)] relative z-10" />
                 <p className="font-bold text-sm text-orange-400">
                   Tochas — Lv 99
                 </p>
