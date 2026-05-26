@@ -390,17 +390,6 @@ const bosses12h = [
       "Esfera Da Benção x3",
     ],
   },
-  {
-    name: "Lord Gahnasel",
-    icon: "/gahnasel.png",
-    color: "#6A0DAD",
-    drops: [
-      "Tesouro Do Minotauro",
-      "Máscara Da Fortuna x2",
-      "Moedas da Conquista x30",
-      "Esfera Da Benção x3",
-    ],
-  },
 ];
 const wordBosses = [
   {
