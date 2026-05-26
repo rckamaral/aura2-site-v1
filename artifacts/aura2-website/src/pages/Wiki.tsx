@@ -1150,7 +1150,7 @@ export default function Wiki() {
           <section id="bosses">
             <SectionTitle>BOSSES</SectionTitle>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-lg">🔥</span>
+              <span className="text-lg text-primary">◆</span>
               <div>
                 <p className="font-bold text-foreground">Bosses — Respawn 6h</p>
                 <p className="text-xs text-muted-foreground">Horário Fixo</p>
@@ -1193,7 +1193,7 @@ export default function Wiki() {
               ))}
             </div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-lg">👑</span>
+              <span className="text-lg text-primary">◆</span>
               <div>
                 <p className="font-bold text-foreground">Boss — Respawn 12h</p>
                 <p className="text-xs text-muted-foreground">Horário Fixo</p>
