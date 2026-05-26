@@ -162,6 +162,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 60",
+      icon: "/metin-lv60.png",
       color: "#BE5E1A",
       drops: [
         "Gold — 6kk",
