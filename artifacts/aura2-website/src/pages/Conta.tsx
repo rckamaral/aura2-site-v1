@@ -19,6 +19,12 @@ import {
   Gift,
   Store,
   ChevronRight,
+  Star,
+  QrCode,
+  Copy,
+  Check,
+  ArrowLeft,
+  CreditCard,
 } from "lucide-react";
 
 type Section =
@@ -535,18 +541,174 @@ function SectionSenhaPersonagem() {
   );
 }
 
+const CASH_PACKAGES = [
+  { amount: "10.000", price: "R$10,00", value: 10 },
+  { amount: "22.000", price: "R$20,00", value: 20, bonus: "+2.000 bônus" },
+  { amount: "65.000", price: "R$50,00", value: 50, bonus: "+5.000 bônus", popular: true },
+  { amount: "135.000", price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
+  { amount: "275.000", price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
+  { amount: "420.000", price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
+];
+
+const PIX_KEY = "aura2brasil@gmail.com";
+
+type CashPkg = (typeof CASH_PACKAGES)[number];
+type PayStep = "select" | "method" | "pix" | "card";
+
 function SectionComprarCash() {
+  const [selected, setSelected] = useState<CashPkg | null>(null);
+  const [step, setStep] = useState<PayStep>("select");
+  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
+
+  function handleSelect(pkg: CashPkg) {
+    setSelected(pkg);
+    setStep("method");
+  }
+
+  function handleCopy() {
+    navigator.clipboard.writeText(PIX_KEY);
+    setCopied(true);
+    toast({ title: "Chave PIX copiada!", description: "Cole no seu app de pagamento." });
+    setTimeout(() => setCopied(false), 3000);
+  }
+
+  function goBack() {
+    if (step === "pix" || step === "card") setStep("method");
+    else { setStep("select"); setSelected(null); }
+  }
+
   return (
     <FormSection title="Comprar Cash" icon={<ShoppingCart className="w-5 h-5" />}>
-      <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
-        <ShoppingCart className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-        <p className="text-muted-foreground text-sm">
-          A loja de Cash estará disponível em breve.
-        </p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Aguarde as próximas atualizações!
-        </p>
-      </div>
+      {step === "select" && (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Ao doar, recebes Moedas Cash para usar no jogo e ajudas a manter o Aura 2 no ar.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+            {CASH_PACKAGES.map((pkg) => (
+              <button
+                key={pkg.value}
+                onClick={() => handleSelect(pkg)}
+                className={`relative flex flex-col items-center justify-center gap-1 p-4 rounded-xl border transition-all hover:scale-[1.02] ${
+                  pkg.popular
+                    ? "border-primary bg-primary/10 shadow-[0_0_18px_rgba(212,160,23,0.25)]"
+                    : "border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5"
+                }`}
+              >
+                {pkg.popular && (
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-primary text-black text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <Star className="w-2.5 h-2.5 fill-black" /> Popular
+                  </span>
+                )}
+                <span className="font-display font-black text-xl text-primary">{pkg.amount}</span>
+                <span className="text-[11px] text-muted-foreground uppercase tracking-widest font-medium">Moedas Cash</span>
+                {pkg.bonus && (
+                  <span className="text-[11px] text-green-400 font-semibold">{pkg.bonus}</span>
+                )}
+                <span className="text-lg font-bold text-white mt-1">{pkg.price}</span>
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground text-center pt-2">
+            Doações via <span className="text-primary font-semibold">PIX · Cartão de Crédito</span> — processadas com segurança.
+          </p>
+        </div>
+      )}
+
+      {step === "method" && selected && (
+        <div className="space-y-4 max-w-sm">
+          <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Voltar
+          </button>
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
+              <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
+              {selected.bonus && <p className="text-xs text-green-400">{selected.bonus}</p>}
+            </div>
+            <p className="text-2xl font-bold text-white">{selected.price}</p>
+          </div>
+          <p className="text-sm font-semibold text-white">Escolhe o método de pagamento</p>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => setStep("pix")}
+              className="flex items-center gap-4 p-4 rounded-xl border border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 transition-all text-left"
+            >
+              <QrCode className="w-6 h-6 text-primary shrink-0" />
+              <div>
+                <p className="font-bold text-white">PIX</p>
+                <p className="text-xs text-muted-foreground">Crédito imediato após confirmação</p>
+              </div>
+            </button>
+            <button
+              onClick={() => setStep("card")}
+              className="flex items-center gap-4 p-4 rounded-xl border border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 transition-all text-left"
+            >
+              <CreditCard className="w-6 h-6 text-primary shrink-0" />
+              <div>
+                <p className="font-bold text-white">Cartão de Crédito</p>
+                <p className="text-xs text-muted-foreground">Em breve disponível</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === "pix" && selected && (
+        <div className="space-y-4 max-w-sm">
+          <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Voltar
+          </button>
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
+              <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
+            </div>
+            <p className="text-2xl font-bold text-white">{selected.price}</p>
+          </div>
+          <div className="flex justify-center">
+            <div className="inline-flex items-center justify-center w-28 h-28 rounded-xl border border-primary/30 bg-black/40">
+              <QrCode className="w-16 h-16 text-primary/60" strokeWidth={1} />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-muted-foreground text-xs uppercase tracking-wider">Chave PIX (e-mail)</Label>
+            <div className="flex gap-2">
+              <Input value={PIX_KEY} readOnly className="bg-black/40 border-primary/20 text-white font-mono text-sm" />
+              <Button onClick={handleCopy} variant="outline" className="border-primary/30 text-primary hover:bg-primary/10 shrink-0">
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              </Button>
+            </div>
+          </div>
+          <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
+            <p className="font-semibold text-yellow-400">Instruções:</p>
+            <p>1. Copie a chave PIX acima</p>
+            <p>2. Abra o app do seu banco e escolha PIX</p>
+            <p>3. Cole a chave e insira o valor <strong className="text-white">{selected.price}</strong></p>
+            <p>4. No campo de mensagem coloca o teu <strong className="text-white">nome de utilizador</strong></p>
+            <p>5. As moedas serão creditadas em até <strong className="text-white">24h</strong></p>
+          </div>
+        </div>
+      )}
+
+      {step === "card" && selected && (
+        <div className="space-y-4 max-w-sm">
+          <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Voltar
+          </button>
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
+              <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
+            </div>
+            <p className="text-2xl font-bold text-white">{selected.price}</p>
+          </div>
+          <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 text-center">
+            Integração com gateway de pagamento em breve.
+          </div>
+        </div>
+      )}
     </FormSection>
   );
 }
