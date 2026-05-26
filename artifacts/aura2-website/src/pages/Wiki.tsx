@@ -1134,23 +1134,22 @@ export default function Wiki() {
               {bosses6h.map((boss) => (
                 <div
                   key={boss.name}
-                  className="border rounded-xl overflow-hidden"
+                  className="border rounded-xl overflow-visible"
                   style={{ borderColor: boss.color + "40" }}
                 >
                   <div
-                    className="flex items-center gap-3 px-4 py-3"
+                    className="flex items-center gap-3 px-4 py-3 rounded-t-xl"
                     style={{
                       backgroundColor: boss.color + "20",
                       borderBottom: `1px solid ${boss.color}30`,
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <div className="relative group/icon">
-                        <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer" />
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 opacity-0 group-hover/icon:opacity-100 pointer-events-none transition-all duration-200 scale-90 group-hover/icon:scale-100">
-                          <img src={boss.icon} alt={boss.name} className="w-16 h-16 object-contain drop-shadow-[0_0_16px_rgba(255,69,0,0.6)]" />
-                        </div>
-                      </div>
+                      <img
+                        src={boss.icon}
+                        alt={boss.name}
+                        className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,69,0,0.8)] relative z-10"
+                      />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
