@@ -510,7 +510,7 @@ const dungeons = [
     color: "#4B0082",
     boss: {
       name: "Lord Gahnasel",
-      icon: "😈",
+      icon: "/gahnasel.png",
       drops: [
         "Tesouro do Lord Gahnasel 1x",
         "Moedas Da Conquista x15",
@@ -1368,17 +1368,25 @@ export default function Wiki() {
                     {[d.boss, d.tesouro].map((entry) => (
                       <div
                         key={entry.name}
-                        className="border rounded-xl overflow-hidden"
+                        className="border rounded-xl overflow-visible"
                         style={{ borderColor: d.color + "30" }}
                       >
                         <div
-                          className="flex items-center gap-2 px-4 py-3"
+                          className="flex items-center gap-2 px-4 py-3 rounded-t-xl"
                           style={{
                             backgroundColor: d.color + "15",
                             borderBottom: `1px solid ${d.color}25`,
                           }}
                         >
-                          <span className="text-xl">{entry.icon}</span>
+                          {entry.icon.startsWith("/") ? (
+                            <img
+                              src={entry.icon}
+                              alt={entry.name}
+                              className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10"
+                            />
+                          ) : (
+                            <span className="text-xl">{entry.icon}</span>
+                          )}
                           <p className="font-bold text-foreground text-sm">
                             {entry.name}
                           </p>
