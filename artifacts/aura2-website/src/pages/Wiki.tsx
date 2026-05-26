@@ -270,7 +270,7 @@ const joiasList = [
 const miniBosses = [
   {
     name: "Chefe Orc",
-    icon: "👹",
+    icon: "/chefe-orc.png",
     color: "#8B4513",
     drops: [
       "Baú do Tier II",
@@ -282,7 +282,7 @@ const miniBosses = [
   },
   {
     name: "Tartaruga de Pedra",
-    icon: "🐢",
+    icon: "/tartaruga-pedra.png",
     color: "#4A7C59",
     drops: [
       "Baú do Tier II",
@@ -294,7 +294,7 @@ const miniBosses = [
   },
   {
     name: "Líder Fanático Zen",
-    icon: "🧙",
+    icon: "/lider-fanatico.png",
     color: "#6A5ACD",
     drops: [
       "Baú do Tier II",
@@ -306,7 +306,7 @@ const miniBosses = [
   },
   {
     name: "Comandante Tigre",
-    icon: "🐯",
+    icon: "/comandante-tigre.png",
     color: "#D4700A",
     drops: [
       "Baú do Tier II",
@@ -330,7 +330,7 @@ const miniBosses = [
   },
   {
     name: "Rei Flamejante",
-    icon: "🔥",
+    icon: "/rei-flamejante.png",
     color: "#E74C3C",
     drops: [
       "Baú do Tier II",
