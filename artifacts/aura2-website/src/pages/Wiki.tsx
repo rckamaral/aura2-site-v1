@@ -126,6 +126,7 @@ const metinGroups: Record<
   "Lv 45–70": [
     {
       label: "Metin Lv 45",
+      icon: "/metin-lv45.png",
       color: "#CD853F",
       drops: [
         "Gold — 4.5kk",
