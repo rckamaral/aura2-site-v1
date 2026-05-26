@@ -374,7 +374,7 @@ const miniBosses = [
 
 const bosses6h = [
   {
-    name: "Dragão d'Água",
+    name: "Dragão D'Agua",
     icon: "/dragao-dagua.png",
     color: "#1E90FF",
     drops: [
@@ -682,28 +682,28 @@ const armorPvmPairs = [
     class: "Guerreiro",
     tiers: [
       { name: "Placa Deus Dragão", img: "/items/61_de_guerreiro.png" },
-      { name: "Placa Dragão de Água", img: "/items/aquatica.png" },
+      { name: "Placa Dragão D'Agua", img: "/items/aquatica.png" },
     ],
   },
   {
     class: "Ninja",
     tiers: [
       { name: "Vestimenta Rosa", img: "/items/61_de_ninja.png" },
-      { name: "Veste Dragão de Água", img: "/items/dragao_azul.png" },
+      { name: "Veste Dragão D'Agua", img: "/items/dragao_azul.png" },
     ],
   },
   {
     class: "Shura",
     tiers: [
       { name: "Malha Espiritual", img: "/items/61_de_shura.png" },
-      { name: "Malha Dragão de Água", img: "/items/armadura_aura_negra.png" },
+      { name: "Malha Dragão D'Agua", img: "/items/armadura_aura_negra.png" },
     ],
   },
   {
     class: "Shaman",
     tiers: [
       { name: "Túnica Baronesa", img: "/items/61_de_shaman.png" },
-      { name: "Túnica Dragão de Água", img: "/items/robe_dragao.png" },
+      { name: "Túnica Dragão D'Agua", img: "/items/robe_dragao.png" },
     ],
   },
 ];
