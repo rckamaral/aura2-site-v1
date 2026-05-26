@@ -342,7 +342,7 @@ const miniBosses = [
   },
   {
     name: "Aranha Rainha",
-    icon: "🕷️",
+    icon: "/rainha-aranha.png",
     color: "#2C3E50",
     drops: [
       "Baú do Tier II",
