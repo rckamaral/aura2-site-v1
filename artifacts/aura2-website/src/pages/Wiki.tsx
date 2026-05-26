@@ -249,6 +249,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 90",
+      icon: "/metin-lv90.png",
       color: "#6A0DAD",
       drops: [
         "Gold — 10kk",
