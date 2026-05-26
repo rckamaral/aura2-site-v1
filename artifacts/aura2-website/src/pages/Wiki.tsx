@@ -7,7 +7,7 @@ const sections = [
   { id: "drops", label: "Drops — Metins" },
   { id: "miniboss", label: "Mini Boss" },
   { id: "bosses", label: "Bosses" },
-  { id: "wordboss", label: "Word Boss" },
+  { id: "wordboss", label: "World Boss" },
   { id: "baus", label: "Baús" },
   { id: "dungeons", label: "Dungeons" },
   { id: "missoes", label: "Missões" },
@@ -417,7 +417,7 @@ const wordBosses = [
     color: "#2E8B57",
     mode: "Paz",
     drops: [
-      "Baú Do Word Boss",
+      "Baú Do World Boss",
       "Máscara Da Fortuna x5",
       "Moedas da Conquista x100",
       "Metal Mágico+ x3",
@@ -429,7 +429,7 @@ const wordBosses = [
     color: "#8B0000",
     mode: "PvP",
     drops: [
-      "Baú Do Word Boss",
+      "Baú Do World Boss",
       "Máscara Da Fortuna x5",
       "Moedas da Conquista x100",
       "Metal Mágico+ x3",
@@ -439,8 +439,8 @@ const wordBosses = [
 
 const baus = [
   {
-    name: "Baú Do Word Boss",
-    icon: "🏆",
+    name: "Baú Do World Boss",
+    icon: "/bau-world-boss.png",
     color: "#FFD700",
     desc: "Recompensas Premium com os Melhores Prêmios — (Aleatórios)",
     items: [
