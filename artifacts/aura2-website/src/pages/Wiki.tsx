@@ -455,7 +455,7 @@ const baus = [
   },
   {
     name: "Tesouro Dragão D'Agua",
-    icon: "💎",
+    icon: "/cofre.png",
     color: "#1E90FF",
     desc: "Versão intermediária com ótimos consumíveis e Refines — (Aleatórios)",
     items: [
@@ -473,7 +473,7 @@ const baus = [
   },
   {
     name: "Tesouro Dragão De Fogo",
-    icon: "📦",
+    icon: "/cofre.png",
     color: "#FF4500",
     desc: "Versão intermediária com ótimos consumíveis e Refines — (Aleatórios)",
     items: [
@@ -511,7 +511,7 @@ const dungeons = [
     },
     tesouro: {
       name: "Tesouro Do Ceifador",
-      icon: "🎁",
+      icon: "/cofre.png",
       drops: [
         "Máscara Da Fortuna x2",
         "Armas Do Nível 75",
@@ -542,7 +542,7 @@ const dungeons = [
     },
     tesouro: {
       name: "Tesouro do Lord Gahnasel",
-      icon: "🎁",
+      icon: "/cofre.png",
       drops: [
         "Máscara Da Fortuna x2",
         "Benção De Helong (G) 1x",
