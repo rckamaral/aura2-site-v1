@@ -1125,7 +1125,7 @@ export default function Wiki() {
                     {boss.icon.startsWith("/") ? (
                       <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
                     ) : (
-                      <span className="text-2xl">{boss.icon}</span>
+                      <span className="text-xl" style={{ color: boss.color }}>◆</span>
                     )}
                     <div>
                       <p className="font-bold text-foreground text-sm">
@@ -1173,7 +1173,7 @@ export default function Wiki() {
                     {boss.icon.startsWith("/") ? (
                       <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,100,0,0.8)] relative z-10" />
                     ) : (
-                      <span className="text-2xl">{boss.icon}</span>
+                      <span className="text-xl" style={{ color: boss.color }}>◆</span>
                     )}
                     <div>
                       <p className="font-bold text-foreground text-sm">
@@ -1221,7 +1221,7 @@ export default function Wiki() {
                         style={"iconRotate" in boss && boss.iconRotate ? { rotate: `${boss.iconRotate}deg` } : undefined}
                       />
                     ) : (
-                      <span className="text-2xl">{boss.icon}</span>
+                      <span className="text-xl" style={{ color: boss.color }}>◆</span>
                     )}
                     <div>
                       <p className="font-bold text-foreground text-sm">
