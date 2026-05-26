@@ -368,7 +368,7 @@ const bosses6h = [
   },
   {
     name: "Dragão De Fogo",
-    icon: "🔥",
+    icon: "/dragao-vermelho.png",
     color: "#FF4500",
     drops: [
       "Tesouro do Dragão De Fogo",
@@ -1096,7 +1096,11 @@ export default function Wiki() {
                       borderBottom: `1px solid ${boss.color}30`,
                     }}
                   >
-                    <span className="text-2xl">{boss.icon}</span>
+                    {boss.icon.startsWith("/") ? (
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain" />
+                    ) : (
+                      <span className="text-2xl">{boss.icon}</span>
+                    )}
                     <div>
                       <p className="font-bold text-foreground text-sm">
                         {boss.name}
