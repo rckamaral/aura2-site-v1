@@ -498,7 +498,7 @@ const dungeons = [
     color: "#8B0000",
     boss: {
       name: "Ceifadora da Morte",
-      icon: "💀",
+      icon: "/ceifadora.png",
       drops: [
         "Tesouro Do Ceifador 1x",
         "Esfera Da Benção x2",
