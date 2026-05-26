@@ -1145,7 +1145,12 @@ export default function Wiki() {
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain" />
+                      <div className="relative group/icon">
+                        <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer" />
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 opacity-0 group-hover/icon:opacity-100 pointer-events-none transition-all duration-200 scale-90 group-hover/icon:scale-100">
+                          <img src={boss.icon} alt={boss.name} className="w-32 h-32 object-contain drop-shadow-[0_0_16px_rgba(255,69,0,0.6)]" />
+                        </div>
+                      </div>
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
