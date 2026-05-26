@@ -1,4 +1,4 @@
-import { ShoppingCart, Coins, Zap, Star, Lock } from "lucide-react";
+import { Heart, Coins, Zap, Star, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -25,7 +25,7 @@ export default function Loja() {
             ACESSO RESTRITO
           </h2>
           <p className="text-muted-foreground mb-6">
-            Precisas de estar logado para aceder à loja de Moedas Cash.
+            Precisas de estar logado para aceder à área de doações.
           </p>
           <Button
             className="bg-primary hover:bg-primary/90 text-black font-bold uppercase tracking-wider px-8"
@@ -44,14 +44,14 @@ export default function Loja() {
 
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 text-primary text-sm font-semibold mb-4">
-            <Coins className="w-4 h-4" />
-            Loja de Cash
+            <Heart className="w-4 h-4" />
+            Apoie o Servidor
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-black text-white mb-3">
-            MOEDAS <span className="text-primary">CASH</span>
+            ÁREA DE <span className="text-primary">DOAÇÃO</span>
           </h1>
           <p className="text-muted-foreground text-lg">
-            Adquira moedas premium e potencialize sua experiência no Aura 2.
+            Ao doar, recebes Moedas Cash para usar no jogo e ajudas a manter o Aura 2 no ar.
           </p>
         </div>
 
@@ -90,8 +90,8 @@ export default function Loja() {
                 <Button
                   className="bg-primary hover:bg-primary/90 text-black font-bold uppercase tracking-wider px-5 shadow-[0_0_12px_rgba(212,160,23,0.25)] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] transition-all"
                 >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Comprar
+                  <Heart className="w-4 h-4 mr-2" />
+                  Doar
                 </Button>
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function Loja() {
 
         <div className="mt-8 p-4 rounded-xl border border-primary/20 bg-primary/5 text-center">
           <p className="text-primary/70 text-sm">
-            Pagamentos via <span className="font-semibold text-primary">PIX · Cartão de Crédito · Boleto</span> — processados com segurança.
+            Doações via <span className="font-semibold text-primary">PIX · Cartão de Crédito · Boleto</span> — processadas com segurança.
           </p>
         </div>
 

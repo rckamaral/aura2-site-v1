@@ -95,7 +95,7 @@ export default function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="text-sm font-semibold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
           >
-            Loja
+            Doação
           </Link>
         </nav>
 
