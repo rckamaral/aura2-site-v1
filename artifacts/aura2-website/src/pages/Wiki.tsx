@@ -1308,9 +1308,14 @@ export default function Wiki() {
                 <button
                   key={b.name}
                   onClick={() => setActiveBau(i)}
-                  className={`px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all ${activeBau === i ? "bg-primary text-black" : "border border-primary/30 text-muted-foreground hover:border-primary/60"}`}
+                  className={`px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 ${activeBau === i ? "bg-primary text-black" : "border border-primary/30 text-muted-foreground hover:border-primary/60"}`}
                 >
-                  {b.icon} {b.name}
+                  {b.icon.startsWith("/") ? (
+                    <img src={b.icon} alt="" className="w-4 h-4 object-contain" />
+                  ) : (
+                    <span>{b.icon}</span>
+                  )}
+                  {b.name}
                 </button>
               ))}
             </div>
@@ -1326,7 +1331,11 @@ export default function Wiki() {
                       className="text-lg font-bold flex items-center gap-2"
                       style={{ color: b.color }}
                     >
-                      <span>{b.icon}</span>
+                      {b.icon.startsWith("/") ? (
+                        <img src={b.icon} alt="" className="w-7 h-7 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.9)] relative z-10" />
+                      ) : (
+                        <span>{b.icon}</span>
+                      )}
                       {b.name}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
