@@ -14,6 +14,7 @@ import MainLayout from "@/components/layout/MainLayout";
 import TermsOfUse from "@/pages/termos-de-uso";
 import PrivacyPolicy from "@/pages/politicas-de-privacidade";
 import ResetPassword from "@/pages/ResetPassword";
+import Loja from "@/pages/Loja";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ function Router() {
         <Route path="/termos-de-uso" component={TermsOfUse} />
         <Route path="/politicas-de-privacidade" component={PrivacyPolicy} />
         <Route path="/redefinir-senha" component={ResetPassword} />
+        <Route path="/loja" component={Loja} />
         <Route path="/" component={Home} />
         <Route>
           <NotFound />
