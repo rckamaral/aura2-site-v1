@@ -439,6 +439,30 @@ const wordBosses = [
 
 const baus = [
   {
+    name: "Baú do Tier II",
+    icon: "/cofre.png",
+    color: "#7B68EE",
+    desc: "Recompensas dos Mini Bosses — (Aleatórios)",
+    items: [
+      { tipo: "Consumível", item: "Poção do Rato", qty: "2x" },
+      { tipo: "Consumível", item: "Poção do Galo", qty: "2x" },
+      { tipo: "Consumível", item: "Poção do Coelho", qty: "2x" },
+      { tipo: "Consumível", item: "Poção do Porco", qty: "2x" },
+      { tipo: "Consumível", item: "Poção da Serpente", qty: "2x" },
+      { tipo: "Consumível", item: "Poção do Boi", qty: "2x" },
+      { tipo: "Consumível", item: "Ataque do Deus Dragão", qty: "2x" },
+      { tipo: "Consumível", item: "Vida do Deus Dragão", qty: "2x" },
+      { tipo: "Consumível", item: "Defesa do Deus Dragão", qty: "2x" },
+      { tipo: "Consumível", item: "Máscara da Fortuna", qty: "1x" },
+      { tipo: "Consumível", item: "Esfera da Benção", qty: "5x" },
+      { tipo: "Consumível", item: "Poção Verde G", qty: "5x" },
+      { tipo: "Consumível", item: "Soro da Persuasão", qty: "2x" },
+      { tipo: "Consumível", item: "Poção Sagaz", qty: "2x" },
+      { tipo: "Consumível", item: "Livro do Sábio", qty: "2x" },
+      { tipo: "Consumível", item: "Pot Helong e Yoora (G)", qty: "1x" },
+    ],
+  },
+  {
     name: "Tesouro Dragão De Fogo",
     icon: "/cofre.png",
     color: "#FF4500",
