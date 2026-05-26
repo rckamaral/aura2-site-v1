@@ -1202,7 +1202,7 @@ export default function Wiki() {
           {/* WORD BOSS */}
           <section id="wordboss">
             <SectionTitle>WORD BOSS</SectionTitle>
-            <div className="flex items-center gap-2 mb-6 text-xs text-muted-foreground border border-primary/15 rounded-lg px-4 py-2 w-fit bg-primary/5">
+            <div className="flex items-center gap-2 mb-6 text-xs text-muted-foreground border border-primary/15 rounded-lg px-4 py-2 w-fit bg-primary/5 mx-auto">
               <span className="text-primary">📅</span> Toda quinta-feira às{" "}
               <span className="text-primary font-bold ml-1">21:00h</span>
             </div>
