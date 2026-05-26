@@ -394,7 +394,7 @@ const bosses12h = [
 const wordBosses = [
   {
     name: "Grande Ogro (Paz)",
-    icon: "🏰",
+    icon: "/grande-ogro.png",
     color: "#2E8B57",
     mode: "Paz",
     drops: [
@@ -1234,17 +1234,25 @@ export default function Wiki() {
               {wordBosses.map((boss) => (
                 <div
                   key={boss.name}
-                  className="border rounded-xl overflow-hidden"
+                  className="border rounded-xl overflow-visible"
                   style={{ borderColor: boss.color + "40" }}
                 >
                   <div
-                    className="flex items-center gap-3 px-4 py-3"
+                    className="flex items-center gap-3 px-4 py-3 rounded-t-xl"
                     style={{
                       backgroundColor: boss.color + "20",
                       borderBottom: `1px solid ${boss.color}30`,
                     }}
                   >
-                    <span className="text-2xl">{boss.icon}</span>
+                    {boss.icon.startsWith("/") ? (
+                      <img
+                        src={boss.icon}
+                        alt={boss.name}
+                        className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10"
+                      />
+                    ) : (
+                      <span className="text-2xl">{boss.icon}</span>
+                    )}
                     <div className="flex items-center gap-2">
                       <p className="font-bold text-foreground text-sm">
                         {boss.name}
