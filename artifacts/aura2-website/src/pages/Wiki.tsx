@@ -138,6 +138,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 50",
+      icon: "/metin-lv50.png",
       color: "#C87830",
       drops: [
         "Gold — 5kk",
