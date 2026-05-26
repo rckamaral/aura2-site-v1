@@ -216,6 +216,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 80",
+      icon: "/metin-lv80.png",
       color: "#8B3A3A",
       drops: [
         "Gold — 8kk",
