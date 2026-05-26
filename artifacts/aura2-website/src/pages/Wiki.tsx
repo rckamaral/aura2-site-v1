@@ -28,7 +28,6 @@ const metinGroups: Record<
   "Lv 5–40": [
     {
       label: "Metin Lv 5",
-      icon: "/metin-combate.png",
       color: "#6B8E23",
       drops: [
         "Gold — 500k",
@@ -40,7 +39,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 10",
-      icon: "/metin-dor.png",
       color: "#6B8E23",
       drops: [
         "Gold — 500k",
@@ -52,7 +50,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 15",
-      icon: "/metin-jeon-un.png",
       color: "#6B8E23",
       drops: [
         "Gold — 500k",
@@ -64,7 +61,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 20",
-      icon: "/metin-tu-young.png",
       color: "#7A9E23",
       drops: [
         "Gold — 1kk",
@@ -76,7 +72,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 25",
-      icon: "/metin-ma-an.png",
       color: "#8DAE23",
       drops: [
         "Gold — 2.5kk",
@@ -88,7 +83,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 30",
-      icon: "/metin-pung-ma.png",
       color: "#A0961F",
       drops: [
         "Gold — 3kk",
@@ -100,7 +94,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 35",
-      icon: "/metin-trevas.png",
       color: "#B07E1A",
       drops: [
         "Gold — 3.5kk",
@@ -112,7 +105,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 40",
-      icon: "/metin-morte.png",
       color: "#C06615",
       drops: [
         "Gold — 4kk",
@@ -126,7 +118,6 @@ const metinGroups: Record<
   "Lv 45–70": [
     {
       label: "Metin Lv 45",
-      icon: "/metin-queda.png",
       color: "#CD853F",
       drops: [
         "Gold — 4.5kk",
@@ -138,7 +129,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 50",
-      icon: "/metin-negra-1.png",
       color: "#C87830",
       drops: [
         "Gold — 5kk",
@@ -150,7 +140,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 55",
-      icon: "/metin-dureza.png",
       color: "#C36B25",
       drops: [
         "Gold — 5.5kk",
@@ -162,7 +151,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 60",
-      icon: "/metin-sombra.png",
       color: "#BE5E1A",
       drops: [
         "Gold — 6kk",
@@ -174,7 +162,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 65",
-      icon: "/metin-alma.png",
       color: "#B95115",
       drops: [
         "Gold — 6.5kk",
@@ -186,7 +173,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 70",
-      icon: "/metin-ciume.png",
       color: "#B44410",
       drops: [
         "Gold — 7kk",
@@ -200,7 +186,6 @@ const metinGroups: Record<
   "Lv 75–90": [
     {
       label: "Metin Lv 75",
-      icon: "/metin-escuridao.png",
       color: "#9B3A3A",
       drops: [
         "Gold — 7.6kk",
@@ -216,7 +201,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 80",
-      icon: "/metin-negra.png",
       color: "#8B3A3A",
       drops: [
         "Gold — 8kk",
@@ -232,7 +216,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 85",
-      icon: "/metin-ganancia.png",
       color: "#7B2A2A",
       drops: [
         "Gold — 8.5kk",
@@ -249,7 +232,6 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 90",
-      icon: "/metin-batalha.png",
       color: "#6A0DAD",
       drops: [
         "Gold — 10kk",
