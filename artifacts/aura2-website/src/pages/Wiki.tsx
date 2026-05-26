@@ -493,7 +493,7 @@ const baus = [
     name: "Tesouro Do Minotauro",
     icon: "/cofre.png",
     color: "#8B0000",
-    desc: "Recompensas do Boss Minotauro — (Aleatórios)",
+    desc: "Versão avançada com ótimos consumíveis e Refines — (Aleatórios)",
     items: [
       { tipo: "Consumível", item: "Metal Mágico+", qty: "5x" },
       { tipo: "Consumível", item: "Voucher Cash (5k)", qty: "1x" },
