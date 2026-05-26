@@ -53,10 +53,7 @@ export default function Navbar() {
           />
           <div className="flex flex-col">
             <span className="font-display font-bold text-2xl text-primary leading-none tracking-wider">
-              AURA 2
-            </span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
-              - Fase Beta
+              AURA 2 <span className="text-sm font-normal text-muted-foreground normal-case tracking-normal">- Fase Beta</span>
             </span>
           </div>
         </Link>
