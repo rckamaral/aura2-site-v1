@@ -40,6 +40,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 10",
+      icon: "/metin-lv10.png",
       color: "#6B8E23",
       drops: [
         "Gold — 500k",
