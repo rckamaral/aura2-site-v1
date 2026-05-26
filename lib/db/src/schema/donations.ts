@@ -10,6 +10,7 @@ export const donationsTable = pgTable("donations", {
   priceBrl: integer("price_brl").notNull(),
   status: donationStatusEnum("status").default("pending").notNull(),
   notes: text("notes"),
+  mpPaymentId: varchar("mp_payment_id", { length: 64 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

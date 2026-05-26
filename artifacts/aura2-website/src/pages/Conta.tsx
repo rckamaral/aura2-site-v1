@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { QRCodeSVG } from "qrcode.react";
-import { generatePixPayload } from "@/lib/pix";
 import {
   User,
   Home,
@@ -43,6 +41,21 @@ export default function Conta() {
   const { user, logout, token } = useAuth();
   const [, navigate] = useLocation();
   const [section, setSection] = useState<Section>("inicio");
+  const [cashBalance, setCashBalance] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!token) return;
+    fetch("/api/donations/mine", { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) return;
+        const total = (data.donations as { status: string; coinsAmount: number }[])
+          .filter(d => d.status === "approved")
+          .reduce((s, d) => s + d.coinsAmount, 0);
+        setCashBalance(total);
+      })
+      .catch(() => {});
+  }, [token]);
 
   if (!user) {
     navigate("/");
@@ -69,7 +82,7 @@ export default function Conta() {
 
         <div className="flex flex-col lg:flex-row gap-6">
           <main className="flex-1 order-2 lg:order-1">
-            <SectionContent section={section} username={user.username} token={token} onNavigate={setSection} />
+            <SectionContent section={section} username={user.username} token={token} onNavigate={setSection} onBalanceUpdate={setCashBalance} />
           </main>
 
           <aside className="w-full lg:w-64 order-1 lg:order-2 shrink-0">
@@ -82,6 +95,11 @@ export default function Conta() {
                   <p className="font-bold text-primary text-sm uppercase tracking-wider">
                     {user.username}
                   </p>
+                  {cashBalance !== null && cashBalance > 0 && (
+                    <p className="text-xs text-green-400 font-semibold flex items-center gap-1 mt-0.5">
+                      💰 {cashBalance.toLocaleString("pt-BR")} Cash
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -205,11 +223,13 @@ function SectionContent({
   username,
   token,
   onNavigate,
+  onBalanceUpdate,
 }: {
   section: Section;
   username: string;
   token: string | null;
   onNavigate: (s: Section) => void;
+  onBalanceUpdate: (n: number) => void;
 }) {
   switch (section) {
     case "inicio":
@@ -225,9 +245,9 @@ function SectionContent({
     case "senha-personagem":
       return <SectionSenhaPersonagem />;
     case "comprar-cash":
-      return <SectionComprarCash />;
+      return <SectionComprarCash token={token} onBalanceUpdate={onBalanceUpdate} />;
     case "historico":
-      return <SectionHistorico />;
+      return <SectionHistorico token={token} />;
     default:
       return null;
   }
@@ -544,12 +564,12 @@ function SectionSenhaPersonagem() {
 }
 
 const CASH_PACKAGES = [
-  { amount: "10.000", price: "R$10,00", value: 10 },
-  { amount: "22.000", price: "R$20,00", value: 20, bonus: "+2.000 bônus" },
-  { amount: "65.000", price: "R$50,00", value: 50, bonus: "+5.000 bônus", popular: true },
-  { amount: "135.000", price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
-  { amount: "275.000", price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
-  { amount: "420.000", price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
+  { amount: "10.000", coins: 10000, price: "R$10,00", value: 10 },
+  { amount: "22.000", coins: 22000, price: "R$20,00", value: 20, bonus: "+2.000 bônus" },
+  { amount: "65.000", coins: 65000, price: "R$50,00", value: 50, bonus: "+5.000 bônus", popular: true },
+  { amount: "135.000", coins: 135000, price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
+  { amount: "275.000", coins: 275000, price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
+  { amount: "420.000", coins: 420000, price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
 ];
 
 const PIX_KEY = "aura2brasil@gmail.com";
@@ -557,21 +577,27 @@ const PIX_KEY = "aura2brasil@gmail.com";
 type CashPkg = (typeof CASH_PACKAGES)[number];
 type PayStep = "select" | "method" | "pix" | "card";
 
-function SectionComprarCash() {
+function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; onBalanceUpdate: (n: number) => void }) {
   const [selected, setSelected] = useState<CashPkg | null>(null);
   const [step, setStep] = useState<PayStep>("select");
   const [copied, setCopied] = useState(false);
-  const { toast } = useToast();
+  const [pixLoading, setPixLoading] = useState(false);
+  const [pixError, setPixError] = useState<string | null>(null);
+  const [pixData, setPixData] = useState<{ donationId: number; qrCode: string; qrCodeBase64: string } | null>(null);
+  const [payStatus, setPayStatus] = useState<"pending" | "approved" | "rejected">("pending");
 
   function handleSelect(pkg: CashPkg) {
     setSelected(pkg);
     setStep("method");
+    setPixData(null);
+    setPixError(null);
+    setPayStatus("pending");
   }
 
   function handleCopy() {
-    navigator.clipboard.writeText(PIX_KEY);
+    if (!pixData?.qrCode) return;
+    navigator.clipboard.writeText(pixData.qrCode);
     setCopied(true);
-    toast({ title: "Chave PIX copiada!", description: "Cole no seu app de pagamento." });
     setTimeout(() => setCopied(false), 3000);
   }
 
@@ -579,6 +605,62 @@ function SectionComprarCash() {
     if (step === "pix" || step === "card") setStep("method");
     else { setStep("select"); setSelected(null); }
   }
+
+  useEffect(() => {
+    if (step !== "pix" || !selected || !token) return;
+    setPixLoading(true);
+    setPixData(null);
+    setPixError(null);
+    setPayStatus("pending");
+
+    fetch("/api/donations/create-pix", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        packageLabel: `${selected.amount} Moedas Cash`,
+        coinsAmount: selected.coins,
+        priceBrl: selected.value,
+      }),
+    })
+      .then(r => r.json().then(d => ({ ok: r.ok, d })))
+      .then(({ ok, d }) => {
+        if (!ok) { setPixError(d.error || "Erro ao gerar QR code."); return; }
+        setPixData({ donationId: d.donationId, qrCode: d.qrCode, qrCodeBase64: d.qrCodeBase64 });
+      })
+      .catch(() => setPixError("Erro de rede. Tenta novamente."))
+      .finally(() => setPixLoading(false));
+  }, [step, selected, token]);
+
+  useEffect(() => {
+    if (!pixData || payStatus !== "pending" || !token) return;
+    let polls = 0;
+    const interval = setInterval(async () => {
+      polls++;
+      if (polls > 36) { clearInterval(interval); return; }
+      try {
+        const res = await fetch(`/api/donations/${pixData.donationId}/status`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json() as { status: string };
+        if (data.status === "approved") {
+          setPayStatus("approved");
+          clearInterval(interval);
+          const mineRes = await fetch("/api/donations/mine", { headers: { Authorization: `Bearer ${token}` } });
+          const mineData = await mineRes.json() as { donations: { status: string; coinsAmount: number }[] };
+          if (mineData.donations) {
+            const total = mineData.donations
+              .filter(d => d.status === "approved")
+              .reduce((s, d) => s + d.coinsAmount, 0);
+            onBalanceUpdate(total);
+          }
+        } else if (data.status === "rejected") {
+          setPayStatus("rejected");
+          clearInterval(interval);
+        }
+      } catch {}
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [pixData, payStatus, token, onBalanceUpdate]);
 
   return (
     <FormSection title="Comprar Cash" icon={<ShoppingCart className="w-5 h-5" />}>
@@ -659,44 +741,89 @@ function SectionComprarCash() {
 
       {step === "pix" && selected && (
         <div className="space-y-4 max-w-sm">
-          <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Voltar
-          </button>
-          <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
-              <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
-            </div>
-            <p className="text-2xl font-bold text-white">{selected.price}</p>
-          </div>
-          <div className="flex justify-center">
-            <div className="inline-flex items-center justify-center p-3 rounded-xl border border-primary/30 bg-white">
-              <QRCodeSVG
-                value={generatePixPayload(PIX_KEY, "Aura2 Season 1", "SAO PAULO", selected.value)}
-                size={136}
-                bgColor="#ffffff"
-                fgColor="#000000"
-                level="M"
-              />
-            </div>
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-muted-foreground text-xs uppercase tracking-wider">Chave PIX (e-mail)</Label>
-            <div className="flex gap-2">
-              <Input value={PIX_KEY} readOnly className="bg-black/40 border-primary/20 text-white font-mono text-sm" />
-              <Button onClick={handleCopy} variant="outline" className="border-primary/30 text-primary hover:bg-primary/10 shrink-0">
-                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+          {payStatus !== "approved" && (
+            <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
+              <ArrowLeft className="w-4 h-4" /> Voltar
+            </button>
+          )}
+
+          {payStatus === "approved" ? (
+            <div className="flex flex-col items-center gap-4 py-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center">
+                <span className="text-3xl">✓</span>
+              </div>
+              <div>
+                <p className="text-green-400 font-display font-black text-2xl">Pagamento confirmado!</p>
+                <p className="text-green-400/70 text-sm mt-1">{selected.amount} Moedas Cash foram creditadas na tua conta.</p>
+              </div>
+              <Button onClick={() => { setStep("select"); setSelected(null); setPixData(null); setPayStatus("pending"); }} variant="outline" className="border-primary/30 text-primary hover:bg-primary/10">
+                Comprar mais
               </Button>
             </div>
-          </div>
-          <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
-            <p className="font-semibold text-yellow-400">Instruções:</p>
-            <p>1. Copie a chave PIX acima</p>
-            <p>2. Abra o app do seu banco e escolha PIX</p>
-            <p>3. Cole a chave e insira o valor <strong className="text-white">{selected.price}</strong></p>
-            <p>4. No campo de mensagem coloca o teu <strong className="text-white">nome de utilizador</strong></p>
-            <p>5. As moedas serão creditadas em até <strong className="text-white">24h</strong></p>
-          </div>
+          ) : (
+            <>
+              <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
+                  <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
+                </div>
+                <p className="text-2xl font-bold text-white">{selected.price}</p>
+              </div>
+
+              <div className="flex justify-center">
+                <div className="inline-flex items-center justify-center p-3 rounded-xl border border-primary/30 bg-white w-[164px] h-[164px]">
+                  {pixLoading && (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      <p className="text-[10px] text-black/50">Gerando QR...</p>
+                    </div>
+                  )}
+                  {pixError && <p className="text-xs text-red-500 text-center px-2">{pixError}</p>}
+                  {pixData?.qrCodeBase64 && (
+                    <img
+                      src={`data:image/png;base64,${pixData.qrCodeBase64}`}
+                      alt="QR Code PIX"
+                      width={136}
+                      height={136}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {pixData && (
+                <div className="space-y-1.5">
+                  <Label className="text-muted-foreground text-xs uppercase tracking-wider">PIX Copia e Cola</Label>
+                  <div className="flex gap-2">
+                    <Input value={pixData.qrCode} readOnly className="bg-black/40 border-primary/20 text-white font-mono text-xs" />
+                    <Button onClick={handleCopy} variant="outline" className="border-primary/30 text-primary hover:bg-primary/10 shrink-0">
+                      {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
+                <p className="font-semibold text-yellow-400">Instruções:</p>
+                <p>1. Escaneia o QR code acima ou copia o código</p>
+                <p>2. Abre o app do teu banco e escolhe PIX</p>
+                <p>3. Usa o valor exato: <strong className="text-white">{selected.price}</strong></p>
+                <p>4. As moedas serão creditadas <strong className="text-white">automaticamente</strong></p>
+              </div>
+
+              {pixData && (
+                <div className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/30 p-3">
+                  <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+                  <p className="text-sm text-muted-foreground">Aguardando confirmação do pagamento...</p>
+                </div>
+              )}
+
+              {payStatus === "rejected" && (
+                <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-4 text-sm text-red-400 text-center">
+                  Pagamento não aprovado. Tenta novamente ou contacta o suporte.
+                </div>
+              )}
+            </>
+          )}
         </div>
       )}
 
@@ -721,15 +848,49 @@ function SectionComprarCash() {
   );
 }
 
-function SectionHistorico() {
+function SectionHistorico({ token }: { token: string | null }) {
+  const [donations, setDonations] = useState<{ id: number; packageLabel: string; coinsAmount: number; priceBrl: number; status: string; createdAt: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!token) return;
+    fetch("/api/donations/mine", { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.ok ? r.json() : { donations: [] })
+      .then(data => setDonations(data.donations || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [token]);
+
+  function statusLabel(s: string) {
+    if (s === "approved") return <span className="text-xs font-semibold text-green-400 bg-green-950/40 border border-green-500/30 px-2 py-0.5 rounded-full">✓ Aprovada</span>;
+    if (s === "rejected") return <span className="text-xs font-semibold text-red-400 bg-red-950/40 border border-red-500/30 px-2 py-0.5 rounded-full">✗ Rejeitada</span>;
+    return <span className="text-xs font-semibold text-yellow-400 bg-yellow-950/40 border border-yellow-500/30 px-2 py-0.5 rounded-full">⏳ Pendente</span>;
+  }
+
   return (
     <FormSection title="Histórico de Compras" icon={<History className="w-5 h-5" />}>
-      <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
-        <History className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-        <p className="text-muted-foreground text-sm">
-          Nenhuma compra registada ainda.
-        </p>
-      </div>
+      {loading ? (
+        <p className="text-muted-foreground text-sm text-center py-8">Carregando...</p>
+      ) : donations.length === 0 ? (
+        <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+          <History className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground text-sm">Nenhuma compra registada ainda.</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {donations.map(d => (
+            <div key={d.id} className="flex items-center justify-between bg-black/30 border border-white/10 rounded-lg px-4 py-3 gap-3">
+              <div className="min-w-0">
+                <p className="font-semibold text-white text-sm">{d.packageLabel}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {new Date(d.createdAt).toLocaleDateString("pt-BR")} · <span className="text-primary font-semibold">R${d.priceBrl}</span>
+                </p>
+              </div>
+              {statusLabel(d.status)}
+            </div>
+          ))}
+        </div>
+      )}
     </FormSection>
   );
 }
