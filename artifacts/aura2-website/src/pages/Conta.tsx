@@ -95,11 +95,9 @@ export default function Conta() {
                   <p className="font-bold text-primary text-sm uppercase tracking-wider">
                     {user.username}
                   </p>
-                  {cashBalance !== null && cashBalance > 0 && (
-                    <p className="text-xs text-green-400 font-semibold flex items-center gap-1 mt-0.5">
-                      💰 {cashBalance.toLocaleString("pt-BR")} Cash
-                    </p>
-                  )}
+                  <p className="text-xs font-semibold flex items-center gap-1 mt-0.5 text-yellow-400/80">
+                    {cashBalance === null ? "..." : `${cashBalance.toLocaleString("pt-BR")} Cash`}
+                  </p>
                 </div>
               </div>
 
