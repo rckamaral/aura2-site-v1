@@ -20,8 +20,9 @@ export function generatePixPayload(
   city: string,
   amount?: number
 ): string {
+  const gui = field("00", "br.gov.bcb.pix");
   const pixKey = field("01", key);
-  const merchantAccount = field("26", field("0014", "br.gov.bcb.pix") + pixKey);
+  const merchantAccount = field("26", gui + pixKey);
 
   const safeName = name.slice(0, 25).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const safeCity = city.slice(0, 15).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
