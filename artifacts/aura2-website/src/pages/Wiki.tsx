@@ -1044,24 +1044,23 @@ export default function Wiki() {
               {metinGroups[metinTab].map((group) => (
                 <div
                   key={group.label}
-                  className="border border-primary/15 rounded-xl overflow-visible"
+                  className="relative border border-primary/15 rounded-xl overflow-visible"
                 >
+                  {group.icon && (
+                    <img
+                      src={group.icon}
+                      alt={group.label}
+                      className="absolute top-1.5 right-1.5 w-7 h-7 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] z-10 origin-top-right"
+                    />
+                  )}
                   <div
                     className="px-4 py-2.5 border-b border-primary/10 flex items-center gap-2 rounded-t-xl"
                     style={{ backgroundColor: group.color + "18" }}
                   >
-                    {group.icon ? (
-                      <img
-                        src={group.icon}
-                        alt={group.label}
-                        className="w-7 h-7 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10 shrink-0 origin-top-right"
-                      />
-                    ) : (
-                      <div
-                        className="w-2 h-2 rounded-full shrink-0"
-                        style={{ backgroundColor: group.color }}
-                      />
-                    )}
+                    <div
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: group.color }}
+                    />
                     <p
                       className="font-bold text-sm"
                       style={{ color: group.color }}
