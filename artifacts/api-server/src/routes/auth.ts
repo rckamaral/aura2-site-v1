@@ -1,5 +1,6 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { z } from "zod";
 import pool from "../lib/mysql";
 import { db, accountsTable } from "@workspace/db";
@@ -8,6 +9,8 @@ import { createResetToken, consumeResetToken } from "../lib/resetTokens";
 import { sendPasswordResetEmail } from "../lib/mailer";
 
 const router = Router();
+const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
+const JWT_EXPIRES = "7d";
 
 const registerSchema = z.object({
   username: z.string().min(3).max(50),
@@ -19,6 +22,10 @@ const loginSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1),
 });
+
+function signToken(username: string) {
+  return jwt.sign({ username }, JWT_SECRET, { expiresIn: JWT_EXPIRES });
+}
 
 async function isMySQLAvailable(): Promise<boolean> {
   try {
@@ -57,7 +64,8 @@ router.post("/auth/register", async (req, res) => {
         [username, email, passwordHash]
       );
       req.log.info({ username }, "New account registered (MySQL)");
-      res.status(201).json({ message: "Conta criada com sucesso!", username });
+      const token = signToken(username);
+      res.status(201).json({ message: "Conta criada com sucesso!", username, token });
       return;
     } catch (err) {
       req.log.error({ err }, "MySQL error during register");
@@ -78,7 +86,8 @@ router.post("/auth/register", async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 10);
     await db.insert(accountsTable).values({ username, email, passwordHash });
     req.log.info({ username }, "New account registered (PostgreSQL fallback)");
-    res.status(201).json({ message: "Conta criada com sucesso!", username });
+    const token = signToken(username);
+    res.status(201).json({ message: "Conta criada com sucesso!", username, token });
   } catch (err) {
     req.log.error({ err }, "PG error during register");
     res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });
@@ -114,7 +123,8 @@ router.post("/auth/login", async (req, res) => {
       }
 
       req.log.info({ username }, "Account logged in (MySQL)");
-      res.json({ message: "Login realizado com sucesso!", username });
+      const token = signToken(username);
+      res.json({ message: "Login realizado com sucesso!", username, token });
       return;
     } catch (err) {
       req.log.error({ err }, "MySQL error during login");
@@ -139,10 +149,27 @@ router.post("/auth/login", async (req, res) => {
     }
 
     req.log.info({ username }, "Account logged in (PostgreSQL fallback)");
-    res.json({ message: "Login realizado com sucesso!", username });
+    const token = signToken(username);
+    res.json({ message: "Login realizado com sucesso!", username, token });
   } catch (err) {
     req.log.error({ err }, "PG error during login");
     res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });
+  }
+});
+
+router.get("/auth/me", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith("Bearer ")) {
+    res.status(401).json({ error: "Não autenticado." });
+    return;
+  }
+
+  const token = authHeader.slice(7);
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as { username: string };
+    res.json({ username: payload.username });
+  } catch {
+    res.status(401).json({ error: "Token inválido ou expirado." });
   }
 });
 

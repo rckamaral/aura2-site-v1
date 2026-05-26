@@ -153,8 +153,8 @@ export default function Navbar() {
               onClose={() => setOpen(false)}
               onSwitchToRegister={() => setMode("register")}
               onForgotPassword={() => setMode("forgot")}
-              onLoginSuccess={(username) => {
-                login(username);
+              onLoginSuccess={(username, token) => {
+                login(username, token);
                 setOpen(false);
                 navigate("/conta");
               }}
@@ -164,8 +164,8 @@ export default function Navbar() {
             <RegisterForm
               onClose={() => setOpen(false)}
               onSwitchToLogin={() => setMode("login")}
-              onRegisterSuccess={(username) => {
-                login(username);
+              onRegisterSuccess={(username, token) => {
+                login(username, token);
                 setOpen(false);
                 navigate("/conta");
               }}
@@ -192,7 +192,7 @@ function LoginForm({
   onClose: () => void;
   onSwitchToRegister: () => void;
   onForgotPassword: () => void;
-  onLoginSuccess: (username: string) => void;
+  onLoginSuccess: (username: string, token: string) => void;
 }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -213,7 +213,7 @@ function LoginForm({
         toast({ title: "Erro", description: data.error, variant: "destructive" });
       } else {
         toast({ title: "Bem-vindo!", description: `Olá, ${data.username}!` });
-        onLoginSuccess(data.username);
+        onLoginSuccess(data.username, data.token);
       }
     } catch {
       toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });
@@ -380,7 +380,7 @@ function RegisterForm({
 }: {
   onClose: () => void;
   onSwitchToLogin: () => void;
-  onRegisterSuccess: (username: string) => void;
+  onRegisterSuccess: (username: string, token: string) => void;
 }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -411,7 +411,7 @@ function RegisterForm({
         toast({ title: "Erro", description: data.error, variant: "destructive" });
       } else {
         toast({ title: "Conta criada!", description: `Bem-vindo ao Aura2, ${data.username}!` });
-        onRegisterSuccess(data.username);
+        onRegisterSuccess(data.username, data.token);
       }
     } catch {
       toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });

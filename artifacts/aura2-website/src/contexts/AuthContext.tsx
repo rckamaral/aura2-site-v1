@@ -6,11 +6,13 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string) => void;
+  login: (username: string, token: string) => void;
   logout: () => void;
+  token: string | null;
 }
 
 const STORAGE_KEY = "aura2_user";
+const TOKEN_KEY = "aura2_token";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -24,6 +26,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   });
 
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem(TOKEN_KEY);
+  });
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch("/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(TOKEN_KEY);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     if (user) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
@@ -32,16 +55,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user]);
 
-  function login(username: string) {
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem(TOKEN_KEY, token);
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
+    }
+  }, [token]);
+
+  function login(username: string, newToken: string) {
     setUser({ username });
+    setToken(newToken);
   }
 
   function logout() {
     setUser(null);
+    setToken(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );
