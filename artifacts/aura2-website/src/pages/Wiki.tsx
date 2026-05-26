@@ -1242,12 +1242,19 @@ export default function Wiki() {
             </div>
           </section>
 
-          {/* WORD BOSS */}
+          {/* WORLD BOSS */}
           <section id="wordboss">
-            <SectionTitle>WORD BOSS</SectionTitle>
-            <div className="flex items-center gap-2 mb-6 text-xs text-muted-foreground border border-primary/15 rounded-lg px-4 py-2 w-fit bg-primary/5 mx-auto">
-              <span className="text-primary">📅</span> Toda quinta-feira às{" "}
-              <span className="text-primary font-bold ml-1">21:00h</span>
+            <SectionTitle>WORLD BOSS</SectionTitle>
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground border border-primary/15 rounded-lg px-4 py-2 bg-primary/5">
+                <span className="text-primary">📅</span> Toda quinta-feira às{" "}
+                <span className="text-primary font-bold ml-1">21:00h</span>
+              </div>
+              <img
+                src="/bau-world-boss-facil.png"
+                alt="Baú World Boss"
+                className="w-10 h-10 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.9)] relative z-10"
+              />
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {wordBosses.map((boss) => (
