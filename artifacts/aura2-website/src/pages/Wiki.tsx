@@ -174,6 +174,7 @@ const metinGroups: Record<
     },
     {
       label: "Metin Lv 65",
+      icon: "/metin-lv65.png",
       color: "#B95115",
       drops: [
         "Gold — 6.5kk",
