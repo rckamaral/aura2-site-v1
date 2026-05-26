@@ -399,7 +399,8 @@ const bosses6h = [
 const bosses12h = [
   {
     name: "Minotauro",
-    icon: "🪓",
+    icon: "/lord-minotauro.png",
+    iconRotate: -12,
     color: "#8B0000",
     drops: [
       "Tesouro Do Minotauro",
@@ -1213,7 +1214,12 @@ export default function Wiki() {
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
+                      <img
+                        src={boss.icon}
+                        alt={boss.name}
+                        className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10"
+                        style={"iconRotate" in boss && boss.iconRotate ? { rotate: `${boss.iconRotate}deg` } : undefined}
+                      />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
