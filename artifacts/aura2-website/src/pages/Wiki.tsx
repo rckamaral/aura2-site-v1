@@ -356,8 +356,8 @@ const miniBosses = [
 
 const bosses6h = [
   {
-    name: "Dragão D'Agua",
-    icon: "🐲",
+    name: "Dragão d'Água",
+    icon: "/dragao-dagua.png",
     color: "#1E90FF",
     drops: [
       "Tesouro do Dragão",
