@@ -442,7 +442,7 @@ const baus = [
     name: "Baú do Tier II",
     icon: "/cofre.png",
     color: "#7B68EE",
-    desc: "Recompensas dos Mini Bosses — (Aleatórios)",
+    desc: "Baú Iniciante repleto de consumíveis essenciais para sua evolução — (Aleatórios)",
     items: [
       { tipo: "Consumível", item: "Poção do Rato", qty: "2x" },
       { tipo: "Consumível", item: "Poção do Galo", qty: "2x" },
