@@ -318,7 +318,7 @@ const miniBosses = [
   },
   {
     name: "Nove Caudas",
-    icon: "🦊",
+    icon: "/nove-caudas.png",
     color: "#C0392B",
     drops: [
       "Baú do Tier II",
