@@ -93,7 +93,7 @@ export default function Navbar() {
           <Link
             href="/loja"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-green-400 hover:text-green-300 transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
           >
             Loja
           </Link>
