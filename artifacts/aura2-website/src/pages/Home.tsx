@@ -230,7 +230,7 @@ export default function Home() {
           <div className="flex-1 max-w-2xl space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary backdrop-blur-sm">
               <span className="mr-2 flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-              × Season 1 Online • Evento Especial Ativo
+              × Season 1 - Beta
             </div>
             <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] tracking-tight">
               <span className="text-white">UMA NOVA LENDA</span>
