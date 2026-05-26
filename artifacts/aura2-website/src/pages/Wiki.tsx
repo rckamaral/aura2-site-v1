@@ -1097,10 +1097,7 @@ export default function Wiki() {
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <div className="relative group/bossimg flex-shrink-0">
-                        <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer" />
-                        <img src={boss.icon} alt="" aria-hidden="true" className="absolute left-8 top-0 w-20 h-20 object-contain opacity-0 group-hover/bossimg:opacity-100 transition-opacity duration-200 z-50 pointer-events-none drop-shadow-[0_0_10px_rgba(255,200,0,0.9)]" />
-                      </div>
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
@@ -1148,10 +1145,7 @@ export default function Wiki() {
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <div className="relative group/bossimg flex-shrink-0">
-                        <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer" />
-                        <img src={boss.icon} alt="" aria-hidden="true" className="absolute left-8 top-0 w-20 h-20 object-contain opacity-0 group-hover/bossimg:opacity-100 transition-opacity duration-200 z-50 pointer-events-none drop-shadow-[0_0_10px_rgba(255,100,0,0.9)]" />
-                      </div>
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,100,0,0.8)] relative z-10" />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
@@ -1194,10 +1188,7 @@ export default function Wiki() {
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <div className="relative group/bossimg flex-shrink-0">
-                        <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer" />
-                        <img src={boss.icon} alt="" aria-hidden="true" className="absolute left-8 top-0 w-20 h-20 object-contain opacity-0 group-hover/bossimg:opacity-100 transition-opacity duration-200 z-50 pointer-events-none drop-shadow-[0_0_10px_rgba(255,200,0,0.9)]" />
-                      </div>
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
@@ -1242,10 +1233,7 @@ export default function Wiki() {
                     }}
                   >
                     {boss.icon.startsWith("/") ? (
-                      <div className="relative group/bossimg flex-shrink-0">
-                        <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer" />
-                        <img src={boss.icon} alt="" aria-hidden="true" className="absolute left-8 top-0 w-20 h-20 object-contain opacity-0 group-hover/bossimg:opacity-100 transition-opacity duration-200 z-50 pointer-events-none drop-shadow-[0_0_10px_rgba(255,200,0,0.9)]" />
-                      </div>
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
                     ) : (
                       <span className="text-2xl">{boss.icon}</span>
                     )}
@@ -1375,10 +1363,7 @@ export default function Wiki() {
                           }}
                         >
                           {entry.icon.startsWith("/") ? (
-                            <div className="relative group/bossimg flex-shrink-0">
-                              <img src={entry.icon} alt={entry.name} className="w-8 h-8 object-contain cursor-pointer" />
-                              <img src={entry.icon} alt="" aria-hidden="true" className="absolute left-8 top-0 w-20 h-20 object-contain opacity-0 group-hover/bossimg:opacity-100 transition-opacity duration-200 z-50 pointer-events-none drop-shadow-[0_0_10px_rgba(255,200,0,0.9)]" />
-                            </div>
+                            <img src={entry.icon} alt={entry.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
                           ) : (
                             <span className="text-xl">{entry.icon}</span>
                           )}
