@@ -56,7 +56,7 @@ export default function Navbar() {
               AURA 2
             </span>
             <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
-              Reviva a essência do Metin2
+              - Fase Beta
             </span>
           </div>
         </Link>
