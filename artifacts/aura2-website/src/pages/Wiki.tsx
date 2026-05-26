@@ -1778,7 +1778,7 @@ export default function Wiki() {
                     </span>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 flex-1">
                       {[
-                        { img: "/items/cristal.png", name: "Cristal ×2" },
+                        { img: "/items/cristal.png", name: "Cristal Azul ×2" },
                         {
                           img: "/items/simbolo_dragao.png",
                           name: "Símbolo do Dragão ×2",
@@ -2398,7 +2398,7 @@ export default function Wiki() {
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {[
-                    { img: "/items/cristal.png", label: "Cristal ×2" },
+                    { img: "/items/cristal.png", label: "Cristal Azul ×2" },
                     {
                       img: "/items/simbolo_dragao.png",
                       label: "Símbolo do Dragão ×2",
