@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { QRCodeSVG } from "qrcode.react";
+import { generatePixPayload } from "@/lib/pix";
 import {
   User,
   Home,
@@ -668,8 +670,14 @@ function SectionComprarCash() {
             <p className="text-2xl font-bold text-white">{selected.price}</p>
           </div>
           <div className="flex justify-center">
-            <div className="inline-flex items-center justify-center w-28 h-28 rounded-xl border border-primary/30 bg-black/40">
-              <QrCode className="w-16 h-16 text-primary/60" strokeWidth={1} />
+            <div className="inline-flex items-center justify-center p-3 rounded-xl border border-primary/30 bg-white">
+              <QRCodeSVG
+                value={generatePixPayload(PIX_KEY, "Aura2 Season 1", "SAO PAULO", selected.value)}
+                size={136}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="M"
+              />
             </div>
           </div>
           <div className="space-y-1.5">

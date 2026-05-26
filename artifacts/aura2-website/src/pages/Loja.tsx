@@ -49,10 +49,16 @@ function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
       </div>
 
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center w-32 h-32 rounded-xl border border-primary/30 bg-black/40 mx-auto">
-          <QrCode className="w-20 h-20 text-primary/60" strokeWidth={1} />
+        <div className="inline-flex items-center justify-center p-3 rounded-xl border border-primary/30 bg-white mx-auto">
+          <QRCodeSVG
+            value={generatePixPayload(PIX_KEY, "Aura2 Season 1", "SAO PAULO", pkg.value)}
+            size={144}
+            bgColor="#ffffff"
+            fgColor="#000000"
+            level="M"
+          />
         </div>
-        <p className="text-xs text-muted-foreground">QR Code disponível em breve</p>
+        <p className="text-xs text-muted-foreground">Aponte a câmera do teu banco para este QR Code</p>
       </div>
 
       <div className="space-y-2">
