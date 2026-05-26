@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Heart, Coins, Zap, Star, Lock, QrCode, CreditCard, Copy, Check, ArrowLeft, X } from "lucide-react";
+import { Heart, Coins, Zap, Star, Lock, CreditCard, Copy, Check, ArrowLeft, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { QRCodeSVG } from "qrcode.react";
+import { generatePixPayload } from "@/lib/pix";
 
 const PACKAGES = [
   { amount: "10.000", price: "R$10,00", value: 10 },
