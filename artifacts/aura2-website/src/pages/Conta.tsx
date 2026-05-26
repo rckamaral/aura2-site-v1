@@ -32,7 +32,7 @@ type Section =
   | "historico";
 
 export default function Conta() {
-  const { user, logout } = useAuth();
+  const { user, logout, token } = useAuth();
   const [, navigate] = useLocation();
   const [section, setSection] = useState<Section>("inicio");
 
@@ -61,7 +61,7 @@ export default function Conta() {
 
         <div className="flex flex-col lg:flex-row gap-6">
           <main className="flex-1 order-2 lg:order-1">
-            <SectionContent section={section} username={user.username} onNavigate={setSection} />
+            <SectionContent section={section} username={user.username} token={token} onNavigate={setSection} />
           </main>
 
           <aside className="w-full lg:w-64 order-1 lg:order-2 shrink-0">
@@ -195,19 +195,21 @@ function NavItem({
 function SectionContent({
   section,
   username,
+  token,
   onNavigate,
 }: {
   section: Section;
   username: string;
+  token: string | null;
   onNavigate: (s: Section) => void;
 }) {
   switch (section) {
     case "inicio":
       return <SectionInicio username={username} onNavigate={onNavigate} />;
     case "alterar-email":
-      return <SectionAlterarEmail />;
+      return <SectionAlterarEmail token={token} />;
     case "alterar-senha":
-      return <SectionAlterarSenha />;
+      return <SectionAlterarSenha token={token} />;
     case "senha-armazem":
       return <SectionSenhaArmazem />;
     case "personagens":
@@ -285,58 +287,180 @@ function QuickCard({ icon, title, desc, onClick }: { icon: React.ReactNode; titl
   );
 }
 
-function SectionAlterarEmail() {
+function SectionAlterarEmail({ token }: { token: string | null }) {
   const { toast } = useToast();
+  const [newEmail, setNewEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (newEmail !== confirmEmail) {
+      toast({ title: "Erro", description: "Os e-mails não coincidem.", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/change-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ newEmail, currentPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      } else {
+        toast({ title: "Sucesso!", description: data.message });
+        setNewEmail("");
+        setConfirmEmail("");
+        setCurrentPassword("");
+      }
+    } catch {
+      toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <FormSection title="Alterar E-mail" icon={<Mail className="w-5 h-5" />}>
-      <div className="space-y-4 max-w-md">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
         <div className="space-y-2">
           <Label>Novo E-mail</Label>
-          <Input type="email" placeholder="novo@email.com" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
+          <Input
+            type="email"
+            placeholder="novo@email.com"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            required
+          />
         </div>
         <div className="space-y-2">
-          <Label>Confirmar E-mail</Label>
-          <Input type="email" placeholder="novo@email.com" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
+          <Label>Confirmar Novo E-mail</Label>
+          <Input
+            type="email"
+            placeholder="novo@email.com"
+            value={confirmEmail}
+            onChange={(e) => setConfirmEmail(e.target.value)}
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            required
+          />
         </div>
         <div className="space-y-2">
           <Label>Senha Atual</Label>
-          <Input type="password" placeholder="••••••••" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
+          <Input
+            type="password"
+            placeholder="••••••••"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            required
+          />
         </div>
         <Button
+          type="submit"
+          disabled={loading}
           className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
-          onClick={() => toast({ title: "Em breve", description: "Esta funcionalidade estará disponível em breve." })}
         >
-          Salvar Alteração
+          {loading ? "Salvando..." : "Salvar Alteração"}
         </Button>
-      </div>
+      </form>
     </FormSection>
   );
 }
 
-function SectionAlterarSenha() {
+function SectionAlterarSenha({ token }: { token: string | null }) {
   const { toast } = useToast();
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Erro", description: "As senhas não coincidem.", variant: "destructive" });
+      return;
+    }
+    if (newPassword.length < 6) {
+      toast({ title: "Erro", description: "A nova senha deve ter pelo menos 6 caracteres.", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      } else {
+        toast({ title: "Senha alterada!", description: data.message });
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      }
+    } catch {
+      toast({ title: "Erro", description: "Não foi possível conectar ao servidor.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <FormSection title="Alterar Senha" icon={<Lock className="w-5 h-5" />}>
-      <div className="space-y-4 max-w-md">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
         <div className="space-y-2">
           <Label>Senha Atual</Label>
-          <Input type="password" placeholder="••••••••" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
+          <Input
+            type="password"
+            placeholder="••••••••"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            required
+          />
         </div>
         <div className="space-y-2">
           <Label>Nova Senha</Label>
-          <Input type="password" placeholder="••••••••" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
+          <Input
+            type="password"
+            placeholder="••••••••"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            required
+          />
         </div>
         <div className="space-y-2">
           <Label>Confirmar Nova Senha</Label>
-          <Input type="password" placeholder="••••••••" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
+          <Input
+            type="password"
+            placeholder="••••••••"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+            required
+          />
         </div>
         <Button
+          type="submit"
+          disabled={loading}
           className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
-          onClick={() => toast({ title: "Em breve", description: "Esta funcionalidade estará disponível em breve." })}
         >
-          Salvar Alteração
+          {loading ? "Salvando..." : "Salvar Alteração"}
         </Button>
-      </div>
+      </form>
     </FormSection>
   );
 }

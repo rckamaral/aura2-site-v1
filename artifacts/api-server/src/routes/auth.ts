@@ -157,6 +157,165 @@ router.post("/auth/login", async (req, res) => {
   }
 });
 
+router.post("/auth/change-password", async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith("Bearer ")) {
+    res.status(401).json({ error: "Não autenticado." });
+    return;
+  }
+  const token = authHeader.slice(7);
+  let username: string;
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as { username: string };
+    username = payload.username;
+  } catch {
+    res.status(401).json({ error: "Token inválido ou expirado." });
+    return;
+  }
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword || newPassword.length < 6) {
+    res.status(400).json({ error: "Dados inválidos. A nova senha deve ter pelo menos 6 caracteres." });
+    return;
+  }
+
+  const mysqlOk = await isMySQLAvailable();
+
+  try {
+    let storedHash: string | null = null;
+    let isMySQL = false;
+
+    if (mysqlOk) {
+      const [rows] = await pool.execute(
+        "SELECT password_hash FROM accounts WHERE username = ? LIMIT 1",
+        [username]
+      ) as [any[], any];
+      if (rows.length > 0) { storedHash = rows[0].password_hash; isMySQL = true; }
+    }
+
+    if (!storedHash) {
+      const rows = await db.select().from(accountsTable).where(eq(accountsTable.username, username)).limit(1);
+      if (rows.length > 0) storedHash = rows[0].passwordHash;
+    }
+
+    if (!storedHash) {
+      res.status(404).json({ error: "Conta não encontrada." });
+      return;
+    }
+
+    const valid = await bcrypt.compare(currentPassword, storedHash);
+    if (!valid) {
+      res.status(401).json({ error: "Senha atual incorreta." });
+      return;
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+
+    if (isMySQL) {
+      await pool.execute("UPDATE accounts SET password_hash = ? WHERE username = ?", [newHash, username]);
+    } else {
+      await db.update(accountsTable).set({ passwordHash: newHash }).where(eq(accountsTable.username, username));
+    }
+
+    req.log.info({ username }, "Password changed successfully");
+    res.json({ message: "Senha alterada com sucesso!" });
+  } catch (err) {
+    req.log.error({ err }, "DB error during change-password");
+    res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });
+  }
+});
+
+router.post("/auth/change-email", async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith("Bearer ")) {
+    res.status(401).json({ error: "Não autenticado." });
+    return;
+  }
+  const token = authHeader.slice(7);
+  let username: string;
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as { username: string };
+    username = payload.username;
+  } catch {
+    res.status(401).json({ error: "Token inválido ou expirado." });
+    return;
+  }
+
+  const { newEmail, currentPassword } = req.body;
+  if (!newEmail || typeof newEmail !== "string" || !currentPassword) {
+    res.status(400).json({ error: "Dados inválidos." });
+    return;
+  }
+
+  const emailSchema = z.string().email();
+  if (!emailSchema.safeParse(newEmail).success) {
+    res.status(400).json({ error: "E-mail inválido." });
+    return;
+  }
+
+  const mysqlOk = await isMySQLAvailable();
+
+  try {
+    let storedHash: string | null = null;
+    let isMySQL = false;
+
+    if (mysqlOk) {
+      const [rows] = await pool.execute(
+        "SELECT password_hash FROM accounts WHERE username = ? LIMIT 1",
+        [username]
+      ) as [any[], any];
+      if (rows.length > 0) { storedHash = rows[0].password_hash; isMySQL = true; }
+
+      if (storedHash) {
+        const [emailCheck] = await pool.execute(
+          "SELECT id FROM accounts WHERE email = ? AND username != ? LIMIT 1",
+          [newEmail, username]
+        ) as [any[], any];
+        if (emailCheck.length > 0) {
+          res.status(409).json({ error: "Este e-mail já está em uso." });
+          return;
+        }
+      }
+    }
+
+    if (!storedHash) {
+      const rows = await db.select().from(accountsTable).where(eq(accountsTable.username, username)).limit(1);
+      if (rows.length > 0) storedHash = rows[0].passwordHash;
+
+      if (storedHash) {
+        const emailCheck = await db.select().from(accountsTable).where(eq(accountsTable.email, newEmail)).limit(1);
+        if (emailCheck.length > 0 && emailCheck[0].username !== username) {
+          res.status(409).json({ error: "Este e-mail já está em uso." });
+          return;
+        }
+      }
+    }
+
+    if (!storedHash) {
+      res.status(404).json({ error: "Conta não encontrada." });
+      return;
+    }
+
+    const valid = await bcrypt.compare(currentPassword, storedHash);
+    if (!valid) {
+      res.status(401).json({ error: "Senha atual incorreta." });
+      return;
+    }
+
+    if (isMySQL) {
+      await pool.execute("UPDATE accounts SET email = ? WHERE username = ?", [newEmail, username]);
+    } else {
+      await db.update(accountsTable).set({ email: newEmail }).where(eq(accountsTable.username, username));
+    }
+
+    req.log.info({ username }, "Email changed successfully");
+    res.json({ message: "E-mail alterado com sucesso!" });
+  } catch (err) {
+    req.log.error({ err }, "DB error during change-email");
+    res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });
+  }
+});
+
 router.get("/auth/me", (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
