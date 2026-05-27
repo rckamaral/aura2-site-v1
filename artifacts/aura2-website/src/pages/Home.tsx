@@ -128,6 +128,7 @@ const POSTS: Record<Tab, Post[]> = {
       title: "Cronograma de Eventos",
       ago: "há 1 mês",
       gradient: "linear-gradient(135deg, #3a0a0acc 0%, #7a1515cc 100%)",
+      image: "/posts/evento.png",
 
       desc: "Veja todos os eventos programados para a Fase Beta da Temporada 1.",
       fullContent: `Confira abaixo todos os eventos programados para a Temporada 1 do Aura2:\n\nBosses com Respawn Fixo:\n• Dragão D'Água — reaparece a cada 6 horas. Drop: Tesouro do Dragão, Máscara Da Fortuna, Moedas da Conquista x15\n• Dragão de Fogo — reaparece a cada 6 horas. Drop: Tesouro do Dragão De Fogo, Máscara Da Fortuna, Moedas da Conquista x15\n• Minotauro — reaparece a cada 12 horas. Drop: Tesouro do Minotauro, Máscara Da Fortuna x2, Moedas da Conquista x30\n\nWorld Boss (evento especial):\n• Grande Ogro — modo Paz: combate cooperativo, sem PvP. Drop: Baú do World Boss, Máscara Da Fortuna x5, Moedas da Conquista x100\n• Jotun — modo PvP: combate livre entre jogadores. Drop: Baú do World Boss, Máscara Da Fortuna x5, Moedas da Conquista x100\n\nEventos de Drop Dobrado:\n• Finais de semana — drop dobrado nas Dungeons (Torre Sakita e Caverna Demoníaca)\n• Invasão de Metins: Metins especiais com drop elevado aparecem periodicamente em todos os mapas\n\nFique atento ao Discord para anúncios de datas e horários exatos. Todos os horários são em horário de Brasília (GMT-3).`,
