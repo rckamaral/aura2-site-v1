@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
   User,
@@ -25,6 +26,8 @@ import {
   Check,
   ArrowLeft,
   CreditCard,
+  LifeBuoy,
+  Send,
 } from "lucide-react";
 
 type Section =
@@ -35,7 +38,8 @@ type Section =
   | "personagens"
   | "senha-personagem"
   | "comprar-cash"
-  | "historico";
+  | "historico"
+  | "suporte";
 
 export default function Conta() {
   const { user, logout, token } = useAuth();
@@ -160,6 +164,15 @@ export default function Conta() {
                   />
                 </NavGroup>
 
+                <NavGroup label="Ajuda">
+                  <NavItem
+                    icon={<LifeBuoy className="w-4 h-4" />}
+                    label="Suporte"
+                    active={section === "suporte"}
+                    onClick={() => setSection("suporte")}
+                  />
+                </NavGroup>
+
                 <div className="pt-2 border-t border-white/10 mt-2">
                   <button
                     onClick={handleLogout}
@@ -246,6 +259,8 @@ function SectionContent({
       return <SectionComprarCash token={token} onBalanceUpdate={onBalanceUpdate} />;
     case "historico":
       return <SectionHistorico token={token} />;
+    case "suporte":
+      return <SectionSuporte token={token} />;
     default:
       return null;
   }
@@ -885,6 +900,149 @@ function SectionHistorico({ token }: { token: string | null }) {
                 </p>
               </div>
               {statusLabel(d.status)}
+            </div>
+          ))}
+        </div>
+      )}
+    </FormSection>
+  );
+}
+
+function SectionSuporte({ token }: { token: string | null }) {
+  const { toast } = useToast();
+  const [tickets, setTickets] = useState<{ id: number; subject: string; message: string; status: string; adminReply: string | null; createdAt: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState<number | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ subject: "", message: "" });
+  const [sending, setSending] = useState(false);
+
+  async function fetchTickets() {
+    if (!token) return;
+    try {
+      const res = await fetch("/api/tickets/mine", { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      if (res.ok) setTickets(data.tickets || []);
+    } catch {}
+    finally { setLoading(false); }
+  }
+
+  useEffect(() => { fetchTickets(); }, [token]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!token || !form.subject.trim() || !form.message.trim()) return;
+    setSending(true);
+    try {
+      const res = await fetch("/api/tickets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast({ title: "Ticket enviado!", description: "Responderemos o mais breve possível." });
+        setTickets(prev => [data.ticket, ...prev]);
+        setForm({ subject: "", message: "" });
+        setShowForm(false);
+      } else {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Erro de rede", variant: "destructive" });
+    } finally {
+      setSending(false);
+    }
+  }
+
+  function statusLabel(s: string) {
+    if (s === "answered") return <span className="text-xs font-semibold text-blue-400 bg-blue-950/40 border border-blue-500/30 px-2 py-0.5 rounded-full">Respondido</span>;
+    if (s === "closed") return <span className="text-xs font-semibold text-muted-foreground bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">Fechado</span>;
+    return <span className="text-xs font-semibold text-yellow-400 bg-yellow-950/40 border border-yellow-500/30 px-2 py-0.5 rounded-full">Aberto</span>;
+  }
+
+  return (
+    <FormSection title="Suporte" icon={<LifeBuoy className="w-5 h-5" />}>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm text-muted-foreground">Tens algum problema ou dúvida? Abre um ticket.</p>
+        <Button onClick={() => setShowForm(v => !v)} size="sm" className="bg-primary text-black hover:bg-primary/90 font-bold shrink-0">
+          {showForm ? "Cancelar" : "Novo Ticket"}
+        </Button>
+      </div>
+
+      {showForm && (
+        <form onSubmit={handleSubmit} className="mb-6 space-y-3 rounded-xl border border-primary/20 bg-black/30 p-4">
+          <div className="space-y-1.5">
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">Assunto</Label>
+            <Input
+              value={form.subject}
+              onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+              placeholder="Ex: Não recebi minhas moedas Cash"
+              maxLength={120}
+              required
+              className="bg-black/40 border-primary/20 text-white"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">Mensagem</Label>
+            <Textarea
+              value={form.message}
+              onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+              placeholder="Descreve o teu problema com o máximo de detalhes..."
+              minLength={10}
+              maxLength={2000}
+              required
+              className="bg-black/40 border-primary/20 text-white min-h-[100px]"
+            />
+          </div>
+          <Button type="submit" disabled={sending || !form.subject.trim() || !form.message.trim()} className="w-full bg-primary text-black hover:bg-primary/90 font-bold uppercase tracking-wider">
+            <Send className="w-4 h-4 mr-2" />
+            {sending ? "Enviando..." : "Enviar Ticket"}
+          </Button>
+        </form>
+      )}
+
+      {loading ? (
+        <p className="text-center py-8 text-muted-foreground text-sm">Carregando...</p>
+      ) : tickets.length === 0 ? (
+        <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+          <LifeBuoy className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground text-sm">Nenhum ticket aberto ainda.</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {tickets.map(t => (
+            <div key={t.id} className="rounded-xl border border-white/10 bg-black/30 overflow-hidden">
+              <button
+                onClick={() => setExpanded(expanded === t.id ? null : t.id)}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/5 transition-colors"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-white text-sm">{t.subject}</span>
+                    {statusLabel(t.status)}
+                  </div>
+                  <p className="text-xs text-muted-foreground/60 mt-0.5">{new Date(t.createdAt).toLocaleDateString("pt-BR")}</p>
+                </div>
+                <span className="text-muted-foreground text-xs shrink-0">{expanded === t.id ? "▲" : "▼"}</span>
+              </button>
+              {expanded === t.id && (
+                <div className="border-t border-white/10 px-4 py-3 space-y-3">
+                  <div className="bg-black/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">A tua mensagem</p>
+                    <p className="text-sm text-white/90 whitespace-pre-wrap">{t.message}</p>
+                  </div>
+                  {t.adminReply && (
+                    <div className="bg-primary/10 border border-primary/20 rounded-lg p-3">
+                      <p className="text-xs text-primary mb-1 uppercase tracking-wider">Resposta da equipa</p>
+                      <p className="text-sm text-white/90 whitespace-pre-wrap">{t.adminReply}</p>
+                    </div>
+                  )}
+                  {!t.adminReply && (
+                    <p className="text-xs text-muted-foreground/60 italic">Aguardando resposta da equipa...</p>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>

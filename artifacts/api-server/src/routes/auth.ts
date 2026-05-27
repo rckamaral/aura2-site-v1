@@ -23,8 +23,8 @@ const loginSchema = z.object({
   password: z.string().min(1),
 });
 
-function signToken(username: string) {
-  return jwt.sign({ username }, JWT_SECRET, { expiresIn: JWT_EXPIRES });
+function signToken(username: string, role: string = "player") {
+  return jwt.sign({ username, role }, JWT_SECRET, { expiresIn: JWT_EXPIRES });
 }
 
 async function isMySQLAvailable(): Promise<boolean> {
@@ -123,8 +123,9 @@ router.post("/auth/login", async (req, res) => {
       }
 
       req.log.info({ username }, "Account logged in (MySQL)");
-      const token = signToken(username);
-      res.json({ message: "Login realizado com sucesso!", username, token });
+      const role = username === ADMIN_USERNAME ? "admin" : "player";
+      const token = signToken(username, role);
+      res.json({ message: "Login realizado com sucesso!", username, role, token });
       return;
     } catch (err) {
       req.log.error({ err }, "MySQL error during login");
@@ -149,8 +150,9 @@ router.post("/auth/login", async (req, res) => {
     }
 
     req.log.info({ username }, "Account logged in (PostgreSQL fallback)");
-    const token = signToken(username);
-    res.json({ message: "Login realizado com sucesso!", username, token });
+    const role = rows[0].role || "player";
+    const token = signToken(username, role);
+    res.json({ message: "Login realizado com sucesso!", username, role, token });
   } catch (err) {
     req.log.error({ err }, "PG error during login");
     res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });

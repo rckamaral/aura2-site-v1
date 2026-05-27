@@ -2,11 +2,12 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from "
 
 interface User {
   username: string;
+  role: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, token: string) => void;
+  login: (username: string, token: string, role?: string) => void;
   logout: () => void;
   token: string | null;
 }
@@ -14,13 +15,26 @@ interface AuthContextType {
 const STORAGE_KEY = "aura2_user";
 const TOKEN_KEY = "aura2_token";
 
+function decodeJwtRole(token: string): string {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.role || "player";
+  } catch {
+    return "player";
+  }
+}
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : null;
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!saved) return null;
+      const parsed = JSON.parse(saved) as User;
+      if (!parsed.role && token) parsed.role = decodeJwtRole(token);
+      return parsed;
     } catch {
       return null;
     }
@@ -32,7 +46,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!token) return;
-
     fetch("/api/auth/me", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -63,8 +76,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [token]);
 
-  function login(username: string, newToken: string) {
-    setUser({ username });
+  function login(username: string, newToken: string, role?: string) {
+    const resolvedRole = role || decodeJwtRole(newToken);
+    setUser({ username, role: resolvedRole });
     setToken(newToken);
   }
 
