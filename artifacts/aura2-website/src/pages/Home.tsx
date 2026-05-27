@@ -516,7 +516,7 @@ export default function Home() {
           {POSTS[activeTab].map((post) => (
             <div
               key={post.id}
-              className="group relative rounded-xl overflow-hidden cursor-pointer flex flex-col"
+              className="group relative rounded-xl overflow-hidden cursor-pointer flex flex-col transition-transform duration-300 hover:scale-[1.04]"
               style={{
                 background: post.gradient,
                 height: post.featured ? "14rem" : "12rem",
