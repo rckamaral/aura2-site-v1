@@ -527,91 +527,134 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ÚLTIMAS POSTAGENS */}
-      <section className="relative z-30 container mx-auto px-4 py-14">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Temporada 1</p>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-white tracking-wide">
-              Crônicas do Servidor
-            </h2>
-          </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            {TABS.map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveTab(tab)}
-                className="text-sm font-semibold px-4 py-2 rounded-lg transition-all border"
-                style={{
-                  background: activeTab === tab ? "rgba(212,160,23,0.15)" : "transparent",
-                  color: activeTab === tab ? "#D4A017" : "rgba(255,255,255,0.45)",
-                  borderColor: activeTab === tab ? "rgba(212,160,23,0.5)" : "rgba(255,255,255,0.1)",
-                }}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {POSTS[activeTab].map((post) => (
-            <div
-              key={post.id}
-              onClick={() => setSelectedPost(post)}
-              className="group relative rounded-xl overflow-hidden cursor-pointer flex flex-col transition-transform duration-300 hover:scale-[1.04]"
-              style={{
-                background: post.gradient,
-                height: "12rem",
-                boxShadow: post.featured ? "0 0 32px rgba(212,160,23,0.18), 0 2px 16px rgba(0,0,0,0.5)" : "0 2px 12px rgba(0,0,0,0.4)",
-              }}
-            >
-              {/* Glow overlay for featured */}
-              {post.featured && (
-                <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 60% 0%, rgba(212,160,23,0.13) 0%, transparent 70%)" }} />
-              )}
-              <div
-                className="absolute inset-0 opacity-25"
-                style={{ backgroundImage: "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 60%)" }}
-              />
-              {/* Decorative ring */}
-              <div className="absolute top-3 right-3 opacity-[0.07]">
-                <div className="w-20 h-20 rounded-full border-2 border-white" />
-              </div>
+      {/* CRÔNICAS DO SERVIDOR */}
+      <section className="relative z-30 py-14" style={{ background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.4) 70%, transparent 100%)" }}>
+        <div className="container mx-auto px-4">
 
-              {/* Badge top-right */}
-              {post.badge && (
-                <div className="absolute top-3 left-3 z-10">
-                  <span className="text-[10px] font-black tracking-widest uppercase px-2 py-1 rounded-md"
-                    style={{ background: "rgba(0,0,0,0.65)", color: "#D4A017", border: "1px solid rgba(212,160,23,0.4)", backdropFilter: "blur(6px)" }}>
-                    {post.badge}
-                  </span>
-                </div>
-              )}
-
-              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent">
-                <span
-                  className="inline-block text-[10px] font-black uppercase tracking-widest text-white px-2 py-0.5 rounded mb-1.5"
-                  style={{ background: post.categoryColor }}
-                >
-                  {post.category}
-                </span>
-                <h3 className={`text-white font-bold leading-tight mb-1.5 group-hover:text-primary transition-colors ${post.featured ? "text-sm" : "text-sm"}`}>
-                  {post.title}
-                </h3>
-                {post.desc && (
-                  <p className="text-[11px] text-gray-400 leading-relaxed line-clamp-2 mb-1.5">{post.desc}</p>
-                )}
-                <p className="text-[10px] text-gray-600 uppercase tracking-wider font-semibold">{post.ago}</p>
-              </div>
-
-              {/* Hover border */}
-              <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-primary/50 transition-all duration-300" />
-              {post.featured && (
-                <div className="absolute inset-0 rounded-xl border border-primary/20" />
-              )}
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.25em] mb-2" style={{ color: "#D4A017" }}>— Temporada 1</p>
+              <h2 className="font-display text-3xl md:text-4xl font-black text-white tracking-wide">
+                Crônicas do Servidor
+              </h2>
             </div>
-          ))}
+
+            {/* Tabs */}
+            <div className="flex items-center gap-1 p-1 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              {TABS.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveTab(tab)}
+                  className="text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 uppercase tracking-wider"
+                  style={{
+                    background: activeTab === tab ? "rgba(212,160,23,0.18)" : "transparent",
+                    color: activeTab === tab ? "#D4A017" : "rgba(255,255,255,0.4)",
+                    boxShadow: activeTab === tab ? "0 0 12px rgba(212,160,23,0.15)" : "none",
+                  }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Posts grid — featured left + 3 compact right */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+
+            {/* Featured post */}
+            {(() => {
+              const featured = POSTS[activeTab][0];
+              return (
+                <div
+                  key={featured.id}
+                  onClick={() => setSelectedPost(featured)}
+                  className="lg:col-span-3 group relative rounded-2xl overflow-hidden cursor-pointer"
+                  style={{
+                    minHeight: "360px",
+                    background: featured.gradient,
+                    boxShadow: "0 0 40px rgba(212,160,23,0.12), 0 4px 32px rgba(0,0,0,0.6)",
+                  }}
+                >
+                  {/* Shimmer overlay */}
+                  <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)" }} />
+
+                  {/* Badge */}
+                  {featured.badge && (
+                    <div className="absolute top-5 left-5 z-10">
+                      <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1.5 rounded-lg"
+                        style={{ background: "rgba(0,0,0,0.7)", color: "#D4A017", border: "1px solid rgba(212,160,23,0.5)", backdropFilter: "blur(8px)" }}>
+                        {featured.badge}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Content bottom */}
+                  <div className="absolute inset-x-0 bottom-0 p-6" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.7) 50%, transparent 100%)" }}>
+                    <span className="inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md mb-3"
+                      style={{ background: featured.categoryColor + "33", color: featured.categoryColor, border: `1px solid ${featured.categoryColor}66` }}>
+                      {featured.category}
+                    </span>
+                    <h3 className="font-display text-xl md:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-primary transition-colors duration-200">
+                      {featured.title}
+                    </h3>
+                    {featured.desc && (
+                      <p className="text-sm text-gray-400 leading-relaxed line-clamp-2 mb-3">{featured.desc}</p>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-600 uppercase tracking-wider font-semibold">{featured.ago}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-200" style={{ color: "#D4A017" }}>
+                        Ler mais <span>→</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Hover glow border */}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary/40 transition-all duration-300 pointer-events-none" />
+                </div>
+              );
+            })()}
+
+            {/* 3 compact posts */}
+            <div className="lg:col-span-2 flex flex-col gap-3">
+              {POSTS[activeTab].slice(1).map((post, idx) => (
+                <div
+                  key={post.id}
+                  onClick={() => setSelectedPost(post)}
+                  className="group flex gap-4 items-start rounded-xl p-4 cursor-pointer transition-all duration-200"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "rgba(212,160,23,0.06)")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                >
+                  {/* Number accent */}
+                  <div className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-sm font-black"
+                    style={{ background: post.categoryColor + "22", color: post.categoryColor, border: `1px solid ${post.categoryColor}44` }}>
+                    {idx + 2}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <span className="inline-block text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded mb-1.5"
+                      style={{ background: post.categoryColor + "22", color: post.categoryColor }}>
+                      {post.category}
+                    </span>
+                    <h3 className="text-sm font-bold text-white leading-snug mb-1 group-hover:text-primary transition-colors duration-200 line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-[11px] text-gray-500 uppercase tracking-wider font-semibold">{post.ago}</p>
+                  </div>
+
+                  <div className="flex-shrink-0 text-gray-700 group-hover:text-primary transition-colors duration-200 mt-1">
+                    <span className="text-sm">→</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
         </div>
       </section>
 
