@@ -5,46 +5,46 @@ outputs = []
 id = "ryH7Is7XrkoeHCtux_-QM"
 uri = "file://artifacts/aura2-website/public/posts/ai-beta.png"
 type = "image"
-title = "metin2 beta dark fantasy"
+title = "metin2-beta-shaman-scroll"
 
 [[generated]]
 id = "pNXJ5c0Lsw_AA525zMT27"
 uri = "file://artifacts/aura2-website/public/posts/ai-guerra.png"
 type = "image"
-title = "kingdom war battle"
+title = "metin2-world-boss-ogre"
 
 [[generated]]
 id = "3WMFcFsBGYL1QAdBZtksb"
 uri = "file://artifacts/aura2-website/public/posts/ai-dungeon.png"
 type = "image"
-title = "dungeon boss loot"
+title = "metin2-dungeon-entrance"
 
 [[generated]]
 id = "JaU_Y_i5xOHDmGhaMV_dv"
 uri = "file://artifacts/aura2-website/public/posts/ai-patch.png"
 type = "image"
-title = "patch notes scroll runes"
+title = "metin2-patch-warrior-reading"
 
 [[generated]]
 id = "_7-KqaKZKA-I-qH4j_rct"
 uri = "file://artifacts/aura2-website/public/posts/ai-classes.png"
 type = "image"
-title = "metin2 character classes"
+title = "metin2-classes-four-heroes"
 
 [[generated]]
 id = "F3qeJ-9G3Z3lemV5IEMZq"
 uri = "file://artifacts/aura2-website/public/posts/ai-metin.png"
 type = "image"
-title = "metin stone dark energy"
+title = "metin2-metin-stone-battle"
 
 [[generated]]
 id = "-2uiYgFPqS1FQxDxnK5nO"
 uri = "file://artifacts/aura2-website/public/posts/ai-evento.png"
 type = "image"
-title = "metin2 event pagoda"
+title = "metin2-evento-shaman-celebration"
 
 [[generated]]
 id = "4sWbPdniFMCoygCqLMHpu"
 uri = "file://artifacts/aura2-website/public/posts/ai-update.png"
 type = "image"
-title = "metin2 update temple gate"
+title = "metin2-update-ninja-map"
