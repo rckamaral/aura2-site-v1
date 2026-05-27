@@ -16,6 +16,7 @@ import PrivacyPolicy from "@/pages/politicas-de-privacidade";
 import ResetPassword from "@/pages/ResetPassword";
 import Loja from "@/pages/Loja";
 import Admin from "@/pages/Admin";
+import Parceiros from "@/pages/Parceiros";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ function Router() {
         <Route path="/redefinir-senha" component={ResetPassword} />
         <Route path="/loja" component={Loja} />
         <Route path="/admin" component={Admin} />
+        <Route path="/parceiros" component={Parceiros} />
         <Route path="/" component={Home} />
         <Route>
           <NotFound />

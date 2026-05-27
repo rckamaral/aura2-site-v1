@@ -4,6 +4,7 @@ import authRouter from "./auth";
 import donationsRouter from "./donations";
 import newsRouter from "./news";
 import ticketsRouter from "./tickets";
+import partnersRouter from "./partners";
 
 const router: IRouter = Router();
 
@@ -12,5 +13,6 @@ router.use(authRouter);
 router.use(donationsRouter);
 router.use(newsRouter);
 router.use(ticketsRouter);
+router.use(partnersRouter);
 
 export default router;

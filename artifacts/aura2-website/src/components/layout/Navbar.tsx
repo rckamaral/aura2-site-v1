@@ -102,6 +102,13 @@ export default function Navbar() {
           >
             Doação
           </Link>
+          <Link
+            href="/parceiros"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+          >
+            Parceiros
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -190,6 +197,13 @@ export default function Navbar() {
               className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-primary hover:bg-primary/5 rounded-md transition-colors"
             >
               Doação
+            </Link>
+            <Link
+              href="/parceiros"
+              onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+            >
+              Parceiros
             </Link>
             {user ? (
               <>
