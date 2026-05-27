@@ -178,3 +178,35 @@
     font-family: var(--font-display);
   }
 }
+
+@layer utilities {
+  button:not(:disabled),
+  a,
+  [role="button"],
+  [role="link"],
+  label[for],
+  input[type="submit"],
+  input[type="button"],
+  .cursor-pointer {
+    transition-property: transform, color, background-color, border-color, box-shadow, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+  }
+
+  button:not(:disabled):hover,
+  a:hover,
+  [role="button"]:hover,
+  [role="link"]:hover,
+  input[type="submit"]:hover,
+  input[type="button"]:hover,
+  .cursor-pointer:hover {
+    transform: scale(1.07);
+  }
+
+  button:not(:disabled):active,
+  a:active,
+  [role="button"]:active,
+  .cursor-pointer:active {
+    transform: scale(0.97);
+  }
+}
