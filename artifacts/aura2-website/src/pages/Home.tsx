@@ -489,7 +489,7 @@ export default function Home() {
       </div>
 
       {/* ÚLTIMAS POSTAGENS */}
-      <section className="container mx-auto px-4 py-14">
+      <section className="relative z-30 container mx-auto px-4 py-14">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Temporada 1</p>
