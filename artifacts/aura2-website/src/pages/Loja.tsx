@@ -1,239 +1,250 @@
 import { useState } from "react";
-import { Heart, Coins, Zap, Star, Lock, CreditCard, Copy, Check, ArrowLeft, QrCode, Clock, CheckCircle, XCircle } from "lucide-react";
+import { Heart, Coins, Zap, Star, Lock, CreditCard, ArrowLeft, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { QRCodeSVG } from "qrcode.react";
 import { generatePixPayload } from "@/lib/pix";
 
 const PACKAGES = [
-  { amount: "10.000", coins: 10000, price: "R$10,00", value: 10 },
-  { amount: "22.000", coins: 22000, price: "R$20,00", value: 20, bonus: "+2.000 bônus" },
-  { amount: "65.000", coins: 65000, price: "R$50,00", value: 50, bonus: "+5.000 bônus", popular: true },
-  { amount: "135.000", coins: 135000, price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
-  { amount: "275.000", coins: 275000, price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
-  { amount: "420.000", coins: 420000, price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
+  { amount: "10.000", coins: 10000, price: "R$ 10,00", value: 10 },
+  { amount: "22.000", coins: 22000, price: "R$ 20,00", value: 20, bonus: "+2.000 bônus" },
+  { amount: "65.000", coins: 65000, price: "R$ 50,00", value: 50, bonus: "+5.000 bônus", popular: true },
+  { amount: "135.000", coins: 135000, price: "R$ 100,00", value: 100, bonus: "+10.000 bônus" },
+  { amount: "275.000", coins: 275000, price: "R$ 200,00", value: 200, bonus: "+25.000 bônus" },
+  { amount: "420.000", coins: 420000, price: "R$ 300,00", value: 300, bonus: "+45.000 bônus" },
 ];
+
+type Package = (typeof PACKAGES)[number];
+type PayMethod = "pix" | "card";
+type PixSubStep = "form" | "qrcode";
 
 const PIX_KEY = "aura2brasil@gmail.com";
 
-type Step = "method" | "pix" | "card";
-type Package = (typeof PACKAGES)[number];
+const FOOTER_TEXT = (
+  <div className="text-center text-xs space-y-0.5 mt-4">
+    <p className="text-[#4ade80] font-semibold text-sm">As moedas são inseridas automaticamente após confirmação do pagamento.</p>
+    <p className="text-zinc-500">Todas as transações são seguras e criptografadas.</p>
+    <p className="text-zinc-500">Nunca armazenamos informações pessoais como Nome e CPF.</p>
+    <p className="text-zinc-500 mt-1">
+      Ao realizar sua compra você está de acordo com nossos{" "}
+      <a href="/termos" className="text-blue-400 underline hover:text-blue-300" target="_blank">termos de uso</a>
+      {" "}e nossa{" "}
+      <a href="/privacidade" className="text-blue-400 underline hover:text-blue-300" target="_blank">política de privacidade</a>.
+    </p>
+  </div>
+);
 
-function PixStep({ pkg, onBack, token }: { pkg: Package; onBack: () => void; token: string }) {
-  const [copied, setCopied] = useState(false);
-  const [claimed, setClaimed] = useState(false);
-  const [claiming, setClaiming] = useState(false);
-  const { toast } = useToast();
+function MethodStep({
+  pkg,
+  onBack,
+  method,
+  setMethod,
+  agreed,
+  setAgreed,
+  onConfirm,
+}: {
+  pkg: Package;
+  onBack: () => void;
+  method: PayMethod;
+  setMethod: (m: PayMethod) => void;
+  agreed: boolean;
+  setAgreed: (v: boolean) => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-1">
+        <div className="w-6 h-6 rounded-full bg-zinc-700 flex items-center justify-center text-white text-sm font-bold shrink-0">1</div>
+        <span className="text-white font-semibold text-base">Pagamento</span>
+      </div>
 
-  function handleCopy() {
-    navigator.clipboard.writeText(PIX_KEY);
-    setCopied(true);
-    toast({ title: "Chave PIX copiada!", description: "Cole no teu app de pagamento." });
-    setTimeout(() => setCopied(false), 3000);
+      {/* PIX option */}
+      <label
+        className={`flex items-center justify-between w-full rounded-lg border px-4 py-3 cursor-pointer transition-all ${method === "pix" ? "border-[#3b82f6] bg-[#1e2a3a]" : "border-zinc-700 bg-zinc-900 hover:border-zinc-500"}`}
+        onClick={() => setMethod("pix")}
+      >
+        <div className="flex items-center gap-3">
+          <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${method === "pix" ? "border-[#3b82f6]" : "border-zinc-500"}`}>
+            {method === "pix" && <div className="w-2 h-2 rounded-full bg-[#3b82f6]" />}
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-[#32BCAD] rounded flex items-center justify-center">
+              <QrCode className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="text-white font-medium">Pix</span>
+            <span className="text-[10px] text-[#3b82f6] border border-[#3b82f6]/50 rounded px-1.5 py-0.5 font-semibold">Recomendado</span>
+          </div>
+        </div>
+        <span className="text-white font-semibold">{pkg.price}</span>
+      </label>
+
+      {/* Card option */}
+      <label
+        className={`flex items-center justify-between w-full rounded-lg border px-4 py-3 cursor-pointer transition-all ${method === "card" ? "border-[#3b82f6] bg-[#1e2a3a]" : "border-zinc-700 bg-zinc-900 hover:border-zinc-500"}`}
+        onClick={() => setMethod("card")}
+      >
+        <div className="flex items-center gap-3">
+          <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${method === "card" ? "border-[#3b82f6]" : "border-zinc-500"}`}>
+            {method === "card" && <div className="w-2 h-2 rounded-full bg-[#3b82f6]" />}
+          </div>
+          <div className="flex items-center gap-2">
+            <CreditCard className="w-5 h-5 text-zinc-400" />
+            <span className="text-white font-medium">Cartão de Crédito/Débito</span>
+          </div>
+        </div>
+        <span className="text-white font-semibold">{pkg.price}</span>
+      </label>
+
+      {/* Terms */}
+      <label className="flex items-center gap-2 cursor-pointer select-none">
+        <div
+          onClick={() => setAgreed(!agreed)}
+          className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${agreed ? "bg-[#3b82f6] border-[#3b82f6]" : "border-zinc-500"}`}
+        >
+          {agreed && <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+        </div>
+        <span className="text-zinc-400 text-sm">
+          Li e concordo com os{" "}
+          <a href="/termos" className="text-[#3b82f6] underline hover:text-blue-300" target="_blank" onClick={e => e.stopPropagation()}>Termos de Uso</a>
+        </span>
+      </label>
+
+      <Button
+        onClick={onConfirm}
+        disabled={!agreed}
+        className="w-full bg-[#16a34a] hover:bg-[#15803d] disabled:opacity-50 text-white font-bold uppercase tracking-widest py-3"
+      >
+        FINALIZAR COMPRA
+      </Button>
+
+      {FOOTER_TEXT}
+    </div>
+  );
+}
+
+function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
+  const [nome, setNome] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [subStep, setSubStep] = useState<PixSubStep>("form");
+
+  function formatCpf(value: string) {
+    return value
+      .replace(/\D/g, "")
+      .slice(0, 11)
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
   }
 
-  async function handleClaimed() {
-    setClaiming(true);
-    try {
-      const res = await fetch("/api/donations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          packageLabel: `${pkg.amount} Moedas Cash`,
-          coinsAmount: pkg.coins,
-          priceBrl: pkg.value,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setClaimed(true);
-        toast({ title: "Pagamento registrado!", description: "Receberás as moedas após confirmação." });
-      } else {
-        toast({ title: "Erro", description: data.error || "Tenta novamente.", variant: "destructive" });
-      }
-    } catch {
-      toast({ title: "Erro de rede", description: "Verifica a ligação e tenta novamente.", variant: "destructive" });
-    } finally {
-      setClaiming(false);
-    }
+  function handleCpfChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setCpf(formatCpf(e.target.value));
   }
+
+  const canGenerate = nome.trim().length >= 3 && cpf.replace(/\D/g, "").length === 11;
 
   return (
-    <div className="space-y-5">
-      <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
+    <div className="space-y-4">
+      <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors">
         <ArrowLeft className="w-4 h-4" /> Voltar
       </button>
 
-      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
-        <div>
-          <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
-          <p className="font-display font-black text-xl text-primary">{pkg.amount} Moedas Cash</p>
-        </div>
-        <p className="text-2xl font-bold text-white">{pkg.price}</p>
+      <div className="flex items-center gap-2 mb-1">
+        <div className="w-6 h-6 rounded-full bg-zinc-700 flex items-center justify-center text-white text-sm font-bold shrink-0">2</div>
+        <span className="text-white font-semibold text-base">Pagar com PIX</span>
       </div>
 
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center p-3 rounded-xl border border-primary/30 bg-white mx-auto">
-          <QRCodeSVG
-            value={generatePixPayload(PIX_KEY, "Aura2 Season 1", "SAO PAULO", pkg.value)}
-            size={144}
-            bgColor="#ffffff"
-            fgColor="#000000"
-            level="M"
-          />
-        </div>
-        <p className="text-xs text-muted-foreground">Aponte a câmera do teu banco para este QR Code</p>
-      </div>
-
-      <div className="space-y-2">
-        <Label className="text-muted-foreground text-xs uppercase tracking-wider">Chave PIX (e-mail)</Label>
-        <div className="flex gap-2">
+      {subStep === "form" && (
+        <>
           <Input
-            value={PIX_KEY}
-            readOnly
-            className="bg-black/40 border-primary/20 text-white font-mono text-sm"
+            value={nome}
+            onChange={e => setNome(e.target.value)}
+            placeholder="Nome Completo"
+            className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500"
+          />
+          <Input
+            value={cpf}
+            onChange={handleCpfChange}
+            placeholder="CPF do Pagador"
+            className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500"
           />
           <Button
-            onClick={handleCopy}
-            variant="outline"
-            className="border-primary/30 text-primary hover:bg-primary/10 shrink-0"
+            onClick={() => setSubStep("qrcode")}
+            disabled={!canGenerate}
+            className="w-full bg-[#16a34a] hover:bg-[#15803d] disabled:opacity-50 text-white font-bold uppercase tracking-widest py-3"
           >
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            GERAR QRCODE
           </Button>
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
-        <p className="font-semibold text-yellow-400">Instruções:</p>
-        <p>1. Copie a chave PIX acima</p>
-        <p>2. Abra o app do teu banco e escolhe PIX</p>
-        <p>3. Cole a chave e insere o valor <strong className="text-white">{pkg.price}</strong></p>
-        <p>4. No campo de mensagem coloca o teu <strong className="text-white">nome de utilizador</strong></p>
-        <p>5. Após pagar, clica no botão abaixo</p>
-      </div>
-
-      {claimed ? (
-        <div className="flex items-center gap-3 rounded-xl border border-green-500/30 bg-green-950/30 p-4">
-          <CheckCircle className="w-5 h-5 text-green-400 shrink-0" />
-          <div>
-            <p className="text-green-400 font-semibold text-sm">Pagamento registrado!</p>
-            <p className="text-green-400/70 text-xs">As tuas moedas serão creditadas em até 24h após confirmação.</p>
-          </div>
-        </div>
-      ) : (
-        <Button
-          onClick={handleClaimed}
-          disabled={claiming}
-          className="w-full bg-green-600 hover:bg-green-500 text-white font-bold uppercase tracking-wider"
-        >
-          {claiming ? "Registrando..." : "Já realizei o pagamento"}
-        </Button>
+        </>
       )}
+
+      {subStep === "qrcode" && (
+        <>
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center justify-center p-4 rounded-xl border border-zinc-700 bg-white mx-auto">
+              <QRCodeSVG
+                value={generatePixPayload(PIX_KEY, "Aura2 Season 1", "SAO PAULO", pkg.value)}
+                size={180}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="M"
+              />
+            </div>
+            <p className="text-zinc-400 text-sm">Aponte a câmera do seu banco para este QR Code</p>
+            <div className="rounded-lg bg-zinc-900 border border-zinc-700 px-4 py-2 text-zinc-300 text-sm">
+              Valor: <span className="text-white font-bold">{pkg.price}</span>
+            </div>
+          </div>
+          <button onClick={() => setSubStep("form")} className="text-zinc-500 text-xs hover:text-zinc-300 transition-colors w-full text-center">
+            ← Usar outro CPF
+          </button>
+        </>
+      )}
+
+      {FOOTER_TEXT}
     </div>
   );
 }
 
 function CardStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
-  const [form, setForm] = useState({ number: "", name: "", expiry: "", cvv: "" });
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let { name, value } = e.target;
-    if (name === "number") value = value.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
-    if (name === "expiry") value = value.replace(/\D/g, "").slice(0, 4).replace(/^(\d{2})(\d)/, "$1/$2");
-    if (name === "cvv") value = value.replace(/\D/g, "").slice(0, 4);
-    setForm(prev => ({ ...prev, [name]: value }));
-  }
-
   return (
-    <div className="space-y-5">
-      <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
+    <div className="space-y-4">
+      <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors">
         <ArrowLeft className="w-4 h-4" /> Voltar
       </button>
-
-      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
-        <div>
-          <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
-          <p className="font-display font-black text-xl text-primary">{pkg.amount} Moedas Cash</p>
-        </div>
-        <p className="text-2xl font-bold text-white">{pkg.price}</p>
+      <div className="flex items-center gap-2 mb-1">
+        <div className="w-6 h-6 rounded-full bg-zinc-700 flex items-center justify-center text-white text-sm font-bold shrink-0">2</div>
+        <span className="text-white font-semibold text-base">Cartão de Crédito/Débito</span>
       </div>
-
-      <div className="space-y-4">
-        <div className="space-y-1.5">
-          <Label className="text-muted-foreground text-xs uppercase tracking-wider">Número do Cartão</Label>
-          <Input
-            name="number"
-            value={form.number}
-            onChange={handleChange}
-            placeholder="0000 0000 0000 0000"
-            className="bg-black/40 border-primary/20 text-white font-mono tracking-wider"
-          />
-        </div>
-        <div className="space-y-1.5">
-          <Label className="text-muted-foreground text-xs uppercase tracking-wider">Nome no Cartão</Label>
-          <Input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="NOME COMPLETO"
-            className="bg-black/40 border-primary/20 text-white uppercase"
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1.5">
-            <Label className="text-muted-foreground text-xs uppercase tracking-wider">Validade</Label>
-            <Input
-              name="expiry"
-              value={form.expiry}
-              onChange={handleChange}
-              placeholder="MM/AA"
-              className="bg-black/40 border-primary/20 text-white font-mono"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-muted-foreground text-xs uppercase tracking-wider">CVV</Label>
-            <Input
-              name="cvv"
-              value={form.cvv}
-              onChange={handleChange}
-              placeholder="123"
-              className="bg-black/40 border-primary/20 text-white font-mono"
-              type="password"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-3 text-sm text-yellow-400/80 text-center">
+      <div className="rounded-xl border border-zinc-700 bg-zinc-900/60 p-4 text-center text-zinc-400 text-sm">
         Integração com gateway de pagamento em breve.
       </div>
-
-      <Button
-        className="w-full bg-primary hover:bg-primary/90 text-black font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(212,160,23,0.25)]"
-        disabled
-      >
-        <CreditCard className="w-4 h-4 mr-2" /> Pagar {pkg.price}
-      </Button>
+      {FOOTER_TEXT}
     </div>
   );
 }
 
 export default function Loja() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [selected, setSelected] = useState<Package | null>(null);
-  const [step, setStep] = useState<Step>("method");
+  const [method, setMethod] = useState<PayMethod>("pix");
+  const [agreed, setAgreed] = useState(false);
+  const [step, setStep] = useState<"method" | "pix" | "card">("method");
 
   function openModal(pkg: Package) {
     setSelected(pkg);
+    setMethod("pix");
+    setAgreed(false);
     setStep("method");
   }
 
   function closeModal() {
     setSelected(null);
+  }
+
+  function handleConfirm() {
+    setStep(method);
   }
 
   if (!user) {
@@ -244,7 +255,7 @@ export default function Loja() {
             <Lock className="w-9 h-9 text-primary" />
           </div>
           <h2 className="font-display text-3xl font-black text-white mb-3">ACESSO RESTRITO</h2>
-          <p className="text-muted-foreground mb-6">Precisas de estar logado para aceder à área de doações.</p>
+          <p className="text-muted-foreground mb-6">Você precisa estar logado para acessar a área de doações.</p>
           <Button
             className="bg-primary hover:bg-primary/90 text-black font-bold uppercase tracking-wider px-8"
             onClick={() => document.getElementById("navbar-login-btn")?.click()}
@@ -269,7 +280,7 @@ export default function Loja() {
             ÁREA DE <span className="text-primary">DOAÇÃO</span>
           </h1>
           <p className="text-muted-foreground text-lg">
-            Ao doar, recebes Moedas Cash para usar no jogo e ajudas a manter o Aura 2 no ar.
+            Ao doar, você recebe Moedas para usar no jogo e ajuda a manter o Aura2 no ar.
           </p>
         </div>
 
@@ -290,7 +301,7 @@ export default function Loja() {
               )}
               <div className="flex flex-col">
                 <span className="font-display font-black text-3xl leading-none tracking-tight text-primary">{pkg.amount}</span>
-                <span className="text-[11px] text-muted-foreground uppercase tracking-widest font-medium mt-0.5">Moedas Cash</span>
+                <span className="text-[11px] text-muted-foreground uppercase tracking-widest font-medium mt-0.5">Moedas</span>
                 {pkg.bonus && (
                   <span className="text-[11px] text-primary/70 font-semibold mt-1 flex items-center gap-1">
                     <Zap className="w-3 h-3" /> {pkg.bonus}
@@ -303,7 +314,7 @@ export default function Loja() {
                   onClick={() => openModal(pkg)}
                   className="bg-primary hover:bg-primary/90 text-black font-bold uppercase tracking-wider px-5 shadow-[0_0_12px_rgba(212,160,23,0.25)] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] transition-all"
                 >
-                  <Heart className="w-4 h-4 mr-2" /> Doar
+                  <Coins className="w-4 h-4 mr-2" /> Comprar
                 </Button>
               </div>
             </div>
@@ -312,61 +323,27 @@ export default function Loja() {
 
         <div className="mt-8 p-4 rounded-xl border border-primary/20 bg-primary/5 text-center">
           <p className="text-primary/70 text-sm">
-            Doações via <span className="font-semibold text-primary">PIX · Cartão de Crédito</span> — processadas com segurança.
+            Pagamentos via <span className="font-semibold text-primary">PIX · Cartão de Crédito</span> — processados com segurança.
           </p>
         </div>
       </div>
 
       <Dialog open={!!selected} onOpenChange={(open) => !open && closeModal()}>
-        <DialogContent className="bg-zinc-950 border-primary/20 text-white max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-display text-xl text-primary">
-              {step === "method" ? "Escolhe o método de pagamento" : step === "pix" ? "Pagamento via PIX" : "Pagamento via Cartão"}
-            </DialogTitle>
-          </DialogHeader>
-
+        <DialogContent className="bg-[#1c1c1e] border-zinc-700 text-white max-w-md">
           {step === "method" && selected && (
-            <div className="space-y-4">
-              <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
-                  <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
-                </div>
-                <p className="text-2xl font-bold text-white">{selected.price}</p>
-              </div>
-
-              <button
-                onClick={() => setStep("pix")}
-                className="w-full flex items-center gap-4 rounded-xl border border-primary/20 bg-black/40 hover:border-primary/50 hover:bg-primary/5 p-4 transition-all text-left group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:border-primary/40">
-                  <QrCode className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="font-bold text-white">PIX</p>
-                  <p className="text-sm text-muted-foreground">Transferência instantânea · Crédito em até 24h</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => setStep("card")}
-                className="w-full flex items-center gap-4 rounded-xl border border-primary/20 bg-black/40 hover:border-primary/50 hover:bg-primary/5 p-4 transition-all text-left group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:border-primary/40">
-                  <CreditCard className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="font-bold text-white">Cartão de Crédito</p>
-                  <p className="text-sm text-muted-foreground">Visa, Mastercard, Elo · Em breve</p>
-                </div>
-              </button>
-            </div>
+            <MethodStep
+              pkg={selected}
+              onBack={closeModal}
+              method={method}
+              setMethod={setMethod}
+              agreed={agreed}
+              setAgreed={setAgreed}
+              onConfirm={handleConfirm}
+            />
           )}
-
-          {step === "pix" && selected && token && (
-            <PixStep pkg={selected} onBack={() => setStep("method")} token={token} />
+          {step === "pix" && selected && (
+            <PixStep pkg={selected} onBack={() => setStep("method")} />
           )}
-
           {step === "card" && selected && (
             <CardStep pkg={selected} onBack={() => setStep("method")} />
           )}

@@ -607,7 +607,7 @@ export default function Home() {
                   }}
                 >
                   {/* Dark overlay for readability */}
-                  <div className="absolute inset-0" style={{ background: featured.gradient }} />
+                  <div className="absolute inset-0" style={{ background: featured.image ? "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)" : featured.gradient }} />
 
                   {/* Badge */}
                   {featured.badge && (
@@ -661,9 +661,9 @@ export default function Home() {
                 >
                   {/* Thumbnail */}
                   <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden relative"
-                    style={{ background: post.gradient }}>
+                    style={{ background: post.image ? undefined : post.gradient }}>
                     {post.image && (
-                      <img src={post.image} alt="" className="w-full h-full object-cover opacity-80" />
+                      <img src={post.image} alt="" className="w-full h-full object-cover" />
                     )}
                   </div>
 
