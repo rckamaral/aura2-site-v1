@@ -583,6 +583,9 @@ const CASH_PACKAGES = [
   { amount: "135.000", coins: 135000, price: "R$100,00", value: 100, bonus: "+10.000 bônus" },
   { amount: "275.000", coins: 275000, price: "R$200,00", value: 200, bonus: "+25.000 bônus" },
   { amount: "420.000", coins: 420000, price: "R$300,00", value: 300, bonus: "+45.000 bônus" },
+  { amount: "700.000", coins: 700000, price: "R$500,00", value: 500, bonus: "+80.000 bônus" },
+  { amount: "1.000.000", coins: 1000000, price: "R$700,00", value: 700, bonus: "+150.000 bônus" },
+  { amount: "1.500.000", coins: 1500000, price: "R$1.000,00", value: 1000, bonus: "+500.000 bônus" },
 ];
 
 const PIX_KEY = "aura2brasil@gmail.com";
