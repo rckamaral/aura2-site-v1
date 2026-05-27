@@ -519,7 +519,7 @@ export default function Home() {
               className="group relative rounded-xl overflow-hidden cursor-pointer flex flex-col transition-transform duration-300 hover:scale-[1.04]"
               style={{
                 background: post.gradient,
-                height: post.featured ? "14rem" : "12rem",
+                height: "12rem",
                 boxShadow: post.featured ? "0 0 32px rgba(212,160,23,0.18), 0 2px 16px rgba(0,0,0,0.5)" : "0 2px 12px rgba(0,0,0,0.4)",
               }}
             >
