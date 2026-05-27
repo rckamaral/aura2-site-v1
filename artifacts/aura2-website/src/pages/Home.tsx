@@ -75,7 +75,7 @@ const POSTS: Record<Tab, Post[]> = {
       id: 1,
       category: "Fase Beta",
       categoryColor: "#b8860b",
-      title: "Servidor Beta Fechado — 15 Dias de Testes",
+      title: "Beta Fechado — 15 Dias de Testes",
       ago: "hoje",
       gradient: "linear-gradient(135deg, #1a1000 0%, #5a3800 60%, #3a2000 100%)",
       desc: "Beta fechado com 15 a 20 testadores selecionados a dedo. Durante 15 dias, a equipe avalia cada sistema antes do lançamento oficial.",
