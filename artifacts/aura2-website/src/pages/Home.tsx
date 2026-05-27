@@ -534,7 +534,7 @@ export default function Home() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] mb-2" style={{ color: "#D4A017" }}>— Temporada 1</p>
+              <p className="text-xs font-black uppercase tracking-[0.25em] mb-2" style={{ color: "#D4A017" }}>— Temporada 1 · Beta Fechado</p>
               <h2 className="font-display text-3xl md:text-4xl font-black text-white tracking-wide">
                 Notícias & Atualizações
               </h2>
