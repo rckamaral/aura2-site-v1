@@ -536,7 +536,7 @@ export default function Home() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.25em] mb-2" style={{ color: "#D4A017" }}>— Temporada 1</p>
               <h2 className="font-display text-3xl md:text-4xl font-black text-white tracking-wide">
-                Crônicas do Servidor
+                Notícias & Atualizações
               </h2>
             </div>
 
