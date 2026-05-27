@@ -56,43 +56,46 @@ const ALL_VIDEOS: { key: VideoKey; src: string }[] = CLASSES.flatMap((cls) =>
 const TABS = ["Fase Beta", "Eventos", "Notícias", "Atualizações"] as const;
 type Tab = (typeof TABS)[number];
 
-const POSTS: Record<Tab, { id: number; category: string; categoryColor: string; title: string; ago: string; gradient: string; desc?: string }[]> = {
+const POSTS: Record<Tab, { id: number; category: string; categoryColor: string; title: string; ago: string; gradient: string; desc?: string; badge?: string; featured?: boolean }[]> = {
   "Fase Beta": [
     {
       id: 1,
       category: "Fase Beta",
       categoryColor: "#b8860b",
-      title: "Bem-vindo à Fase Beta da Temporada 1",
-      ago: "há 2 dias",
-      gradient: "linear-gradient(135deg, #1a1200 0%, #4a3500 100%)",
-      desc: "O servidor Aura2 entra oficialmente na Fase Beta. Experimente tudo e reporte bugs para ganhar recompensas.",
+      title: "Servidor Beta Aberto — 15 Dias de Testes",
+      ago: "hoje",
+      gradient: "linear-gradient(135deg, #1a1000 0%, #5a3800 60%, #3a2000 100%)",
+      desc: "O servidor ficará aberto por 15 dias exclusivamente para jogadores selecionados. Explore, teste e reporte — cada detalhe importa para o lançamento oficial!",
+      badge: "🟢 AO VIVO",
+      featured: true,
     },
     {
       id: 2,
-      category: "Fase Beta",
-      categoryColor: "#b8860b",
-      title: "Recompensas por Reporte de Bugs",
-      ago: "há 2 dias",
-      gradient: "linear-gradient(135deg, #0f1a0f 0%, #1a3a1a 100%)",
-      desc: "Encontrou um bug? Reporte no Discord e ganhe Cash Coins como recompensa.",
+      category: "Recompensa",
+      categoryColor: "#c0860a",
+      title: "Cash de Recompensa no Lançamento Oficial",
+      ago: "hoje",
+      gradient: "linear-gradient(135deg, #1a0800 0%, #4a2000 60%, #2a1200 100%)",
+      desc: "Todo jogador que participar da Fase Beta receberá Cash Coins de presente quando o servidor for lançado oficialmente. Sua presença tem valor!",
+      badge: "🎁 RECOMPENSA",
     },
     {
       id: 3,
       category: "Fase Beta",
       categoryColor: "#b8860b",
-      title: "Regras da Fase Beta",
-      ago: "há 1 dia",
-      gradient: "linear-gradient(135deg, #1a0a1a 0%, #3a1540 100%)",
-      desc: "Confira as regras de conduta durante a fase beta e saiba o que é permitido ou não.",
+      title: "Reporte de Bugs — Como Participar",
+      ago: "hoje",
+      gradient: "linear-gradient(135deg, #0a1208 0%, #1a3010 100%)",
+      desc: "Encontrou algo errado? Reporte pelo Discord com prints e descrição detalhada. Bugs confirmados garantem recompensas extras no lançamento.",
     },
     {
       id: 4,
       category: "Fase Beta",
       categoryColor: "#b8860b",
-      title: "Previsão de Lançamento Oficial",
+      title: "Regras e Conduta na Fase Beta",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #0a0a1a 0%, #151560 100%)",
-      desc: "A data de lançamento oficial da Temporada 1 será anunciada em breve. Fique atento!",
+      gradient: "linear-gradient(135deg, #0a0818 0%, #1a1240 100%)",
+      desc: "Respeite os outros testadores, não explore bugs intencionalmente e colabore com a equipe. Violações podem resultar em exclusão e perda da recompensa.",
     },
   ],
   "Eventos": [
@@ -513,35 +516,57 @@ export default function Home() {
           {POSTS[activeTab].map((post) => (
             <div
               key={post.id}
-              className="group relative rounded-xl overflow-hidden cursor-pointer h-52 flex flex-col"
-              style={{ background: post.gradient }}
+              className="group relative rounded-xl overflow-hidden cursor-pointer flex flex-col"
+              style={{
+                background: post.gradient,
+                height: post.featured ? "14rem" : "12rem",
+                boxShadow: post.featured ? "0 0 32px rgba(212,160,23,0.18), 0 2px 16px rgba(0,0,0,0.5)" : "0 2px 12px rgba(0,0,0,0.4)",
+              }}
             >
+              {/* Glow overlay for featured */}
+              {post.featured && (
+                <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 60% 0%, rgba(212,160,23,0.13) 0%, transparent 70%)" }} />
+              )}
               <div
-                className="absolute inset-0 opacity-20"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 60%)",
-                }}
+                className="absolute inset-0 opacity-25"
+                style={{ backgroundImage: "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 60%)" }}
               />
-              <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                <div className="w-32 h-32 rounded-full border-2 border-white/30" />
+              {/* Decorative ring */}
+              <div className="absolute top-3 right-3 opacity-[0.07]">
+                <div className="w-20 h-20 rounded-full border-2 border-white" />
               </div>
-              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+
+              {/* Badge top-right */}
+              {post.badge && (
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="text-[10px] font-black tracking-widest uppercase px-2 py-1 rounded-md"
+                    style={{ background: "rgba(0,0,0,0.65)", color: "#D4A017", border: "1px solid rgba(212,160,23,0.4)", backdropFilter: "blur(6px)" }}>
+                    {post.badge}
+                  </span>
+                </div>
+              )}
+
+              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent">
                 <span
-                  className="inline-block text-xs font-bold uppercase tracking-wider text-white px-2 py-0.5 rounded mb-2"
+                  className="inline-block text-[10px] font-black uppercase tracking-widest text-white px-2 py-0.5 rounded mb-1.5"
                   style={{ background: post.categoryColor }}
                 >
                   {post.category}
                 </span>
-                <h3 className="text-white font-bold text-sm leading-tight mb-1 group-hover:text-primary transition-colors">
+                <h3 className={`text-white font-bold leading-tight mb-1.5 group-hover:text-primary transition-colors ${post.featured ? "text-sm" : "text-sm"}`}>
                   {post.title}
                 </h3>
                 {post.desc && (
-                  <p className="text-xs text-gray-400 leading-relaxed line-clamp-2 mb-1">{post.desc}</p>
+                  <p className="text-[11px] text-gray-400 leading-relaxed line-clamp-2 mb-1.5">{post.desc}</p>
                 )}
-                <p className="text-xs text-gray-500">{post.ago}</p>
+                <p className="text-[10px] text-gray-600 uppercase tracking-wider font-semibold">{post.ago}</p>
               </div>
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/40 rounded-xl transition-all duration-300" />
+
+              {/* Hover border */}
+              <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-primary/50 transition-all duration-300" />
+              {post.featured && (
+                <div className="absolute inset-0 rounded-xl border border-primary/20" />
+              )}
             </div>
           ))}
         </div>
