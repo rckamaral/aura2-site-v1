@@ -9,7 +9,7 @@ const BENEFITS = [
   {
     icon: Gift,
     title: "Cash Exclusivo",
-    desc: "Receba Cash Coins mensalmente para usar ou sortear entre os seus viewers.",
+    desc: "Receba Moedas mensalmente para usar ou sortear entre os seus viewers.",
     color: "#D4A017",
   },
   {
