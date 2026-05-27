@@ -163,6 +163,7 @@ const POSTS: Record<Tab, Post[]> = {
       title: "Drop Dobrado — Dungeons",
       ago: "há 1 semana",
       gradient: "linear-gradient(135deg, #1a0a00cc 0%, #3a1500cc 100%)",
+      image: "/posts/drop-dobrado.png",
 
       desc: "Todos os finais de semana o drop de itens em dungeons é dobrado.",
       fullContent: `Todo final de semana (sábado e domingo), o drop de itens em todas as dungeons do servidor é dobrado!\n\nDungeons participantes:\n• Torre Sakita — boss: Ceifadora da Morte. Drop: Tesouro do Ceifador, Armas do Nível 75, Metal Mágico+, Pérolas\n• Caverna Demoníaca — boss: Lord Gahnasel. Drop: Tesouro do Lord Gahnasel, cosméticos exclusivos, Coração do Ghanasel\n\nO que dobra durante o evento:\n• Drop de itens normais e mágicos\n• Drop de materiais de craft\n• Drop de Yang\n• Chance de drop de itens raros e únicos dos baús de tesouro\n\nHorário:\nO evento começa automaticamente à 00h01 do sábado e termina às 23h59 do domingo (horário de Brasília).\n\nDicas para aproveitar:\n• Forme grupos para maior eficiência — as dungeons foram feitas para equipes\n• Use poções de sorte para aumentar ainda mais suas chances\n• A Caverna Demoníaca tem cosméticos exclusivos (trajes e pet do Ghanasel) que só dropam lá\n\nBom farming para todos!`,
