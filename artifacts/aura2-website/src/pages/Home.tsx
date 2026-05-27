@@ -78,10 +78,10 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Beta Fechado — 15 Dias de Testes",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #1a1000cc 0%, #5a3800cc 60%, #3a2000cc 100%)",
+      gradient: "linear-gradient(135deg, #7a4400ee 0%, #c87800dd 60%, #905000ee 100%)",
 
       desc: "Beta fechado com 15 a 20 testadores selecionados a dedo. Durante 15 dias, a equipe avalia cada sistema antes do lançamento oficial.",
-      badge: "🟢 AO VIVO",
+      badge: "⚡ ACONTECENDO AGORA",
       featured: true,
       fullContent: `O Aura2 entra oficialmente na sua Fase Beta Fechada! Durante 15 dias, entre 15 e 20 testadores selecionados pela equipe terão acesso exclusivo ao servidor para avaliar todos os sistemas antes do lançamento oficial.\n\nEste é um beta FECHADO — o acesso não é público e não há inscrições abertas. Os testadores foram convidados diretamente pela equipe.\n\nO que será testado:\n• Sistema de combate PvP e PvE\n• Balanceamento das 4 classes (Guerreiro, Ninja, Shura e Shaman)\n• Sistema de itens, drops e dungeons\n• Economia do servidor e loja de Cash\n• Estabilidade e performance geral\n\nPara os testadores selecionados:\nUse o cliente disponível na página de Download e entre com sua conta de testador. Qualquer bug ou problema encontrado deve ser reportado no Discord oficial. Cada reporte conta para o prêmio de Cash no lançamento!\n\nApós o encerramento da Fase Beta, o servidor oficial será aberto ao público geral.`,
     },
@@ -91,7 +91,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0860a",
       title: "Cash de Recompensa no Lançamento Oficial",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #1a0800cc 0%, #4a2000cc 60%, #2a1200cc 100%)",
+      gradient: "linear-gradient(135deg, #6a3200ee 0%, #b06000dd 60%, #804000ee 100%)",
 
       desc: "Cada testador selecionado receberá Moedas no lançamento oficial como agradecimento pela participação no Beta Fechado.",
       badge: "🎁 RECOMPENSA",
@@ -103,7 +103,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Reporte de Bugs — Como Participar",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #0a1208cc 0%, #1a3010cc 100%)",
+      gradient: "linear-gradient(135deg, #6a3e00ee 0%, #aa6400dd 100%)",
 
       desc: "Encontrou algo errado? Reporte pelo Discord com prints e descrição detalhada. Bugs confirmados garantem recompensas extras no lançamento.",
       fullContent: `Como testador selecionado, reportar bugs é uma das suas responsabilidades mais importantes durante a Fase Beta Fechada.\n\nComo reportar um bug:\n1. Acesse o canal #reporte-bugs no Discord oficial do Aura2\n2. Use o template disponível no canal (Nome, Classe, Descrição do bug, Print/vídeo)\n3. Aguarde a confirmação da equipe\n\nO que reportar:\n• Crashes e desconexões inesperadas\n• Itens com stats incorretos ou duplicados\n• Habilidades que não funcionam corretamente\n• Exploits ou brechas que permitem vantagem injusta\n• Problemas visuais no mapa ou personagens\n\nO que NÃO é um bug:\n• Mecânicas intencionais do servidor (verifique no Wiki primeiro)\n• Lag causado pela sua própria conexão\n\nRecompensa por bug confirmado:\nCada bug reportado e confirmado pela equipe garante +25.000 Moedas extras no lançamento oficial. Bugs críticos podem garantir recompensas ainda maiores a critério da equipe!\n\nObrigado por dedicar seu tempo e ajudar a tornar o Aura2 o melhor servidor possível.`,
@@ -114,7 +114,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Regras e Conduta na Fase Beta",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #0a0818cc 0%, #1a1240cc 100%)",
+      gradient: "linear-gradient(135deg, #5c2e00ee 0%, #985000dd 100%)",
 
       desc: "Respeite os outros testadores, não explore bugs intencionalmente e colabore com a equipe. Violações podem resultar em exclusão e perda da recompensa.",
       fullContent: `Para garantir que a Fase Beta Fechada seja produtiva e justa, todos os testadores selecionados devem seguir as regras abaixo.\n\nRegras obrigatórias:\n• Não explore bugs intencionalmente para obter vantagem sobre outros testadores\n• Reporte qualquer exploit encontrado imediatamente no Discord\n• Respeite todos os outros testadores — sem ofensas, racismo ou toxicidade\n• Não utilize programas externos (bots, hacks, speed hacks)\n• Não compartilhe o cliente ou acesso do servidor com terceiros — o beta é fechado\n• Não faça spam no chat do servidor ou no Discord\n\nConsequências de violações:\n• Aviso: infrações leves (primeira vez)\n• Exclusão do beta: exploits intencionais ou comportamento tóxico grave\n• Banimento permanente: uso de hacks ou exploits que prejudiquem outros\n• Perda da recompensa de Cash: qualquer violação das regras\n\nNossa missão na Fase Beta Fechada é simples: testar, reportar e colaborar. Cada testador foi escolhido a dedo — honre essa confiança!\n\nEm caso de dúvidas sobre as regras, fale com um membro da equipe no Discord.`,
@@ -127,7 +127,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0392b",
       title: "Cronograma de Eventos",
       ago: "há 1 mês",
-      gradient: "linear-gradient(135deg, #3a0a0acc 0%, #7a1515cc 100%)",
+      gradient: "linear-gradient(135deg, #8a1010ee 0%, #d42020dd 60%, #aa1818ee 100%)",
       image: "/posts/evento.png",
 
       desc: "Veja todos os eventos programados para a Fase Beta da Temporada 1.",
@@ -139,7 +139,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0392b",
       title: "Boas-Vindas aos Testadores Selecionados",
       ago: "há 2 dias",
-      gradient: "linear-gradient(135deg, #2a0505cc 0%, #600a0acc 100%)",
+      gradient: "linear-gradient(135deg, #780a0aee 0%, #cc1818dd 100%)",
       image: "/posts/boas-vindas.png",
 
       desc: "Cada testador convidado recebe um kit exclusivo de boas-vindas para iniciar sua jornada na Fase Beta Fechada.",
@@ -151,7 +151,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0392b",
       title: "World Boss — Grande Ogro e Jotun",
       ago: "há 5 dias",
-      gradient: "linear-gradient(135deg, #1a0808cc 0%, #4a1010cc 100%)",
+      gradient: "linear-gradient(135deg, #700808ee 0%, #b81515dd 100%)",
       image: "/posts/world-boss.png",
       desc: "O World Boss do Aura2 aparece em dois modos: Paz (cooperativo) e PvP (combate livre). Drops exclusivos para os participantes.",
       fullContent: `O Aura2 conta com dois World Bosses exclusivos — os mais poderosos e recompensadores do servidor!\n\nGrande Ogro (Modo Paz):\nBoss cooperativo — todos os jogadores lutam juntos sem PvP ativo. Ideal para quem prefere focar no combate contra o boss sem se preocupar com outros jogadores.\n\nJotun (Modo PvP):\nBoss com combate livre — além de derrotar o boss, você precisa se defender dos outros jogadores que disputam os drops. Alto risco, alta recompensa.\n\nDrops do World Boss (ambos os modos):\n• Baú do World Boss\n• Máscara Da Fortuna x5\n• Moedas da Conquista x100\n• Metal Mágico+ x3\n\nO que há no Baú do World Boss:\n• Pacote do Sábio\n• Brinco do Tigre (30 dias)\n• Pets Cash (30 dias)\n• Cupons de Moedas (5k a 50k)\n• Escudo Sangrento ou Escudo dos Imperadores\n• Montaria PvM (30 dias)\n\nComo saber quando vai aparecer:\nOs horários de spawn dos World Bosses são anunciados no Discord oficial. Fique atento ao canal #anúncios para não perder!`,
@@ -162,7 +162,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0392b",
       title: "Drop Dobrado — Dungeons",
       ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #1a0a00cc 0%, #3a1500cc 100%)",
+      gradient: "linear-gradient(135deg, #6a0e00ee 0%, #aa2200dd 100%)",
       image: "/posts/drop-dobrado.png",
 
       desc: "Todos os finais de semana o drop de itens em dungeons é dobrado.",
@@ -176,7 +176,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#2471a3",
       title: "Patch Notes 13.05",
       ago: "há 6 dias",
-      gradient: "linear-gradient(135deg, #0a1a3acc 0%, #153060cc 100%)",
+      gradient: "linear-gradient(135deg, #0c2a7aee 0%, #1858c8dd 60%, #1040a0ee 100%)",
       image: "/posts/patch-notes.png",
 
       desc: "Correções de balanceamento, novos itens na loja e melhorias de performance.",
@@ -188,7 +188,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#2471a3",
       title: "Sistema de Doação PIX Ativo",
       ago: "há 3 dias",
-      gradient: "linear-gradient(135deg, #051520cc 0%, #0a2540cc 100%)",
+      gradient: "linear-gradient(135deg, #0a2888ee 0%, #1552c0dd 100%)",
 
       desc: "Agora é possível comprar Moedas via PIX diretamente pelo site com confirmação automática.",
       fullContent: `O sistema de doação via PIX está oficialmente ativo no Aura2!\n\nComo funciona:\n1. Acesse a página de Doação no menu do site\n2. Faça login na sua conta\n3. Escolha o pacote de Moedas desejado\n4. Escaneie o QR Code PIX ou copie a chave\n5. Realize o pagamento no seu banco\n6. O Cash é creditado automaticamente em até 5 minutos!\n\nPacotes disponíveis:\n• 100 Moedas — R$ 5,00\n• 300 Moedas — R$ 12,00 (melhor custo-benefício)\n• 700 Moedas — R$ 25,00\n• 1500 Moedas — R$ 49,00\n• 3500 Moedas — R$ 99,00\n\nConfirmação automática:\nO sistema usa a API do Mercado Pago com webhook de confirmação instantânea. Assim que o PIX é processado pelo banco, o servidor recebe a confirmação e credita o Cash automaticamente — sem precisar enviar comprovante!\n\nProblemas com o pagamento?\nSe o Cash não for creditado em 15 minutos, entre em contato pelo Discord com o ID da transação.`,
@@ -199,7 +199,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#2471a3",
       title: "Discord Oficial Aberto",
       ago: "há 4 dias",
-      gradient: "linear-gradient(135deg, #080d1acc 0%, #10183acc 100%)",
+      gradient: "linear-gradient(135deg, #081a78ee 0%, #1240b0dd 100%)",
 
       desc: "O Discord oficial do Aura2 está aberto. Junte-se à comunidade e fique por dentro de tudo.",
       fullContent: `O Discord oficial do Aura2 está aberto para todos os jogadores!\n\nO que você encontra no Discord:\n• #anúncios — Atualizações, eventos e novidades oficiais\n• #reporte-bugs — Canal para reportar problemas durante a Fase Beta\n• #suporte — Atendimento da equipe para dúvidas e problemas\n• #builds-e-dicas — Compartilhe estratégias e builds com a comunidade\n• #offtopic — Bate-papo geral\n• #procuro-grupo — Encontre parceiros para dungeons e guerras\n\nCanais de voz:\n• Salas separadas por reino (Vermelho, Amarelo, Azul)\n• Sala de coordenação para Guerra de Reinos\n• Sala geral de voz\n\nBenefícios de entrar no Discord:\n• Ser o primeiro a saber sobre eventos e atualizações\n• Acesso a sorteios e giveaways exclusivos para membros\n• Contato direto com a equipe do servidor\n\nAcesse o link de convite fixado no site e entre agora! A comunidade do Aura2 te aguarda.`,
@@ -210,7 +210,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#2471a3",
       title: "Suporte via Tickets no Site",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #050a15cc 0%, #0a1530cc 100%)",
+      gradient: "linear-gradient(135deg, #061468ee 0%, #0e309add 100%)",
 
       desc: "Agora você pode abrir tickets de suporte diretamente pela sua conta no site.",
       fullContent: `O sistema de suporte via tickets está disponível diretamente no site do Aura2!\n\nComo abrir um ticket:\n1. Faça login na sua conta no site\n2. Acesse "Minha Conta" no menu\n3. Clique em "Abrir Ticket de Suporte"\n4. Selecione a categoria do problema\n5. Descreva o problema com detalhes\n6. Aguarde a resposta da equipe\n\nCategorias disponíveis:\n• Problema técnico (não consigo entrar, crash, bug)\n• Conta (senha, e-mail, dados)\n• Pagamento (Cash não creditado, cobrança indevida)\n• Denúncia (hack, exploit, comportamento abusivo)\n• Outros\n\nTempo de resposta:\n• Problemas de pagamento: até 2 horas\n• Problemas técnicos: até 24 horas\n• Outros: até 48 horas\n\nAtenção: Para emergências urgentes (conta hackeada, perda de itens), use o canal #suporte-urgente no Discord para atendimento imediato.\n\nO sistema de tickets substitui o antigo método de suporte por e-mail e é muito mais rápido e eficiente.`,
@@ -223,7 +223,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#1a7a4a",
       title: "Servidor Atualizado para v3.4",
       ago: "há 3 dias",
-      gradient: "linear-gradient(135deg, #051a0fcc 0%, #0a3020cc 100%)",
+      gradient: "linear-gradient(135deg, #0a5a25ee 0%, #14a040dd 100%)",
 
       desc: "Atualização de estabilidade, correção de crashes e melhorias no sistema de PvP.",
       fullContent: `Versão 3.4 — lançada em 24 de Maio\n\nPrincipais mudanças:\n\nEstabilidade:\n• Melhorado sistema de gerenciamento de memória — menos desconexões inesperadas\n• Atualizado motor de física do servidor para reduzir lag em combates com muitos jogadores\n• Otimização do sistema de spawn de mobs e bosses\n\nSistemas:\n• Filtro de Drop: adicionadas novas categorias de itens para filtragem\n• Loja Offline: corrigido bug onde itens não apareciam após reconexão do vendedor\n• Detalhes do Personagem: agora exibe resistências elementais corretamente\n• Corrigido bug onde ataques à distância atravessavam obstáculos\n\nInterface:\n• Melhorada a leitura de dano nos números flutuantes\n• Indicador de buffs ativos mais visível\n• Teletransporte entre mapas com animação mais suave\n\nOutras correções:\n• Corrigida sincronização de animações em grupos grandes\n• Normalizado o spawn de Metins após reinicialização do servidor\n• Corrigido drop incorreto de Moedas da Conquista em Metins de nível 45–60\n• Set Inicial +9 sendo entregue corretamente para todos os novos personagens\n\nA equipe continua trabalhando para entregar um servidor cada vez mais estável. Obrigado pelo feedback de todos!`,
@@ -234,7 +234,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#1a7a4a",
       title: "Dungeon: Caverna Demoníaca — Lord Gahnasel",
       ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #0a0f05cc 0%, #1a2a0acc 100%)",
+      gradient: "linear-gradient(135deg, #0a3a10ee 0%, #187030dd 100%)",
 
       desc: "A Caverna Demoníaca é a dungeon de alto nível do Aura2. Boss final: Lord Gahnasel, com drops exclusivos e cosméticos únicos.",
       fullContent: `A Caverna Demoníaca é uma das duas dungeons do Aura2 — e a mais desafiadora para jogadores de alto nível!\n\nBoss Final — Lord Gahnasel:\nUm dos inimigos mais temidos do servidor. Lord Gahnasel guarda tesouros exclusivos que não aparecem em nenhum outro lugar do jogo.\n\nDrops do Lord Gahnasel:\n• Tesouro do Lord Gahnasel\n• Moedas da Conquista x15\n• Esfera da Benção x2\n• Soro da Persuasão x2\n• Livro do Sábio x2\n• Máscara da Fortuna\n• Pergaminho da Paz x5\n\nO que há no Tesouro do Lord Gahnasel (aleatório):\n• Máscara da Fortuna x2\n• Benção de Helong (G) ou Yoora (G)\n• Chifres de Ghanasel (Feminino ou Masculino) — 7 dias\n• Traje Ghanasel (Feminino ou Masculino) — 7 dias\n• Pedra Arco-Íris\n• Pet Lord Ghanasel — 7 dias\n• Coração do Ghanasel (item exclusivo)\n\nDicas:\n• Leve poção regeneradora e mantos em abundância\n• O tesouro final contém cosméticos exclusivos que não existem em nenhum outro lugar\n• Forme grupo para maximizar eficiência e chances de drop\n\nBoa sorte na Caverna Demoníaca!`,
@@ -245,7 +245,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#1a7a4a",
       title: "Classe Shaman Rebalanceada",
       ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #051015cc 0%, #0a2030cc 100%)",
+      gradient: "linear-gradient(135deg, #083048ee 0%, #106888dd 100%)",
 
       desc: "Habilidades de cura e suporte da Shaman foram ajustadas para melhor equilíbrio no PvP.",
       fullContent: `Com base no feedback da comunidade e nos dados de balanceamento coletados, realizamos ajustes significativos na classe Shaman.\n\nSobre a Shaman no Aura2:\nA Shaman é a única classe de Suporte/Buff do servidor. Seu papel é curar aliados e amplificar o poder do grupo — indispensável em dungeons e combates em grupo.\n\nMudanças no PvP:\n• Poder de cura individual reduzido em 12% (era muito forte em duelos prolongados)\n• Buffs defensivos com duração levemente reduzida\n• Dano mágico aumentado em 10% para compensar a redução defensiva\n\nMudanças no PvE (dungeons Torre Sakita e Caverna Demoníaca):\n• Eficiência de cura em área aumentada em 20%\n• Duração dos buffs de grupo aumentada de 15 para 20 minutos\n• Mana base aumentada em 8% para suportar combates mais longos\n\nMudanças gerais:\n• Velocidade de cast levemente aumentada (+5%)\n• Animações de habilidades suavizadas\n• Correção: buffs de grupo não desapareciam corretamente ao trocar de mapa\n\nObjetivo do rebalanceamento:\nO Shaman deve ser essencial no PvE e competitiva no PvP, sem dominar duelos individuais. Continuaremos monitorando as estatísticas durante a Fase Beta.\n\nFeedback? Participe da discussão no canal #balanceamento do Discord.`,
@@ -256,7 +256,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#1a7a4a",
       title: "Anti-Cheat Atualizado",
       ago: "há 2 semanas",
-      gradient: "linear-gradient(135deg, #0f1505cc 0%, #202d0acc 100%)",
+      gradient: "linear-gradient(135deg, #182808ee 0%, #305018dd 100%)",
 
       desc: "Sistema anti-cheat foi reforçado para garantir uma experiência justa para todos.",
       fullContent: `O sistema anti-cheat do Aura2 foi completamente renovado para garantir um ambiente de jogo justo para todos os jogadores!\n\nO que mudou:\n• Novo sistema de detecção de speed hacks com precisão melhorada em 40%\n• Detecção de bots e macros de automação aprimorada\n• Sistema de análise de padrões de movimento suspeitos\n• Integração com banco de dados de hacks conhecidos para Metin2\n\nO que o sistema detecta:\n• Speed hacks (movimentação além da velocidade normal)\n• Damage hacks (dano além do máximo permitido)\n• Bots de farm automático\n• Duplicação de itens\n• Modificações no cliente do jogo\n\nConsequências para cheaters:\n• 1ª detecção: banimento temporário de 7 dias + perda de todos os itens obtidos durante o uso\n• 2ª detecção: banimento permanente\n• Banimentos são revisáveis via ticket de suporte com comprovação\n\nNota importante:\nSe você receber um banimento indevido (falso positivo), abra um ticket imediatamente com prints e detalhes. Nossa equipe revisa em até 24 horas.\n\nO Aura2 é um servidor focado em jogo limpo e competição justa. Tolerância zero com trapaças!`,
@@ -617,8 +617,8 @@ export default function Home() {
                     boxShadow: "0 0 40px rgba(212,160,23,0.12), 0 4px 32px rgba(0,0,0,0.6)",
                   }}
                 >
-                  {/* Colored gradient overlay */}
-                  <div className="absolute inset-0" style={{ background: featured.gradient }} />
+                  {/* Overlay: image = dark bottom fade only; no image = vivid gradient */}
+                  <div className="absolute inset-0" style={{ background: featured.image ? "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)" : featured.gradient }} />
 
                   {/* Badge */}
                   {featured.badge && (
@@ -672,9 +672,9 @@ export default function Home() {
                 >
                   {/* Thumbnail */}
                   <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden relative"
-                    style={{ background: post.gradient }}>
+                    style={{ background: post.image ? "#0d0a06" : post.gradient }}>
                     {post.image && (
-                      <img src={post.image} alt="" className="w-full h-full object-cover opacity-80" />
+                      <img src={post.image} alt="" className="w-full h-full object-cover" />
                     )}
                   </div>
 
