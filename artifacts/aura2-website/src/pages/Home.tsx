@@ -177,6 +177,7 @@ const POSTS: Record<Tab, Post[]> = {
       title: "Patch Notes 13.05",
       ago: "há 6 dias",
       gradient: "linear-gradient(135deg, #0a1a3acc 0%, #153060cc 100%)",
+      image: "/posts/patch-notes.png",
 
       desc: "Correções de balanceamento, novos itens na loja e melhorias de performance.",
       fullContent: `Atualização 13.05 — lançada em 13 de Maio\n\nBalanceamento de Classes:\n• Guerreiro (Tank/DPS): resistência física ajustada para equilíbrio no PvP\n• Ninja (DPS/Suporte): velocidade de ataque e precisão levemente aumentadas\n• Shura (DPS/Mago): custo de mana das magias elementais reduzido em 15%\n• Shaman (Suporte/Buff): eficiência de cura e buffs de grupo aumentada em 10%\n\nNovos Itens na Loja:\n• Brinco do Tigre (7 dias)\n• Brinco do Dragão (7 dias)\n• Montaria PvM (7 dias)\n• Livro do Sábio x5\n\nCorreções de Bugs:\n• Corrigido crash ao entrar na Torre Sakita com grupo completo\n• Corrigido problema onde poções de EXP não funcionavam na Caverna Demoníaca\n• Corrigida animação quebrada do Shura feminino ao usar teleporte\n• Corrigido drop incorreto de Yang em Metins de nível 75+\n• Corrigido Filtro de Drop não salvando configurações após reconexão\n\nMelhorias de Performance:\n• Redução de 20% no uso de memória do servidor\n• Otimização do sistema de carregamento de mapas\n• Melhoria no tempo de resposta durante spawn de World Bosses\n\nPróxima atualização prevista para 20 de Maio.`,
