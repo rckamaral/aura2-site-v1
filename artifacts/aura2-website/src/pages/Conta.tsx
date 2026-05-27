@@ -771,8 +771,8 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               className="sr-only"
             />
             <div
-              className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-all ${
-                agreed ? "bg-primary border-primary" : "border-zinc-600 group-hover:border-zinc-400"
+              className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${
+                agreed ? "bg-primary border-primary" : "border-zinc-600"
               }`}
             >
               {agreed && (
