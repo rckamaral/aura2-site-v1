@@ -9,7 +9,7 @@ export default function Footer() {
             AURA 2
           </span>
           <p className="text-sm text-muted-foreground mt-2">
-            © 2025 Aura2. Todos os direitos reservados.
+            © 2026 Aura2. Todos os direitos reservados.
           </p>
         </div>
 

@@ -135,7 +135,7 @@ export default function PoliticasDePrivacidade() {
         </div>
 
         <div className="mt-16 pt-6 border-t border-primary/20 text-center text-xs text-muted-foreground">
-          © 2025 Aura2. Todos os direitos reservados.
+          © 2026 Aura2. Todos os direitos reservados.
         </div>
       </div>
     </main>
