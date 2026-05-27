@@ -491,9 +491,12 @@ export default function Home() {
       {/* ÚLTIMAS POSTAGENS */}
       <section className="container mx-auto px-4 py-14">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-white tracking-wide">
-            Últimas Postagens
-          </h2>
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-1">Temporada 1</p>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white tracking-wide">
+              Crônicas do Servidor
+            </h2>
+          </div>
           <div className="flex items-center gap-2 flex-wrap">
             {TABS.map((tab) => (
               <button
