@@ -53,40 +53,163 @@ const ALL_VIDEOS: { key: VideoKey; src: string }[] = CLASSES.flatMap((cls) =>
   })),
 );
 
-const POSTS = [
-  {
-    id: 1,
-    category: "Eventos",
-    categoryColor: "#c0392b",
-    title: "Cronograma de Eventos",
-    ago: "há 1 mês",
-    gradient: "linear-gradient(135deg, #3a0a0a 0%, #7a1515 100%)",
-  },
-  {
-    id: 2,
-    category: "Notícias",
-    categoryColor: "#2471a3",
-    title: "Patch Notes 13.05",
-    ago: "há 6 dias",
-    gradient: "linear-gradient(135deg, #0a1a3a 0%, #153060 100%)",
-  },
-  {
-    id: 3,
-    category: null,
-    categoryColor: "",
-    title: null,
-    ago: null,
-    gradient: "linear-gradient(135deg, #111111 0%, #1a1a1a 100%)",
-  },
-  {
-    id: 4,
-    category: null,
-    categoryColor: "",
-    title: null,
-    ago: null,
-    gradient: "linear-gradient(135deg, #111111 0%, #1a1a1a 100%)",
-  },
-];
+const TABS = ["Fase Beta", "Eventos", "Notícias", "Atualizações"] as const;
+type Tab = (typeof TABS)[number];
+
+const POSTS: Record<Tab, { id: number; category: string; categoryColor: string; title: string; ago: string; gradient: string; desc?: string }[]> = {
+  "Fase Beta": [
+    {
+      id: 1,
+      category: "Fase Beta",
+      categoryColor: "#b8860b",
+      title: "Bem-vindo à Fase Beta da Temporada 1",
+      ago: "há 2 dias",
+      gradient: "linear-gradient(135deg, #1a1200 0%, #4a3500 100%)",
+      desc: "O servidor Aura2 entra oficialmente na Fase Beta. Experimente tudo e reporte bugs para ganhar recompensas.",
+    },
+    {
+      id: 2,
+      category: "Fase Beta",
+      categoryColor: "#b8860b",
+      title: "Recompensas por Reporte de Bugs",
+      ago: "há 2 dias",
+      gradient: "linear-gradient(135deg, #0f1a0f 0%, #1a3a1a 100%)",
+      desc: "Encontrou um bug? Reporte no Discord e ganhe Cash Coins como recompensa.",
+    },
+    {
+      id: 3,
+      category: "Fase Beta",
+      categoryColor: "#b8860b",
+      title: "Regras da Fase Beta",
+      ago: "há 1 dia",
+      gradient: "linear-gradient(135deg, #1a0a1a 0%, #3a1540 100%)",
+      desc: "Confira as regras de conduta durante a fase beta e saiba o que é permitido ou não.",
+    },
+    {
+      id: 4,
+      category: "Fase Beta",
+      categoryColor: "#b8860b",
+      title: "Previsão de Lançamento Oficial",
+      ago: "hoje",
+      gradient: "linear-gradient(135deg, #0a0a1a 0%, #151560 100%)",
+      desc: "A data de lançamento oficial da Temporada 1 será anunciada em breve. Fique atento!",
+    },
+  ],
+  "Eventos": [
+    {
+      id: 5,
+      category: "Eventos",
+      categoryColor: "#c0392b",
+      title: "Cronograma de Eventos",
+      ago: "há 1 mês",
+      gradient: "linear-gradient(135deg, #3a0a0a 0%, #7a1515 100%)",
+      desc: "Veja todos os eventos programados para a Fase Beta da Temporada 1.",
+    },
+    {
+      id: 6,
+      category: "Eventos",
+      categoryColor: "#c0392b",
+      title: "Evento de Boas-Vindas Beta",
+      ago: "há 2 dias",
+      gradient: "linear-gradient(135deg, #2a0505 0%, #600a0a 100%)",
+      desc: "Durante a Fase Beta todos os jogadores recebem 500 Cash Coins de bônus ao criar conta.",
+    },
+    {
+      id: 7,
+      category: "Eventos",
+      categoryColor: "#c0392b",
+      title: "Guerra de Reinos — Fim de Semana",
+      ago: "há 5 dias",
+      gradient: "linear-gradient(135deg, #1a0808 0%, #4a1010 100%)",
+      desc: "Guerra entre os três reinos acontece todo sábado às 20h. Os vencedores ganham buffs especiais.",
+    },
+    {
+      id: 8,
+      category: "Eventos",
+      categoryColor: "#c0392b",
+      title: "Drop Dobrado — Dungeons",
+      ago: "há 1 semana",
+      gradient: "linear-gradient(135deg, #1a0a00 0%, #3a1500 100%)",
+      desc: "Todos os finais de semana o drop de itens em dungeons é dobrado.",
+    },
+  ],
+  "Notícias": [
+    {
+      id: 9,
+      category: "Notícias",
+      categoryColor: "#2471a3",
+      title: "Patch Notes 13.05",
+      ago: "há 6 dias",
+      gradient: "linear-gradient(135deg, #0a1a3a 0%, #153060 100%)",
+      desc: "Correções de balanceamento, novos itens na loja e melhorias de performance.",
+    },
+    {
+      id: 10,
+      category: "Notícias",
+      categoryColor: "#2471a3",
+      title: "Sistema de Doação PIX Ativo",
+      ago: "há 3 dias",
+      gradient: "linear-gradient(135deg, #051520 0%, #0a2540 100%)",
+      desc: "Agora é possível comprar Cash Coins via PIX diretamente pelo site com confirmação automática.",
+    },
+    {
+      id: 11,
+      category: "Notícias",
+      categoryColor: "#2471a3",
+      title: "Discord Oficial Aberto",
+      ago: "há 4 dias",
+      gradient: "linear-gradient(135deg, #080d1a 0%, #10183a 100%)",
+      desc: "O Discord oficial do Aura2 está aberto. Junte-se à comunidade e fique por dentro de tudo.",
+    },
+    {
+      id: 12,
+      category: "Notícias",
+      categoryColor: "#2471a3",
+      title: "Suporte via Tickets no Site",
+      ago: "hoje",
+      gradient: "linear-gradient(135deg, #050a15 0%, #0a1530 100%)",
+      desc: "Agora você pode abrir tickets de suporte diretamente pela sua conta no site.",
+    },
+  ],
+  "Atualizações": [
+    {
+      id: 13,
+      category: "Update",
+      categoryColor: "#1a7a4a",
+      title: "Servidor Atualizado para v3.4",
+      ago: "há 3 dias",
+      gradient: "linear-gradient(135deg, #051a0f 0%, #0a3020 100%)",
+      desc: "Atualização de estabilidade, correção de crashes e melhorias no sistema de PvP.",
+    },
+    {
+      id: 14,
+      category: "Update",
+      categoryColor: "#1a7a4a",
+      title: "Novo Mapa: Fortaleza do Caos",
+      ago: "há 1 semana",
+      gradient: "linear-gradient(135deg, #0a0f05 0%, #1a2a0a 100%)",
+      desc: "Um novo mapa foi adicionado com bosses exclusivos e drops raros para grupos.",
+    },
+    {
+      id: 15,
+      category: "Update",
+      categoryColor: "#1a7a4a",
+      title: "Classe Shaman Rebalanceada",
+      ago: "há 1 semana",
+      gradient: "linear-gradient(135deg, #051015 0%, #0a2030 100%)",
+      desc: "Habilidades de cura e suporte da Shaman foram ajustadas para melhor equilíbrio no PvP.",
+    },
+    {
+      id: 16,
+      category: "Update",
+      categoryColor: "#1a7a4a",
+      title: "Anti-Cheat Atualizado",
+      ago: "há 2 semanas",
+      gradient: "linear-gradient(135deg, #0f1505 0%, #202d0a 100%)",
+      desc: "Sistema anti-cheat foi reforçado para garantir uma experiência justa para todos.",
+    },
+  ],
+};
 
 function VideoControls({ hidden }: { hidden: boolean }) {
   const [isMuted, setIsMuted] = useState(true);
@@ -147,6 +270,7 @@ function VideoControls({ hidden }: { hidden: boolean }) {
 export default function Home() {
   const [selected, setSelected] = useState<ClassId | null>(null);
   const [gender, setGender] = useState<Gender>("M");
+  const [activeTab, setActiveTab] = useState<Tab>("Fase Beta");
   const videoRefs = useRef<Partial<Record<VideoKey, HTMLVideoElement>>>({});
 
   const activeClass = CLASSES.find((c) => c.id === selected) ?? null;
@@ -363,22 +487,33 @@ export default function Home() {
 
       {/* ÚLTIMAS POSTAGENS */}
       <section className="container mx-auto px-4 py-14">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <h2 className="font-display text-2xl md:text-3xl font-bold text-white tracking-wide">
             Últimas Postagens
           </h2>
-          <button
-            type="button"
-            className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-primary border border-white/10 hover:border-primary/40 rounded-lg px-4 py-2 transition-all"
-          >
-            Ver mais <ExternalLink className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-2 flex-wrap">
+            {TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className="text-sm font-semibold px-4 py-2 rounded-lg transition-all border"
+                style={{
+                  background: activeTab === tab ? "rgba(212,160,23,0.15)" : "transparent",
+                  color: activeTab === tab ? "#D4A017" : "rgba(255,255,255,0.45)",
+                  borderColor: activeTab === tab ? "rgba(212,160,23,0.5)" : "rgba(255,255,255,0.1)",
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {POSTS.map((post) => (
+          {POSTS[activeTab].map((post) => (
             <div
               key={post.id}
-              className="group relative rounded-xl overflow-hidden cursor-pointer h-52"
+              className="group relative rounded-xl overflow-hidden cursor-pointer h-52 flex flex-col"
               style={{ background: post.gradient }}
             >
               <div
@@ -391,20 +526,21 @@ export default function Home() {
               <div className="absolute inset-0 flex items-center justify-center opacity-10">
                 <div className="w-32 h-32 rounded-full border-2 border-white/30" />
               </div>
-              {post.title && (
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                  <span
-                    className="inline-block text-xs font-bold uppercase tracking-wider text-white px-2 py-0.5 rounded mb-2"
-                    style={{ background: post.categoryColor }}
-                  >
-                    {post.category}
-                  </span>
-                  <h3 className="text-white font-bold text-base leading-tight mb-1 group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-xs text-gray-400">{post.ago}</p>
-                </div>
-              )}
+              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+                <span
+                  className="inline-block text-xs font-bold uppercase tracking-wider text-white px-2 py-0.5 rounded mb-2"
+                  style={{ background: post.categoryColor }}
+                >
+                  {post.category}
+                </span>
+                <h3 className="text-white font-bold text-sm leading-tight mb-1 group-hover:text-primary transition-colors">
+                  {post.title}
+                </h3>
+                {post.desc && (
+                  <p className="text-xs text-gray-400 leading-relaxed line-clamp-2 mb-1">{post.desc}</p>
+                )}
+                <p className="text-xs text-gray-500">{post.ago}</p>
+              </div>
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/40 rounded-xl transition-all duration-300" />
             </div>
           ))}
