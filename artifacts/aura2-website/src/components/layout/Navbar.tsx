@@ -70,42 +70,42 @@ export default function Navbar() {
           <Link
             href="/"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 inline-block"
           >
             Inicio
           </Link>
           <Link
             href="/ranking"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 inline-block"
           >
             Ranking
           </Link>
           <Link
             href="/download"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 inline-block"
           >
             Download
           </Link>
           <Link
             href="/wiki"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 inline-block"
           >
             Wiki
           </Link>
           <Link
             href="/loja"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-primary hover:text-primary/80 transition-all duration-200 hover:scale-110 inline-block"
           >
             Doação
           </Link>
           <Link
             href="/parceiros"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 inline-block"
           >
             Parceiros
           </Link>
