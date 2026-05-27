@@ -140,6 +140,7 @@ const POSTS: Record<Tab, Post[]> = {
       title: "Boas-Vindas aos Testadores Selecionados",
       ago: "há 2 dias",
       gradient: "linear-gradient(135deg, #2a0505cc 0%, #600a0acc 100%)",
+      image: "/posts/boas-vindas.png",
 
       desc: "Cada testador convidado recebe um kit exclusivo de boas-vindas para iniciar sua jornada na Fase Beta Fechada.",
       fullContent: `Para celebrar o início da Fase Beta Fechada, cada testador selecionado receberá um kit especial de boas-vindas!\n\nO que cada testador recebe ao entrar:\n• Kit iniciante com equipamentos de nível básico\n• 3 poções de experiência (dobra o XP por 1 hora cada)\n• Acesso ao canal exclusivo de testadores no Discord\n\nComo resgatar:\nO kit é entregue automaticamente ao entrar no servidor pela primeira vez com a conta de testador. Nenhuma ação adicional é necessária.\n\nLembre-se:\nA Fase Beta é FECHADA — apenas os 15 a 20 testadores convidados pela equipe têm acesso. O cliente do jogo não deve ser compartilhado com terceiros. Após o encerramento do beta, o servidor oficial será aberto ao público.`,
