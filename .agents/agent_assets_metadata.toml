@@ -5,43 +5,43 @@ outputs = []
 id = "ryH7Is7XrkoeHCtux_-QM"
 uri = "file://artifacts/aura2-website/public/posts/ai-beta.png"
 type = "image"
-title = "metin2-beta-shaman-scroll"
+title = "metin2-beta-female-warrior-scroll"
 
 [[generated]]
 id = "pNXJ5c0Lsw_AA525zMT27"
 uri = "file://artifacts/aura2-website/public/posts/ai-guerra.png"
 type = "image"
-title = "metin2-world-boss-ogre"
+title = "metin2-world-boss-battle"
 
 [[generated]]
 id = "3WMFcFsBGYL1QAdBZtksb"
 uri = "file://artifacts/aura2-website/public/posts/ai-dungeon.png"
 type = "image"
-title = "metin2-dungeon-entrance"
+title = "metin2-dungeon-demonic-corridor"
 
 [[generated]]
 id = "JaU_Y_i5xOHDmGhaMV_dv"
 uri = "file://artifacts/aura2-website/public/posts/ai-patch.png"
 type = "image"
-title = "metin2-patch-warrior-reading"
+title = "metin2-patch-sura-scroll"
 
 [[generated]]
 id = "_7-KqaKZKA-I-qH4j_rct"
 uri = "file://artifacts/aura2-website/public/posts/ai-classes.png"
 type = "image"
-title = "metin2-classes-four-heroes"
+title = "metin2-four-classes-temple"
 
 [[generated]]
 id = "F3qeJ-9G3Z3lemV5IEMZq"
 uri = "file://artifacts/aura2-website/public/posts/ai-metin.png"
 type = "image"
-title = "metin2-metin-stone-battle"
+title = "metin2-stone-epic-battlefield"
 
 [[generated]]
 id = "-2uiYgFPqS1FQxDxnK5nO"
 uri = "file://artifacts/aura2-website/public/posts/ai-evento.png"
 type = "image"
-title = "metin2-evento-shaman-celebration"
+title = "metin2-evento-shaman-festival"
 
 [[generated]]
 id = "4sWbPdniFMCoygCqLMHpu"
