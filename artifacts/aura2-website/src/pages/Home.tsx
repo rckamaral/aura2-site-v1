@@ -78,7 +78,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Beta Fechado — 15 Dias de Testes",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #7a4400ee 0%, #c87800dd 60%, #905000ee 100%)",
+      gradient: "linear-gradient(135deg, #8a5200ee 0%, #d48000dd 60%, #a06000ee 100%)",
 
       desc: "Beta fechado com 15 a 20 testadores selecionados a dedo. Durante 15 dias, a equipe avalia cada sistema antes do lançamento oficial.",
       badge: "⚡ ACONTECENDO AGORA",
@@ -91,7 +91,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0860a",
       title: "Cash de Recompensa no Lançamento Oficial",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #6a3200ee 0%, #b06000dd 60%, #804000ee 100%)",
+      gradient: "linear-gradient(135deg, #7a4800ee 0%, #c07000dd 60%, #8a5000ee 100%)",
 
       desc: "Cada testador selecionado receberá Moedas no lançamento oficial como agradecimento pela participação no Beta Fechado.",
       badge: "🎁 RECOMPENSA",
@@ -103,7 +103,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Reporte de Bugs — Como Participar",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #6a3e00ee 0%, #aa6400dd 100%)",
+      gradient: "linear-gradient(135deg, #6a4000ee 0%, #a86000dd 100%)",
 
       desc: "Encontrou algo errado? Reporte pelo Discord com prints e descrição detalhada. Bugs confirmados garantem recompensas extras no lançamento.",
       fullContent: `Como testador selecionado, reportar bugs é uma das suas responsabilidades mais importantes durante a Fase Beta Fechada.\n\nComo reportar um bug:\n1. Acesse o canal #reporte-bugs no Discord oficial do Aura2\n2. Use o template disponível no canal (Nome, Classe, Descrição do bug, Print/vídeo)\n3. Aguarde a confirmação da equipe\n\nO que reportar:\n• Crashes e desconexões inesperadas\n• Itens com stats incorretos ou duplicados\n• Habilidades que não funcionam corretamente\n• Exploits ou brechas que permitem vantagem injusta\n• Problemas visuais no mapa ou personagens\n\nO que NÃO é um bug:\n• Mecânicas intencionais do servidor (verifique no Wiki primeiro)\n• Lag causado pela sua própria conexão\n\nRecompensa por bug confirmado:\nCada bug reportado e confirmado pela equipe garante +25.000 Moedas extras no lançamento oficial. Bugs críticos podem garantir recompensas ainda maiores a critério da equipe!\n\nObrigado por dedicar seu tempo e ajudar a tornar o Aura2 o melhor servidor possível.`,
@@ -114,7 +114,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Regras e Conduta na Fase Beta",
       ago: "hoje",
-      gradient: "linear-gradient(135deg, #5c2e00ee 0%, #985000dd 100%)",
+      gradient: "linear-gradient(135deg, #5a3200ee 0%, #904e00dd 100%)",
 
       desc: "Respeite os outros testadores, não explore bugs intencionalmente e colabore com a equipe. Violações podem resultar em exclusão e perda da recompensa.",
       fullContent: `Para garantir que a Fase Beta Fechada seja produtiva e justa, todos os testadores selecionados devem seguir as regras abaixo.\n\nRegras obrigatórias:\n• Não explore bugs intencionalmente para obter vantagem sobre outros testadores\n• Reporte qualquer exploit encontrado imediatamente no Discord\n• Respeite todos os outros testadores — sem ofensas, racismo ou toxicidade\n• Não utilize programas externos (bots, hacks, speed hacks)\n• Não compartilhe o cliente ou acesso do servidor com terceiros — o beta é fechado\n• Não faça spam no chat do servidor ou no Discord\n\nConsequências de violações:\n• Aviso: infrações leves (primeira vez)\n• Exclusão do beta: exploits intencionais ou comportamento tóxico grave\n• Banimento permanente: uso de hacks ou exploits que prejudiquem outros\n• Perda da recompensa de Cash: qualquer violação das regras\n\nNossa missão na Fase Beta Fechada é simples: testar, reportar e colaborar. Cada testador foi escolhido a dedo — honre essa confiança!\n\nEm caso de dúvidas sobre as regras, fale com um membro da equipe no Discord.`,
@@ -162,7 +162,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0392b",
       title: "Drop Dobrado — Dungeons",
       ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #6a0e00ee 0%, #aa2200dd 100%)",
+      gradient: "linear-gradient(135deg, #6a0808ee 0%, #b01010dd 100%)",
       image: "/posts/drop-dobrado.png",
 
       desc: "Todos os finais de semana o drop de itens em dungeons é dobrado.",
@@ -245,7 +245,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#1a7a4a",
       title: "Classe Shaman Rebalanceada",
       ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #083048ee 0%, #106888dd 100%)",
+      gradient: "linear-gradient(135deg, #0a4018ee 0%, #18903add 100%)",
 
       desc: "Habilidades de cura e suporte da Shaman foram ajustadas para melhor equilíbrio no PvP.",
       fullContent: `Com base no feedback da comunidade e nos dados de balanceamento coletados, realizamos ajustes significativos na classe Shaman.\n\nSobre a Shaman no Aura2:\nA Shaman é a única classe de Suporte/Buff do servidor. Seu papel é curar aliados e amplificar o poder do grupo — indispensável em dungeons e combates em grupo.\n\nMudanças no PvP:\n• Poder de cura individual reduzido em 12% (era muito forte em duelos prolongados)\n• Buffs defensivos com duração levemente reduzida\n• Dano mágico aumentado em 10% para compensar a redução defensiva\n\nMudanças no PvE (dungeons Torre Sakita e Caverna Demoníaca):\n• Eficiência de cura em área aumentada em 20%\n• Duração dos buffs de grupo aumentada de 15 para 20 minutos\n• Mana base aumentada em 8% para suportar combates mais longos\n\nMudanças gerais:\n• Velocidade de cast levemente aumentada (+5%)\n• Animações de habilidades suavizadas\n• Correção: buffs de grupo não desapareciam corretamente ao trocar de mapa\n\nObjetivo do rebalanceamento:\nO Shaman deve ser essencial no PvE e competitiva no PvP, sem dominar duelos individuais. Continuaremos monitorando as estatísticas durante a Fase Beta.\n\nFeedback? Participe da discussão no canal #balanceamento do Discord.`,
@@ -256,7 +256,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#1a7a4a",
       title: "Anti-Cheat Atualizado",
       ago: "há 2 semanas",
-      gradient: "linear-gradient(135deg, #182808ee 0%, #305018dd 100%)",
+      gradient: "linear-gradient(135deg, #103010ee 0%, #205828dd 100%)",
 
       desc: "Sistema anti-cheat foi reforçado para garantir uma experiência justa para todos.",
       fullContent: `O sistema anti-cheat do Aura2 foi completamente renovado para garantir um ambiente de jogo justo para todos os jogadores!\n\nO que mudou:\n• Novo sistema de detecção de speed hacks com precisão melhorada em 40%\n• Detecção de bots e macros de automação aprimorada\n• Sistema de análise de padrões de movimento suspeitos\n• Integração com banco de dados de hacks conhecidos para Metin2\n\nO que o sistema detecta:\n• Speed hacks (movimentação além da velocidade normal)\n• Damage hacks (dano além do máximo permitido)\n• Bots de farm automático\n• Duplicação de itens\n• Modificações no cliente do jogo\n\nConsequências para cheaters:\n• 1ª detecção: banimento temporário de 7 dias + perda de todos os itens obtidos durante o uso\n• 2ª detecção: banimento permanente\n• Banimentos são revisáveis via ticket de suporte com comprovação\n\nNota importante:\nSe você receber um banimento indevido (falso positivo), abra um ticket imediatamente com prints e detalhes. Nossa equipe revisa em até 24 horas.\n\nO Aura2 é um servidor focado em jogo limpo e competição justa. Tolerância zero com trapaças!`,
