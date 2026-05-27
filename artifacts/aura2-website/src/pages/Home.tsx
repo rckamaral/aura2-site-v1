@@ -78,6 +78,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Beta Fechado — 15 Dias de Testes",
       ago: "hoje",
+      image: "/posts/shura-patchnotes.png",
       gradient: "linear-gradient(135deg, #8a5200ee 0%, #d48000dd 60%, #a06000ee 100%)",
 
       desc: "Beta fechado com 15 a 20 testadores selecionados a dedo. Durante 15 dias, a equipe avalia cada sistema antes do lançamento oficial.",
