@@ -1,7 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { db, donationsTable } from "@workspace/db";
+import { db, donationsTable, accountsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 
 const router = Router();
@@ -28,7 +28,6 @@ const createPixSchema = z.object({
   packageLabel: z.string().min(1).max(60),
   coinsAmount: z.number().int().positive(),
   priceBrl: z.number().int().positive(),
-  payerEmail: z.string().email().optional(),
 });
 
 router.post("/donations/create-pix", async (req, res) => {
@@ -44,7 +43,15 @@ router.post("/donations/create-pix", async (req, res) => {
     return;
   }
 
-  const { packageLabel, coinsAmount, priceBrl, payerEmail } = parsed.data;
+  const { packageLabel, coinsAmount, priceBrl } = parsed.data;
+
+  // Fetch real email from the database
+  const [account] = await db
+    .select({ email: accountsTable.email })
+    .from(accountsTable)
+    .where(eq(accountsTable.username, username))
+    .limit(1);
+  const payerEmail = account?.email || "jogador@aura2.com.br";
 
   try {
     const mpRes = await fetch("https://api.mercadopago.com/v1/payments", {
@@ -59,7 +66,7 @@ router.post("/donations/create-pix", async (req, res) => {
         description: `Aura2 - ${packageLabel}`,
         payment_method_id: "pix",
         payer: {
-          email: payerEmail || "jogador@aura2.com.br",
+          email: payerEmail,
           first_name: username,
         },
         notification_url: getWebhookUrl(),
