@@ -76,8 +76,8 @@ function PayModal({
         if (data.status === "approved") {
           setPayStatus("approved");
           clearInterval(interval);
-        } else if (data.status === "rejected") {
-          setPayStatus("rejected");
+        } else if (data.status === "rejected" || data.status === "cancelled") {
+          setPayStatus(data.status as "rejected" | "cancelled");
           clearInterval(interval);
         }
       } catch {}
@@ -286,6 +286,12 @@ function PayModal({
         {payStatus === "rejected" && (
           <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-4 text-sm text-red-400 text-center">
             Pagamento não aprovado. Tente novamente ou entre em contato com o suporte.
+          </div>
+        )}
+
+        {payStatus === "cancelled" && (
+          <div className="rounded-xl border border-orange-500/30 bg-orange-950/30 p-4 text-sm text-orange-400 text-center">
+            O QR Code expirou. Feche e gere um novo para concluir o pagamento.
           </div>
         )}
 

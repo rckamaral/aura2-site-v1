@@ -135,7 +135,9 @@ router.post("/webhooks/mercadopago", async (req, res) => {
     if (!mpRes.ok) return;
 
     const payment = await mpRes.json() as { status?: string; id?: number };
-    if (payment.status !== "approved") return;
+    const mpStatus = payment.status;
+    const isTerminal = mpStatus === "approved" || mpStatus === "cancelled" || mpStatus === "rejected";
+    if (!isTerminal) return;
 
     const donations = await db
       .select()
@@ -143,14 +145,15 @@ router.post("/webhooks/mercadopago", async (req, res) => {
       .where(eq(donationsTable.mpPaymentId, String(payment.id)))
       .limit(1);
 
-    if (!donations.length || donations[0].status === "approved") return;
+    if (!donations.length || donations[0].status !== "pending") return;
 
+    const newStatus = mpStatus === "approved" ? "approved" : "cancelled";
     await db
       .update(donationsTable)
-      .set({ status: "approved", notes: "Confirmado automaticamente via Mercado Pago", updatedAt: new Date() })
+      .set({ status: newStatus, notes: `Atualizado via webhook MP: ${mpStatus}`, updatedAt: new Date() })
       .where(eq(donationsTable.id, donations[0].id));
 
-    req.log.info({ donationId: donations[0].id, paymentId }, "Donation auto-approved via webhook");
+    req.log.info({ donationId: donations[0].id, paymentId, newStatus }, "Donation updated via webhook");
   } catch (err) {
     req.log.error({ err }, "Error processing MP webhook");
   }
@@ -167,6 +170,35 @@ router.get("/donations/:id/status", async (req, res) => {
     const [donation] = await db.select().from(donationsTable).where(eq(donationsTable.id, id)).limit(1);
     if (!donation) { res.status(404).json({ error: "Não encontrado." }); return; }
     if (donation.username !== username) { res.status(403).json({ error: "Acesso negado." }); return; }
+
+    // For pending donations, cross-check with Mercado Pago in real time
+    if (donation.status === "pending" && donation.mpPaymentId && MP_ACCESS_TOKEN) {
+      try {
+        const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${donation.mpPaymentId}`, {
+          headers: { Authorization: `Bearer ${MP_ACCESS_TOKEN}` },
+        });
+        if (mpRes.ok) {
+          const mpData = await mpRes.json() as { status?: string };
+          const mpStatus = mpData.status;
+          if (mpStatus === "approved") {
+            await db.update(donationsTable)
+              .set({ status: "approved", notes: "Confirmado via polling", updatedAt: new Date() })
+              .where(eq(donationsTable.id, donation.id));
+            res.json({ status: "approved" });
+            return;
+          } else if (mpStatus === "cancelled" || mpStatus === "rejected" || mpStatus === "expired") {
+            await db.update(donationsTable)
+              .set({ status: "cancelled", notes: `Expirado/cancelado via polling: ${mpStatus}`, updatedAt: new Date() })
+              .where(eq(donationsTable.id, donation.id));
+            res.json({ status: "cancelled" });
+            return;
+          }
+        }
+      } catch (mpErr) {
+        req.log.warn({ mpErr }, "Could not check MP status during polling");
+      }
+    }
+
     res.json({ status: donation.status });
   } catch (err) {
     req.log.error({ err }, "DB error fetching donation status");

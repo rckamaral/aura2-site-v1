@@ -667,8 +667,8 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               .reduce((s, d) => s + d.coinsAmount, 0);
             onBalanceUpdate(total);
           }
-        } else if (data.status === "rejected") {
-          setPayStatus("rejected");
+        } else if (data.status === "rejected" || data.status === "cancelled") {
+          setPayStatus(data.status as "rejected" | "cancelled");
           clearInterval(interval);
         }
       } catch {}
@@ -880,6 +880,12 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
                   Pagamento não aprovado. Tenta novamente ou contacta o suporte.
                 </div>
               )}
+
+              {payStatus === "cancelled" && (
+                <div className="rounded-xl border border-orange-500/30 bg-orange-950/30 p-4 text-sm text-orange-400 text-center">
+                  O QR Code expirou. Volte e gere um novo para concluir o pagamento.
+                </div>
+              )}
             </>
           )}
         </div>
@@ -922,6 +928,7 @@ function SectionHistorico({ token }: { token: string | null }) {
   function statusLabel(s: string) {
     if (s === "approved") return <span className="text-xs font-semibold text-green-400 bg-green-950/40 border border-green-500/30 px-2 py-0.5 rounded-full">✓ Aprovada</span>;
     if (s === "rejected") return <span className="text-xs font-semibold text-red-400 bg-red-950/40 border border-red-500/30 px-2 py-0.5 rounded-full">✗ Rejeitada</span>;
+    if (s === "cancelled") return <span className="text-xs font-semibold text-orange-400 bg-orange-950/40 border border-orange-500/30 px-2 py-0.5 rounded-full">⊘ Expirada</span>;
     return <span className="text-xs font-semibold text-yellow-400 bg-yellow-950/40 border border-yellow-500/30 px-2 py-0.5 rounded-full">⏳ Pendente</span>;
   }
 
