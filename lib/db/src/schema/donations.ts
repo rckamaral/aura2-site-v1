@@ -1,6 +1,6 @@
 import { pgTable, serial, varchar, integer, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
 
-export const donationStatusEnum = pgEnum("donation_status", ["pending", "approved", "rejected"]);
+export const donationStatusEnum = pgEnum("donation_status", ["pending", "approved", "rejected", "cancelled"]);
 
 export const donationsTable = pgTable("donations", {
   id: serial("id").primaryKey(),

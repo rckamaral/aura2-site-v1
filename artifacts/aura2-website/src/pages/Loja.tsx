@@ -18,7 +18,7 @@ const PACKAGES = [
 type Package = (typeof PACKAGES)[number];
 type Step = "method" | "pix" | "card";
 type PixData = { donationId: number; qrCode: string; qrCodeBase64: string };
-type PayStatus = "pending" | "approved" | "rejected";
+type PayStatus = "pending" | "approved" | "rejected" | "cancelled";
 
 function PayModal({
   pkg,

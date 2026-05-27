@@ -598,7 +598,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
   const [pixLoading, setPixLoading] = useState(false);
   const [pixError, setPixError] = useState<string | null>(null);
   const [pixData, setPixData] = useState<{ donationId: number; qrCode: string; qrCodeBase64: string } | null>(null);
-  const [payStatus, setPayStatus] = useState<"pending" | "approved" | "rejected">("pending");
+  const [payStatus, setPayStatus] = useState<"pending" | "approved" | "rejected" | "cancelled">("pending");
 
   function handleSelect(pkg: CashPkg) {
     setSelected(pkg);
