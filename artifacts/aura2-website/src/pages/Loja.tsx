@@ -124,6 +124,22 @@ function MethodStep({
   );
 }
 
+function validarCpf(cpf: string): boolean {
+  const nums = cpf.replace(/\D/g, "");
+  if (nums.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(nums)) return false;
+  let sum = 0;
+  for (let i = 0; i < 9; i++) sum += parseInt(nums[i]) * (10 - i);
+  let dig1 = 11 - (sum % 11);
+  if (dig1 >= 10) dig1 = 0;
+  if (dig1 !== parseInt(nums[9])) return false;
+  sum = 0;
+  for (let i = 0; i < 10; i++) sum += parseInt(nums[i]) * (11 - i);
+  let dig2 = 11 - (sum % 11);
+  if (dig2 >= 10) dig2 = 0;
+  return dig2 === parseInt(nums[10]);
+}
+
 function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -142,7 +158,8 @@ function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
     setCpf(formatCpf(e.target.value));
   }
 
-  const canGenerate = nome.trim().length >= 3 && cpf.replace(/\D/g, "").length === 11;
+  const cpfValido = validarCpf(cpf);
+  const canGenerate = nome.trim().length >= 3 && cpfValido;
 
   return (
     <div className="space-y-4">
@@ -163,12 +180,23 @@ function PixStep({ pkg, onBack }: { pkg: Package; onBack: () => void }) {
             placeholder="Nome Completo"
             className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500"
           />
-          <Input
-            value={cpf}
-            onChange={handleCpfChange}
-            placeholder="CPF do Pagador"
-            className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500"
-          />
+          <div>
+            <Input
+              value={cpf}
+              onChange={handleCpfChange}
+              placeholder="CPF do Pagador"
+              className={`bg-zinc-900 text-white placeholder:text-zinc-500 transition-colors ${
+                cpf.replace(/\D/g,"").length === 11
+                  ? cpfValido
+                    ? "border-green-500 focus:border-green-400"
+                    : "border-red-500 focus:border-red-400"
+                  : "border-zinc-700 focus:border-zinc-500"
+              }`}
+            />
+            {cpf.replace(/\D/g,"").length === 11 && !cpfValido && (
+              <p className="text-red-400 text-xs mt-1">CPF inválido. Verifique os números.</p>
+            )}
+          </div>
           <Button
             onClick={() => setSubStep("qrcode")}
             disabled={!canGenerate}
