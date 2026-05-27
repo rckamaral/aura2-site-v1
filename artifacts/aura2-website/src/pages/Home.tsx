@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Download, MessagesSquare, ExternalLink, X } from "lucide-react";
+import { Download, MessagesSquare, ExternalLink, X, Tv, Radio } from "lucide-react";
 
 const CLASSES = [
   {
@@ -263,6 +263,17 @@ const POSTS: Record<Tab, Post[]> = {
     },
   ],
 };
+
+// ─── Edite aqui para trocar o canal em destaque ───────────────────────────────
+const FEATURED_PARTNER = {
+  name: "NomeDoCanal",
+  platform: "twitch" as "twitch" | "youtube" | "kick",
+  url: "https://twitch.tv/nomeDoCanal",
+  viewers: "120",
+  description: "O melhor conteúdo de Aura2 ao vivo. Não perde!",
+  live: true,
+};
+// ──────────────────────────────────────────────────────────────────────────────
 
 function VideoControls({ hidden }: { hidden: boolean }) {
   const [isMuted, setIsMuted] = useState(true);
@@ -688,6 +699,86 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* PARCEIRO EM DESTAQUE */}
+      {(() => {
+        const PLATFORM_COLORS = { twitch: "#9146ff", youtube: "#ff0000", kick: "#53fc18" };
+        const PLATFORM_LABELS = { twitch: "Twitch", youtube: "YouTube", kick: "Kick" };
+        const color = PLATFORM_COLORS[FEATURED_PARTNER.platform];
+        const label = PLATFORM_LABELS[FEATURED_PARTNER.platform];
+        return (
+          <section className="container mx-auto px-4 py-10">
+            <a
+              href={FEATURED_PARTNER.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block"
+            >
+              <div
+                className="relative rounded-2xl overflow-hidden transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #0d0a06 0%, #1a1208 60%, #0d0a06 100%)",
+                  border: `1px solid ${color}33`,
+                  boxShadow: `0 0 40px ${color}18, 0 4px 32px rgba(0,0,0,0.5)`,
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 60px ${color}30, 0 4px 40px rgba(0,0,0,0.7)`; (e.currentTarget as HTMLDivElement).style.borderColor = `${color}66`; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 40px ${color}18, 0 4px 32px rgba(0,0,0,0.5)`; (e.currentTarget as HTMLDivElement).style.borderColor = `${color}33`; }}
+              >
+                {/* Subtle glow bg */}
+                <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 20% 50%, ${color}0d, transparent 60%)` }} />
+
+                <div className="relative flex flex-col sm:flex-row items-center gap-6 px-7 py-6">
+                  {/* Avatar */}
+                  <div
+                    className="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black select-none"
+                    style={{ background: `${color}22`, border: `2px solid ${color}66`, color }}
+                  >
+                    {FEATURED_PARTNER.name.charAt(0).toUpperCase()}
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0 text-center sm:text-left">
+                    {/* Top row: label + live badge */}
+                    <div className="flex items-center justify-center sm:justify-start gap-2 mb-1.5 flex-wrap">
+                      <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md" style={{ background: `${color}22`, color, border: `1px solid ${color}44` }}>
+                        <Tv className="inline w-3 h-3 mr-1 -mt-0.5" />{label}
+                      </span>
+                      {FEATURED_PARTNER.live && (
+                        <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md bg-red-600/20 text-red-400 border border-red-500/30">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> AO VIVO
+                        </span>
+                      )}
+                      <span className="text-xs text-gray-500">~{FEATURED_PARTNER.viewers} viewers</span>
+                    </div>
+
+                    <p className="font-display text-xl font-black text-white group-hover:text-primary transition-colors duration-200 truncate">
+                      {FEATURED_PARTNER.name}
+                    </p>
+                    <p className="text-sm text-gray-400 mt-0.5 line-clamp-1">{FEATURED_PARTNER.description}</p>
+                  </div>
+
+                  {/* Section label (left, outside) - shown on left on desktop */}
+                  <div className="hidden lg:flex flex-col items-end gap-1 mr-2 flex-shrink-0">
+                    <span className="text-[9px] text-muted-foreground uppercase tracking-[0.25em] font-semibold">Parceiro em</span>
+                    <span className="text-[9px] text-muted-foreground uppercase tracking-[0.25em] font-semibold">Destaque</span>
+                    <Radio className="w-4 h-4 text-muted-foreground/40 mt-1" />
+                  </div>
+
+                  {/* CTA */}
+                  <div className="flex-shrink-0">
+                    <div
+                      className="flex items-center gap-2 font-bold uppercase tracking-wider text-sm px-6 py-3 rounded-xl transition-all duration-200"
+                      style={{ background: `${color}22`, color, border: `1px solid ${color}44` }}
+                    >
+                      Assistir Agora <ExternalLink className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </section>
+        );
+      })()}
 
       {/* TOP PLAYERS */}
       <section className="container mx-auto px-4 py-14">
