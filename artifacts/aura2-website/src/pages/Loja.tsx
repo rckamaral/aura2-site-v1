@@ -115,15 +115,10 @@ function PayModal({
                 : "border-white/5 bg-black/20 opacity-40 cursor-not-allowed"
             }`}
           >
-            <div className="w-9 h-9 bg-[#32BCAD] rounded-lg flex items-center justify-center shrink-0">
-              <QrCode className="w-5 h-5 text-white" />
-            </div>
+            <QrCode className="w-6 h-6 text-primary shrink-0" />
             <div>
-              <p className="font-bold text-white flex items-center gap-2">
-                PIX
-                <span className="text-[10px] text-[#3b82f6] border border-[#3b82f6]/50 rounded px-1.5 py-0.5 font-semibold">Recomendado</span>
-              </p>
-              <p className="text-xs text-muted-foreground">Confirmação e crédito imediato</p>
+              <p className="font-bold text-white">PIX</p>
+              <p className="text-xs text-muted-foreground">Crédito imediato após confirmação</p>
             </div>
           </button>
 
@@ -135,9 +130,7 @@ function PayModal({
                 : "border-white/5 bg-black/20 opacity-40 cursor-not-allowed"
             }`}
           >
-            <div className="w-9 h-9 bg-zinc-700 rounded-lg flex items-center justify-center shrink-0">
-              <CreditCard className="w-5 h-5 text-zinc-300" />
-            </div>
+            <CreditCard className="w-6 h-6 text-primary shrink-0" />
             <div>
               <p className="font-bold text-white">Cartão de Crédito</p>
               <p className="text-xs text-muted-foreground">Em breve disponível</p>
