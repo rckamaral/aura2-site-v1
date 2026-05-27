@@ -764,8 +764,13 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
 
           {/* Terms checkbox */}
           <label className="flex items-start gap-3 cursor-pointer select-none group">
+            <input
+              type="checkbox"
+              checked={agreed}
+              onChange={e => setAgreed(e.target.checked)}
+              className="sr-only"
+            />
             <div
-              onClick={() => setAgreed(!agreed)}
               className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-all ${
                 agreed ? "bg-primary border-primary" : "border-zinc-600 group-hover:border-zinc-400"
               }`}
