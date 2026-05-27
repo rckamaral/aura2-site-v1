@@ -152,6 +152,7 @@ const POSTS: Record<Tab, Post[]> = {
       title: "World Boss — Grande Ogro e Jotun",
       ago: "há 5 dias",
       gradient: "linear-gradient(135deg, #1a0808cc 0%, #4a1010cc 100%)",
+      image: "/posts/world-boss.png",
       desc: "O World Boss do Aura2 aparece em dois modos: Paz (cooperativo) e PvP (combate livre). Drops exclusivos para os participantes.",
       fullContent: `O Aura2 conta com dois World Bosses exclusivos — os mais poderosos e recompensadores do servidor!\n\nGrande Ogro (Modo Paz):\nBoss cooperativo — todos os jogadores lutam juntos sem PvP ativo. Ideal para quem prefere focar no combate contra o boss sem se preocupar com outros jogadores.\n\nJotun (Modo PvP):\nBoss com combate livre — além de derrotar o boss, você precisa se defender dos outros jogadores que disputam os drops. Alto risco, alta recompensa.\n\nDrops do World Boss (ambos os modos):\n• Baú do World Boss\n• Máscara Da Fortuna x5\n• Moedas da Conquista x100\n• Metal Mágico+ x3\n\nO que há no Baú do World Boss:\n• Pacote do Sábio\n• Brinco do Tigre (30 dias)\n• Pets Cash (30 dias)\n• Cupons de Moedas (5k a 50k)\n• Escudo Sangrento ou Escudo dos Imperadores\n• Montaria PvM (30 dias)\n\nComo saber quando vai aparecer:\nOs horários de spawn dos World Bosses são anunciados no Discord oficial. Fique atento ao canal #anúncios para não perder!`,
     },
