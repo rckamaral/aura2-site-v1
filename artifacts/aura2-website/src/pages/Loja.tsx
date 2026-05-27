@@ -30,6 +30,7 @@ function PayModal({
   onClose: () => void;
 }) {
   const [step, setStep] = useState<Step>("method");
+  const [agreed, setAgreed] = useState(false);
   const [pixLoading, setPixLoading] = useState(false);
   const [pixError, setPixError] = useState<string | null>(null);
   const [pixData, setPixData] = useState<PixData | null>(null);
@@ -107,8 +108,12 @@ function PayModal({
 
         <div className="flex flex-col gap-3">
           <button
-            onClick={() => setStep("pix")}
-            className="flex items-center gap-4 p-4 rounded-xl border border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 transition-all text-left"
+            onClick={() => agreed && setStep("pix")}
+            className={`flex items-center gap-4 p-4 rounded-xl border transition-all text-left ${
+              agreed
+                ? "border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 cursor-pointer"
+                : "border-white/5 bg-black/20 opacity-40 cursor-not-allowed"
+            }`}
           >
             <div className="w-9 h-9 bg-[#32BCAD] rounded-lg flex items-center justify-center shrink-0">
               <QrCode className="w-5 h-5 text-white" />
@@ -123,8 +128,12 @@ function PayModal({
           </button>
 
           <button
-            onClick={() => setStep("card")}
-            className="flex items-center gap-4 p-4 rounded-xl border border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 transition-all text-left"
+            onClick={() => agreed && setStep("card")}
+            className={`flex items-center gap-4 p-4 rounded-xl border transition-all text-left ${
+              agreed
+                ? "border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 cursor-pointer"
+                : "border-white/5 bg-black/20 opacity-40 cursor-not-allowed"
+            }`}
           >
             <div className="w-9 h-9 bg-zinc-700 rounded-lg flex items-center justify-center shrink-0">
               <CreditCard className="w-5 h-5 text-zinc-300" />
@@ -136,10 +145,41 @@ function PayModal({
           </button>
         </div>
 
-        <p className="text-[11px] text-zinc-500 text-center">
-          Ao comprar você concorda com os{" "}
-          <a href="/termos" className="text-blue-400 underline hover:text-blue-300" target="_blank">termos de uso</a>.
-        </p>
+        {/* Terms checkbox */}
+        <label className="flex items-start gap-3 cursor-pointer select-none group">
+          <div
+            onClick={() => setAgreed(!agreed)}
+            className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-all ${
+              agreed ? "bg-primary border-primary" : "border-zinc-600 group-hover:border-zinc-400"
+            }`}
+          >
+            {agreed && (
+              <svg className="w-3 h-3 text-black" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+          </div>
+          <span className="text-sm text-zinc-400 leading-snug">
+            Li e concordo com os{" "}
+            <a
+              href="/termos"
+              target="_blank"
+              className="text-primary underline hover:text-primary/80"
+              onClick={e => e.stopPropagation()}
+            >
+              Termos de Uso
+            </a>
+            {" "}e a{" "}
+            <a
+              href="/privacidade"
+              target="_blank"
+              className="text-primary underline hover:text-primary/80"
+              onClick={e => e.stopPropagation()}
+            >
+              Política de Privacidade
+            </a>
+          </span>
+        </label>
       </div>
     );
   }
