@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { db, partnerApplications } from "@workspace/db";
+import { sendPartnerApplicationEmail } from "../lib/mailer";
 
 const router = Router();
 
@@ -13,6 +14,10 @@ router.post("/partners/apply", async (req, res) => {
       .insert(partnerApplications)
       .values({ channelName, platform, channelUrl, avgViewers, schedule, motivation, discordTag })
       .returning();
+
+    sendPartnerApplicationEmail({ channelName, platform, channelUrl, avgViewers, schedule, motivation, discordTag })
+      .catch(err => req.log.error(err, "Failed to send partner application e-mail"));
+
     return res.status(201).json({ message: "Candidatura enviada com sucesso!", id: app.id });
   } catch (err) {
     req.log.error(err, "Error submitting partner application");
