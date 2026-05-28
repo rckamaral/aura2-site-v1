@@ -702,7 +702,7 @@ export default function Home() {
       </section>
 
       {/* PARCEIRO EM DESTAQUE */}
-      {FEATURED_PARTNER.name !== "NomeDoCanal" && (() => {
+      {(() => {
         const PLATFORM_COLORS = { twitch: "#9146ff", youtube: "#ff0000", kick: "#53fc18" };
         const PLATFORM_LABELS = { twitch: "Twitch", youtube: "YouTube", kick: "Kick" };
         const color = PLATFORM_COLORS[FEATURED_PARTNER.platform];
