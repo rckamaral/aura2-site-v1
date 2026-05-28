@@ -5,11 +5,12 @@ import { setupTickets } from "./commands/ticket.js";
 import { setupBemVindo } from "./commands/setup-bem-vindo.js";
 import { setupRegras } from "./commands/setup-regras.js";
 import { setupSugestoes } from "./commands/setup-sugestoes.js";
+import { setupEmojis } from "./commands/setup-emojis.js";
 import { onGuildMemberAdd } from "./events/guildMemberAdd.js";
 import { onInteractionCreate } from "./events/interactionCreate.js";
 import { logger } from "../lib/logger.js";
 
-const commandList = [rank, setupTickets, setupBemVindo, setupRegras, setupSugestoes];
+const commandList = [rank, setupTickets, setupBemVindo, setupRegras, setupSugestoes, setupEmojis];
 
 async function registerCommands(token: string, clientId: string, guildId: string): Promise<void> {
   const rest = new REST().setToken(token);
