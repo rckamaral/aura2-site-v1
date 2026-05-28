@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "ryH7Is7XrkoeHCtux_-QM"
@@ -48,3 +47,9 @@ id = "4sWbPdniFMCoygCqLMHpu"
 uri = "file://artifacts/aura2-website/public/posts/ai-update.png"
 type = "image"
 title = "metin2-update-ninja-map"
+
+[[outputs]]
+id = "PFwkpfHMAPlV3k4BFZGMS"
+uri = "file://attached_assets/A2_sem_fundo.png"
+type = "image"
+title = "A2 Logo — Sem Fundo"
