@@ -37,7 +37,12 @@ async function isMySQLAvailable(): Promise<boolean> {
   }
 }
 
-router.post("/auth/register", async (req, res) => {
+router.post("/auth/register", async (_req, res) => {
+  res.status(503).json({ error: "Cadastro temporariamente desativado. O servidor está em fase beta para testadores. Em breve o cadastro será liberado ao público!" });
+  return;
+});
+
+router.post("/auth/register_disabled", async (req, res) => {
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: "Dados inválidos. Verifique os campos." });
