@@ -3,14 +3,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import {
   CheckCircle, XCircle, Clock, RefreshCw, ShieldAlert,
-  Newspaper, MessageCircle, Coins, Plus, Trash2, Edit2, X, Send,
+  Newspaper, MessageCircle, Coins, Plus, Trash2, Edit2, X, Send, Key, Copy, Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-type AdminTab = "donations" | "news" | "tickets";
+type AdminTab = "donations" | "news" | "tickets" | "beta-keys";
 type DonationStatus = "pending" | "approved" | "rejected";
 type TicketStatus = "open" | "answered" | "closed";
 
@@ -69,11 +69,12 @@ export default function Admin() {
         <h1 className="font-display text-3xl font-black text-white mb-2">Painel Admin</h1>
         <p className="text-muted-foreground text-sm mb-6">Gerir doações, notícias e suporte</p>
 
-        <div className="flex gap-2 mb-8 border-b border-white/10 pb-0">
+        <div className="flex gap-2 mb-8 border-b border-white/10 pb-0 flex-wrap">
           {([
             { key: "donations", label: "Doações", icon: <Coins className="w-4 h-4" /> },
             { key: "news", label: "Notícias", icon: <Newspaper className="w-4 h-4" /> },
             { key: "tickets", label: "Suporte", icon: <MessageCircle className="w-4 h-4" /> },
+            { key: "beta-keys", label: "Beta Keys", icon: <Key className="w-4 h-4" /> },
           ] as { key: AdminTab; label: string; icon: React.ReactNode }[]).map(t => (
             <button
               key={t.key}
@@ -92,6 +93,7 @@ export default function Admin() {
         {tab === "donations" && <DonationsTab token={token} />}
         {tab === "news" && <NewsTab token={token} />}
         {tab === "tickets" && <TicketsTab token={token} />}
+        {tab === "beta-keys" && <BetaKeysTab token={token} />}
       </div>
     </div>
   );
@@ -579,6 +581,180 @@ function DonationRow({
           <Button size="sm" variant="outline" onClick={() => onAction(d.id, "reject")} disabled={acting === d.id} className="border-red-500/30 text-red-400 hover:bg-red-950/30 text-xs px-3">
             <XCircle className="w-3.5 h-3.5 mr-1" /> Rejeitar
           </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface BetaKey {
+  id: number;
+  code: string;
+  usedBy: string | null;
+  usedAt: string | null;
+  createdAt: string;
+}
+
+function BetaKeysTab({ token }: { token: string | null }) {
+  const { toast } = useToast();
+  const [keys, setKeys] = useState<BetaKey[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [count, setCount] = useState(15);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
+
+  async function fetchKeys() {
+    if (!token) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/beta-keys", { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      if (res.ok) setKeys(data.keys);
+    } catch {
+      toast({ title: "Erro ao carregar chaves", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { fetchKeys(); }, [token]);
+
+  async function handleGenerate() {
+    if (!token) return;
+    setGenerating(true);
+    try {
+      const res = await fetch("/api/admin/beta-keys/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ count }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast({ title: `${data.keys.length} chaves geradas!` });
+        setKeys(prev => [...data.keys, ...prev]);
+      } else {
+        toast({ title: "Erro", description: data.error, variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Erro de rede", variant: "destructive" });
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  async function handleDelete(id: number) {
+    if (!token) return;
+    try {
+      const res = await fetch(`/api/admin/beta-keys/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        setKeys(prev => prev.filter(k => k.id !== id));
+        toast({ title: "Chave removida." });
+      }
+    } catch {
+      toast({ title: "Erro ao remover chave", variant: "destructive" });
+    }
+  }
+
+  function copyKey(key: BetaKey) {
+    navigator.clipboard.writeText(key.code);
+    setCopiedId(key.id);
+    setTimeout(() => setCopiedId(null), 2000);
+  }
+
+  function copyAll() {
+    const unused = keys.filter(k => !k.usedBy).map(k => k.code).join("\n");
+    navigator.clipboard.writeText(unused);
+    toast({ title: "Todas as chaves não usadas copiadas!" });
+  }
+
+  const unused = keys.filter(k => !k.usedBy);
+  const used = keys.filter(k => k.usedBy);
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-4">
+        <h3 className="font-semibold text-white flex items-center gap-2">
+          <Key className="w-4 h-4 text-primary" /> Gerar Códigos Beta
+        </h3>
+        <div className="flex items-end gap-3">
+          <div className="space-y-1">
+            <Label className="text-xs text-muted-foreground">Quantidade</Label>
+            <Input
+              type="number"
+              min={1}
+              max={50}
+              value={count}
+              onChange={e => setCount(Number(e.target.value))}
+              className="w-24 bg-black/50 border-white/20"
+            />
+          </div>
+          <Button onClick={handleGenerate} disabled={generating} className="bg-primary hover:bg-primary/90 font-bold uppercase tracking-wider">
+            <Plus className="w-4 h-4 mr-1" /> {generating ? "Gerando..." : "Gerar"}
+          </Button>
+          {unused.length > 0 && (
+            <Button onClick={copyAll} variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Copy className="w-4 h-4 mr-1" /> Copiar Todos
+            </Button>
+          )}
+        </div>
+        <div className="flex gap-4 text-sm">
+          <span className="text-green-400 font-semibold">{unused.length} disponíveis</span>
+          <span className="text-muted-foreground">{used.length} utilizados</span>
+          <span className="text-muted-foreground">{keys.length} total</span>
+        </div>
+      </div>
+
+      {loading ? (
+        <p className="text-muted-foreground text-sm">Carregando...</p>
+      ) : keys.length === 0 ? (
+        <div className="text-center py-12 text-muted-foreground">
+          <Key className="w-10 h-10 mx-auto mb-3 opacity-30" />
+          <p>Nenhuma chave gerada ainda.</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {keys.map(key => (
+            <div
+              key={key.id}
+              className={`flex items-center justify-between gap-3 px-4 py-3 rounded-lg border ${
+                key.usedBy ? "bg-white/3 border-white/5 opacity-60" : "bg-white/5 border-white/10"
+              }`}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <span className={`font-mono text-sm tracking-wider ${key.usedBy ? "text-muted-foreground line-through" : "text-primary"}`}>
+                  {key.code}
+                </span>
+                {key.usedBy && (
+                  <span className="text-xs text-muted-foreground bg-white/10 px-2 py-0.5 rounded-full">
+                    usado por <span className="text-white font-semibold">{key.usedBy}</span>
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {!key.usedBy && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-7 px-2 text-muted-foreground hover:text-white"
+                    onClick={() => copyKey(key)}
+                  >
+                    {copiedId === key.id ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  </Button>
+                )}
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 px-2 text-muted-foreground hover:text-red-400"
+                  onClick={() => handleDelete(key.id)}
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

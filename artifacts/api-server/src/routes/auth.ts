@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import pool from "../lib/mysql";
-import { db, accountsTable } from "@workspace/db";
+import { db, accountsTable, betaKeysTable } from "@workspace/db";
 import { eq, or } from "drizzle-orm";
 import { createResetToken, consumeResetToken } from "../lib/resetTokens";
 import { sendPasswordResetEmail } from "../lib/mailer";
@@ -17,6 +17,7 @@ const registerSchema = z.object({
   username: z.string().min(3).max(50),
   email: z.string().email(),
   password: z.string().min(6),
+  betaKey: z.string().min(1),
 });
 
 const loginSchema = z.object({
@@ -37,19 +38,29 @@ async function isMySQLAvailable(): Promise<boolean> {
   }
 }
 
-router.post("/auth/register", async (_req, res) => {
-  res.status(503).json({ error: "Cadastro temporariamente desativado. O servidor está em fase beta para testadores. Em breve o cadastro será liberado ao público!" });
-  return;
-});
-
-router.post("/auth/register_disabled", async (req, res) => {
+router.post("/auth/register", async (req, res) => {
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: "Dados inválidos. Verifique os campos." });
+    res.status(400).json({ error: "Dados inválidos. Verifique todos os campos, incluindo o código beta." });
     return;
   }
 
-  const { username, email, password } = parsed.data;
+  const { username, email, password, betaKey } = parsed.data;
+
+  // Validate beta key
+  const key = await db.select().from(betaKeysTable)
+    .where(eq(betaKeysTable.code, betaKey.trim().toUpperCase()))
+    .limit(1);
+
+  if (!key.length) {
+    res.status(403).json({ error: "Código beta inválido. Verifique se digitou corretamente." });
+    return;
+  }
+  if (key[0].usedBy) {
+    res.status(403).json({ error: "Este código beta já foi utilizado." });
+    return;
+  }
+
   const mysqlOk = await isMySQLAvailable();
 
   if (mysqlOk) {
@@ -69,7 +80,8 @@ router.post("/auth/register_disabled", async (req, res) => {
         "INSERT INTO accounts (username, email, password_hash) VALUES (?, ?, ?)",
         [username, email, passwordHash]
       );
-      req.log.info({ username }, "New account registered (MySQL)");
+      await db.update(betaKeysTable).set({ usedBy: username, usedAt: new Date() }).where(eq(betaKeysTable.id, key[0].id));
+      req.log.info({ username }, "New beta account registered (MySQL)");
       const token = signToken(username);
       res.status(201).json({ message: "Conta criada com sucesso!", username, token });
       notifyNewUser(username).catch(() => {});
@@ -92,7 +104,8 @@ router.post("/auth/register_disabled", async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
     await db.insert(accountsTable).values({ username, email, passwordHash });
-    req.log.info({ username }, "New account registered (PostgreSQL fallback)");
+    await db.update(betaKeysTable).set({ usedBy: username, usedAt: new Date() }).where(eq(betaKeysTable.id, key[0].id));
+    req.log.info({ username }, "New beta account registered (PostgreSQL fallback)");
     const token = signToken(username);
     res.status(201).json({ message: "Conta criada com sucesso!", username, token });
     notifyNewUser(username).catch(() => {});
