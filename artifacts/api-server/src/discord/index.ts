@@ -2,11 +2,14 @@ import { REST, Routes, Events } from "discord.js";
 import client, { commands } from "./client.js";
 import { rank } from "./commands/rank.js";
 import { setupTickets } from "./commands/ticket.js";
+import { setupBemVindo } from "./commands/setup-bem-vindo.js";
+import { setupRegras } from "./commands/setup-regras.js";
+import { setupSugestoes } from "./commands/setup-sugestoes.js";
 import { onGuildMemberAdd } from "./events/guildMemberAdd.js";
 import { onInteractionCreate } from "./events/interactionCreate.js";
 import { logger } from "../lib/logger.js";
 
-const commandList = [rank, setupTickets];
+const commandList = [rank, setupTickets, setupBemVindo, setupRegras, setupSugestoes];
 
 async function registerCommands(token: string, clientId: string, guildId: string): Promise<void> {
   const rest = new REST().setToken(token);
@@ -17,7 +20,6 @@ async function registerCommands(token: string, clientId: string, guildId: string
 
 export async function initDiscord(): Promise<void> {
   const token = process.env.DISCORD_BOT_TOKEN;
-  const clientId = process.env.DISCORD_CLIENT_ID;
   const guildId = process.env.DISCORD_GUILD_ID;
 
   if (!token) {
