@@ -29,8 +29,8 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const token = localStorage.getItem(TOKEN_KEY);
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      const token = sessionStorage.getItem(TOKEN_KEY);
       if (!saved) return null;
       const parsed = JSON.parse(saved) as User;
       if (!parsed.role && token) parsed.role = decodeJwtRole(token);
@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem(TOKEN_KEY);
+    return sessionStorage.getItem(TOKEN_KEY);
   });
 
   useEffect(() => {
@@ -53,8 +53,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!res.ok) {
           setUser(null);
           setToken(null);
-          localStorage.removeItem(STORAGE_KEY);
-          localStorage.removeItem(TOKEN_KEY);
+          sessionStorage.removeItem(STORAGE_KEY);
+          sessionStorage.removeItem(TOKEN_KEY);
         }
       })
       .catch(() => {});
@@ -62,17 +62,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     } else {
-      localStorage.removeItem(STORAGE_KEY);
+      sessionStorage.removeItem(STORAGE_KEY);
     }
   }, [user]);
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem(TOKEN_KEY, token);
+      sessionStorage.setItem(TOKEN_KEY, token);
     } else {
-      localStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(TOKEN_KEY);
     }
   }, [token]);
 
