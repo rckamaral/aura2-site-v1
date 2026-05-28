@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { db, ticketsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
+import { notifyNewTicket } from "../discord/notifications.js";
 
 const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
@@ -48,6 +49,7 @@ router.post("/tickets", async (req, res) => {
     }).returning();
 
     req.log.info({ id: ticket.id, username: auth.username }, "Ticket created");
+    void notifyNewTicket(ticket.id, auth.username, parsed.data.subject, parsed.data.message);
     res.status(201).json({ ticket });
   } catch (err) {
     req.log.error({ err }, "DB error creating ticket");

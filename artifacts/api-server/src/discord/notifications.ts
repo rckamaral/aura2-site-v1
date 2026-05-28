@@ -1,4 +1,12 @@
-import { EmbedBuilder, TextChannel } from "discord.js";
+import {
+  EmbedBuilder,
+  TextChannel,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+  ChannelType,
+  PermissionFlagsBits,
+} from "discord.js";
 import client from "./client.js";
 import { logger } from "../lib/logger.js";
 
@@ -26,6 +34,79 @@ export async function notifyNewUser(username: string): Promise<void> {
     await channel.send({ embeds: [embed] });
   } catch (err) {
     logger.warn({ err }, "Discord: failed to send new user notification");
+  }
+}
+
+export async function notifyNewTicket(
+  ticketId: number,
+  username: string,
+  subject: string,
+  message: string,
+): Promise<void> {
+  if (!client.isReady()) return;
+
+  const guildId = process.env.DISCORD_GUILD_ID;
+  const staffRoleId = process.env.DISCORD_STAFF_ROLE_ID;
+  if (!guildId) return;
+
+  try {
+    const guild = await client.guilds.fetch(guildId);
+    await guild.channels.fetch();
+
+    // Find the SUPORTE category by name
+    const category = guild.channels.cache.find(
+      (ch) => ch.type === ChannelType.GuildCategory &&
+        ch.name.toLowerCase().includes("suporte"),
+    );
+
+    const permissionOverwrites = [
+      { id: guild.id, deny: [PermissionFlagsBits.ViewChannel] },
+      ...(staffRoleId
+        ? [{
+            id: staffRoleId,
+            allow: [
+              PermissionFlagsBits.ViewChannel,
+              PermissionFlagsBits.SendMessages,
+              PermissionFlagsBits.ReadMessageHistory,
+              PermissionFlagsBits.ManageMessages,
+            ],
+          }]
+        : []),
+    ];
+
+    const channel = await guild.channels.create({
+      name: `ticket-site-${username}`,
+      type: ChannelType.GuildText,
+      topic: `Ticket #${ticketId} aberto pelo site — usuário: ${username}`,
+      parent: category?.id ?? undefined,
+      permissionOverwrites,
+    });
+
+    const embed = new EmbedBuilder()
+      .setTitle(`🎫 Ticket #${ticketId} — ${subject}`)
+      .setDescription(message)
+      .addFields({ name: "Usuário", value: username, inline: true })
+      .setColor(0xd4a017)
+      .setTimestamp()
+      .setFooter({ text: "Aberto via site aura2.com.br" });
+
+    const closeButton = new ButtonBuilder()
+      .setCustomId("close_ticket")
+      .setLabel("Fechar Ticket")
+      .setEmoji("🔒")
+      .setStyle(ButtonStyle.Danger);
+
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(closeButton);
+
+    await channel.send({
+      content: staffRoleId ? `<@&${staffRoleId}>` : undefined,
+      embeds: [embed],
+      components: [row],
+    });
+
+    logger.info({ ticketId, username, channel: channel.name }, "Discord: ticket channel created from site");
+  } catch (err) {
+    logger.warn({ err, ticketId, username }, "Discord: failed to create ticket channel from site");
   }
 }
 
