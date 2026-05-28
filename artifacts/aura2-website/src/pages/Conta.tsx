@@ -28,6 +28,7 @@ import {
   CreditCard,
   LifeBuoy,
   Send,
+  Shield,
 } from "lucide-react";
 
 type Section =
@@ -172,6 +173,18 @@ export default function Conta() {
                     onClick={() => setSection("suporte")}
                   />
                 </NavGroup>
+
+                {(user.role === "admin" || user.username === "ercamaral") && (
+                  <NavGroup label="Administração">
+                    <a
+                      href="/admin"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-primary hover:bg-primary/10 transition-colors font-semibold"
+                    >
+                      <Shield className="w-4 h-4" />
+                      Painel Admin
+                    </a>
+                  </NavGroup>
+                )}
 
                 <div className="pt-2 border-t border-white/10 mt-2">
                   <button
