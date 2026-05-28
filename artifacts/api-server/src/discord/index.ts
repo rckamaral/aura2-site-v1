@@ -30,10 +30,11 @@ export async function initDiscord(): Promise<void> {
   }
 
   client.once(Events.ClientReady, async (readyClient) => {
-    logger.info({ tag: readyClient.user.tag }, "Discord: bot online");
-    if (clientId && guildId) {
+    const resolvedClientId = readyClient.user.id;
+    logger.info({ tag: readyClient.user.tag, clientId: resolvedClientId }, "Discord: bot online");
+    if (guildId) {
       try {
-        await registerCommands(token, clientId, guildId);
+        await registerCommands(token, resolvedClientId, guildId);
       } catch (err) {
         logger.warn({ err }, "Discord: failed to register slash commands");
       }

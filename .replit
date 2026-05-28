@@ -46,6 +46,7 @@ SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = "587"
 SMTP_USER = "aura2brasil@gmail.com"
 DISCORD_CLIENT_ID = "1509465912214297653"
+DISCORD_GUILD_ID = "1509458056520663180"
 
 [nix]
 channel = "stable-25_05"
