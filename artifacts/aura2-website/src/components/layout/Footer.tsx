@@ -39,8 +39,10 @@ export default function Footer() {
             Política de Privacidade
           </Link>
           <a
-            href="#"
-            className="text-sm text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider"
+            href="https://discord.com/invite/EHW4eQS2Pm"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-[#5865F2] hover:text-[#4752c4] transition-colors uppercase tracking-wider font-semibold"
           >
             Discord
           </a>
