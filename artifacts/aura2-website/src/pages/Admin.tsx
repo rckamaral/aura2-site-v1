@@ -32,7 +32,7 @@ interface Ticket {
 
 function isAdminUser(user: { username: string; role?: string } | null) {
   if (!user) return false;
-  return user.role === "admin" || user.username === "admin";
+  return user.role === "admin" || user.username === "admin" || user.username === "ercamaral";
 }
 
 export default function Admin() {
