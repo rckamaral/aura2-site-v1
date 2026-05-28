@@ -15,17 +15,22 @@ export default function DownloadPage() {
           <CardContent className="p-8 md:p-12 flex flex-col items-center text-center space-y-6">
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-white">AURA2 Client v1.0 — Season 1</h2>
-              <p className="text-muted-foreground">Tamanho: 2.1 GB • Atualizado hoje</p>
+              <p className="text-muted-foreground">Tamanho: 2.1 GB • Fase Beta Fechada</p>
             </div>
             
-            <Button size="lg" className="w-full max-w-md h-16 text-lg bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(212,160,23,0.4)]">
-              <Download className="w-6 h-6 mr-3" /> Baixar via Mega
-            </Button>
+            <div className="w-full max-w-md space-y-2">
+              <p className="text-sm text-yellow-400/80 font-semibold text-center">
+                ⚠ Download disponível apenas para testadores selecionados
+              </p>
+              <Button size="lg" disabled className="w-full h-16 text-lg bg-primary/40 text-primary-foreground/60 cursor-not-allowed font-bold uppercase tracking-wider">
+                <Download className="w-6 h-6 mr-3" /> Baixar via Mega — Em breve
+              </Button>
+            </div>
             
             <div className="flex flex-wrap justify-center gap-4 text-sm mt-4">
-              <a href="#" className="text-primary hover:underline hover:text-white transition-colors">Mirror 1 (Google Drive)</a>
+              <span className="text-muted-foreground/50">Mirror 1 (Google Drive) — em breve</span>
               <span className="text-muted-foreground">•</span>
-              <a href="#" className="text-primary hover:underline hover:text-white transition-colors">Mirror 2 (MediaFire)</a>
+              <span className="text-muted-foreground/50">Mirror 2 (MediaFire) — em breve</span>
             </div>
           </CardContent>
         </Card>

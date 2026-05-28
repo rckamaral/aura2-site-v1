@@ -176,7 +176,7 @@ const POSTS: Record<Tab, Post[]> = {
       category: "Notícias",
       categoryColor: "#2471a3",
       title: "Patch Notes 13.05",
-      ago: "há 6 dias",
+      ago: "há 2 semanas",
       gradient: "linear-gradient(135deg, #0c2a7aee 0%, #1858c8dd 60%, #1040a0ee 100%)",
       image: "/posts/patch-notes.png",
 
@@ -463,7 +463,7 @@ export default function Home() {
                 asChild
                 className="w-full sm:w-auto h-14 px-8 border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-wider backdrop-blur-sm"
               >
-                <a href="#">
+                <a href="https://discord.gg/aura2" target="_blank" rel="noopener noreferrer">
                   <MessagesSquare className="w-5 h-5 mr-2" /> Entrar no Discord
                 </a>
               </Button>
@@ -471,11 +471,11 @@ export default function Home() {
             <div>
               <div className="inline-flex items-center bg-black/40 border border-primary/20 rounded-lg p-4 backdrop-blur-sm gap-4">
                 <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">
-                  Players Online
+                  Servidor
                 </p>
                 <p className="text-2xl font-display text-white font-bold flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />{" "}
-                  4.892
+                  <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />{" "}
+                  Beta Fechado
                 </p>
               </div>
             </div>
@@ -702,7 +702,7 @@ export default function Home() {
       </section>
 
       {/* PARCEIRO EM DESTAQUE */}
-      {(() => {
+      {FEATURED_PARTNER.name !== "NomeDoCanal" && (() => {
         const PLATFORM_COLORS = { twitch: "#9146ff", youtube: "#ff0000", kick: "#53fc18" };
         const PLATFORM_LABELS = { twitch: "Twitch", youtube: "YouTube", kick: "Kick" };
         const color = PLATFORM_COLORS[FEATURED_PARTNER.platform];

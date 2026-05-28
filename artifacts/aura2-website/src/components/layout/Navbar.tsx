@@ -72,7 +72,7 @@ export default function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 inline-block"
           >
-            Inicio
+            Início
           </Link>
           <Link
             href="/ranking"
@@ -168,7 +168,7 @@ export default function Navbar() {
               onClick={() => { closeMobile(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               className="px-3 py-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
             >
-              Inicio
+              Início
             </Link>
             <Link
               href="/ranking"
