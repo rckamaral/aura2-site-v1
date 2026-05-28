@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { db, donationsTable, accountsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
+import { notifyDonation } from "../discord/notifications.js";
 
 const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
@@ -154,6 +155,11 @@ router.post("/webhooks/mercadopago", async (req, res) => {
       .where(eq(donationsTable.id, donations[0].id));
 
     req.log.info({ donationId: donations[0].id, paymentId, newStatus }, "Donation updated via webhook");
+
+    if (newStatus === "approved") {
+      const d = donations[0];
+      notifyDonation(d.username, d.packageLabel, d.coinsAmount, d.priceBrl).catch(() => {});
+    }
   } catch (err) {
     req.log.error({ err }, "Error processing MP webhook");
   }
@@ -275,6 +281,7 @@ router.post("/admin/donations/:id/approve", async (req, res) => {
     if (!updated) { res.status(404).json({ error: "Doação não encontrada." }); return; }
     req.log.info({ adminUsername: username, donationId: id }, "Donation approved manually");
     res.json({ message: "Doação aprovada!", donation: updated });
+    notifyDonation(updated.username, updated.packageLabel, updated.coinsAmount, updated.priceBrl).catch(() => {});
   } catch (err) {
     req.log.error({ err }, "DB error approving donation");
     res.status(503).json({ error: "Erro ao aprovar doação." });

@@ -7,6 +7,7 @@ import { db, accountsTable } from "@workspace/db";
 import { eq, or } from "drizzle-orm";
 import { createResetToken, consumeResetToken } from "../lib/resetTokens";
 import { sendPasswordResetEmail } from "../lib/mailer";
+import { notifyNewUser } from "../discord/notifications.js";
 
 const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
@@ -66,6 +67,7 @@ router.post("/auth/register", async (req, res) => {
       req.log.info({ username }, "New account registered (MySQL)");
       const token = signToken(username);
       res.status(201).json({ message: "Conta criada com sucesso!", username, token });
+      notifyNewUser(username).catch(() => {});
       return;
     } catch (err) {
       req.log.error({ err }, "MySQL error during register");
@@ -88,6 +90,7 @@ router.post("/auth/register", async (req, res) => {
     req.log.info({ username }, "New account registered (PostgreSQL fallback)");
     const token = signToken(username);
     res.status(201).json({ message: "Conta criada com sucesso!", username, token });
+    notifyNewUser(username).catch(() => {});
   } catch (err) {
     req.log.error({ err }, "PG error during register");
     res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });

@@ -1,6 +1,7 @@
 import app from "./app";
 import { logger } from "./lib/logger";
 import { initMySQL } from "./lib/mysql";
+import { initDiscord } from "./discord/index.js";
 
 const rawPort = process.env["PORT"];
 
@@ -27,5 +28,9 @@ initMySQL()
         process.exit(1);
       }
       logger.info({ port }, "Server listening");
+    });
+
+    initDiscord().catch((err) => {
+      logger.warn({ err }, "Discord bot failed to start — continuing without it");
     });
   });
